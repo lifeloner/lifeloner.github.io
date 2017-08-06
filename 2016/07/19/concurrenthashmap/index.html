@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,DataStructure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="ConcurrentHashmap 大家都知道java集合框架中，hashmap是非线程安全的，在并发环境下会出现错误情况，具体的原因分析参考：hashmap线程安全性。java也提供了相应的线程安全类，如hashtable、ConcurrentHashMap等。下面介绍一下ConcurrentHashmap。">
+<meta name="keywords" content="Java,DataStructure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Concurrenthashmap">
+<meta property="og:url" content="https://lifeloner.github.io/2016/07/19/concurrenthashmap/index.html">
+<meta property="og:site_name" content="lifeloner">
+<meta property="og:description" content="ConcurrentHashmap 大家都知道java集合框架中，hashmap是非线程安全的，在并发环境下会出现错误情况，具体的原因分析参考：hashmap线程安全性。java也提供了相应的线程安全类，如hashtable、ConcurrentHashMap等。下面介绍一下ConcurrentHashmap。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/concurrenthashmap.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/conmaprm.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/conmapput.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/conmapget.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/conmapread.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/conmapsize.png">
+<meta property="og:updated_time" content="2017-08-06T12:53:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Concurrenthashmap">
+<meta name="twitter:description" content="ConcurrentHashmap 大家都知道java集合框架中，hashmap是非线程安全的，在并发环境下会出现错误情况，具体的原因分析参考：hashmap线程安全性。java也提供了相应的线程安全类，如hashtable、ConcurrentHashMap等。下面介绍一下ConcurrentHashmap。">
+<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/concurrenthashmap.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lifeloner.github.io/2016/07/19/concurrenthashmap/"/>
+
+
+
+
+
+  <title>Concurrenthashmap | lifeloner</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lifeloner</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">当你的才华还撑不起你的野心的时候，你就应该静下心来学习！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lifeloner.github.io/2016/07/19/concurrenthashmap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifeloner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lifeloner">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Concurrenthashmap</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-19T00:28:08+08:00">
+                2016-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Concurrent/" itemprop="url" rel="index">
+                    <span itemprop="name">Concurrent</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ConcurrentHashmap"><a href="#ConcurrentHashmap" class="headerlink" title="ConcurrentHashmap"></a>ConcurrentHashmap</h1><p> 大家都知道java集合框架中，hashmap是非线程安全的，在并发环境下会出现错误情况，具体的原因分析参考：hashmap线程安全性。java也提供了相应的线程安全类，如hashtable、ConcurrentHashMap等。下面介绍一下ConcurrentHashmap。<br><a id="more"></a><br>首先hashtable也是线程安全的，通过分析源码发现hashtable是通过synchronized同步了整个hash表，只允许一个线程对hashtable进行读写，所以并发时造成多个线程等待效率较低。而ConcurrentHashMap允许多个线程并发操作，其关键在于使用了锁分离技术，它使用了多个锁来控制对hash表的不同部分进行的修改。ConcurrentHashMap内部使用段(Segment)来表示这些不同的部分，每个段其实就是一个小的hashtable，它们有自己的锁。只要多个修改操作发生在不同的段上，它们就可以并发进行。对于有些方法需要跨段，比如size()和containsValue()，它们可能需要锁定整个表而而不仅仅是某个段，这需要按顺序锁定所有段，操作完毕后，又按顺序释放所有段的锁。</p>
+<p>ConcurrentHashmap的结构如下：<br><img src="http://oqcre1dsl.bkt.clouddn.com/concurrenthashmap.png" alt="img"></p>
+<p>由上图可以看出，ConcurrentHashmap是整个hash表，它由多个（默认16个）segment组成，相当于一个hashtable，hashentry是链表一个节点。下面看一下主要的源代码：<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ConcurrentHashMap&lt;K</span>, <span class="title">V&gt;</span> <span class="keyword">extends</span> <span class="title">AbstractMap&lt;K</span>, <span class="title">V&gt;</span>  <span class="title">implements</span> <span class="title">ConcurrentMap&lt;K</span>, <span class="title">V&gt;</span>, <span class="title">Serializable</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> int segmentMask;</div><div class="line">    <span class="keyword">final</span> int segmentShift;</div><div class="line">    <span class="keyword">final</span> <span class="type">Segment</span>&lt;<span class="type">K</span>,<span class="type">V</span>&gt;[] segments;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这表明ConcurrentHashmap的segment是不可变的，扩容只能增加segment的大小，其数量不会发生变化。segment的源码如下：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Segment</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">ReentrantLock</span> <span class="keyword">implements</span> <span class="title">Serializable</span> &#123;</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2249069246763182397</span>L;</div><div class="line">    <span class="keyword">transient</span> <span class="keyword">volatile</span> <span class="keyword">int</span> count;</div><div class="line">    <span class="keyword">transient</span> <span class="keyword">int</span> modCount;</div><div class="line">    <span class="keyword">transient</span> <span class="keyword">int</span> threshold;</div><div class="line">    <span class="keyword">transient</span> <span class="keyword">volatile</span> HashEntry&lt;K,V&gt;[] table;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">float</span> loadFactor;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>HashEntry是volatile，则其修改对于其他线程是可见的，hashentry源码如下：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> HashEntry&lt;K,V&gt;&#123;</div><div class="line">	<span class="keyword">final</span> K key;</div><div class="line">	<span class="keyword">final</span> <span class="keyword">int</span> hash;</div><div class="line">	<span class="keyword">volatile</span> V value; </div><div class="line">	<span class="keyword">final</span> HashEntry&lt;K,V&gt; <span class="keyword">next</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>除了value不是final的，其它值都是final的，所以不能从hash链的中间或尾部添加或删除节点，为了确保读操作能够看到最新的值，将value设置成volatile，这避免了加锁。<br>ConcurrentHashmap这种设计，保证读取操作能够读取到几乎最新的修改，所以读操作大多数情况了不需要加锁。</p>
+<p>下面看一下remove操作：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> V remove(<span class="keyword">Object</span> <span class="built_in">key</span>) &#123;</div><div class="line">    hash = hash(<span class="built_in">key</span>.hashCode());</div><div class="line">    <span class="keyword">return</span> segmentFor(hash).remove(<span class="built_in">key</span>, hash, <span class="keyword">null</span>);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>整个操作是先定位到段，然后委托给段的remove操作。当多个删除操作并发进行时，只要它们所在的段不相同，它们就可以同时进行。下面是Segment的remove方法实现：<br><img src="http://oqcre1dsl.bkt.clouddn.com/conmaprm.png" alt="img"></p>
+<p>整个操作是在持有segment锁的情况下执行的，先定为代需要删除的节点e，然后将e前面的节点都复制一遍，因为entry是不可变的，所以必须要复制前面的节点，这种不可变性使得不需要同步从而节省了时间。例如删除前的数据为：1、2、3、4，删除3后链表变为：2、1、4。 整个remove实现并不复杂，但是需要注意如下几点。第一，当要删除的结点存在时，删除的最后一步操作要将count的值减一。这必须是最后一步操作，否则读取操作可能看不到之前对段所做的结构性修改。第二，remove执行的开始就将table赋给一个局部变量tab，这是因为table是 volatile变量，读写volatile变量的开销很大。编译器也不能对volatile变量的读写做任何优化，直接多次访问非volatile实例变量没有多大影响，编译器会做相应优化。</p>
+<p>接下来看一下put操作：<br><img src="http://oqcre1dsl.bkt.clouddn.com/conmapput.png" alt="img"><br>修改数据是不能并发进行的，所以该方法也是在持有segment锁的情况下执行，然后判断是否超限确保容量不足时能够rehash。接着是找是否存在同样一个key的结点，如果存在就直接替换这个结点的值。否则创建一个新的结点并添加到hash链的头部，这时一定要修改modCount和count的值，同样修改count的值一定要放在最后一步。put方法调用了rehash方法，reash方法实现得也很精巧，主要利用了table的大小为2^n。</p>
+<p>然后看一下get操作：<br><img src="http://oqcre1dsl.bkt.clouddn.com/conmapget.png" alt="img"></p>
+<p>get操作不需要锁。第一步是访问count变量，这是一个volatile变量，由于所有的修改操作在进行结构修改时都会在最后一步写count 变量，通过这种机制保证get操作能够得到几乎最新的结构更新。对于非结构更新，也就是结点值的改变，由于HashEntry的value变量是 volatile的，也能保证读取到最新的值。接下来就是根据hash和key对hash链进行遍历找到要获取的结点，对hash链进行遍历不需要加锁的原因在于链指针next是final的。但是头指针却不是final的，这是通过getFirst(hash)方法返回，也就是存在 table数组中的值。这使得getFirst(hash)可能返回过时的头结点，例如，当执行get方法时，刚执行完getFirst(hash)之后，另一个线程执行了删除操作并更新头结点，这就导致get方法中返回的头结点不是最新的。这是可以允许，通过对count变量的协调机制，get能读取到几乎最新的数据，虽然可能不是最新的。要得到最新的数据，只有采用完全的同步。<br>最后，如果找到了所求的结点，判断它的值如果非空就直接返回，否则在有锁的状态下再读一次。因为put操作的语句：tab[index] = new HashEntry<k,v>(key, hash, first, value)，在这条语句中，HashEntry构造函数中对value的赋值以及对tab[index]的赋值可能被重新排序，这就可能导致结点的值为空，所以可能需要在加锁情况在在读一遍：<br><img src="http://oqcre1dsl.bkt.clouddn.com/conmapread.png" alt="img"></k,v></p>
+<p>contains方法更简单了，他不需要读值，所以不需要加锁了。<br>最后看一下size（）操作：<br><img src="http://oqcre1dsl.bkt.clouddn.com/conmapsize.png" alt="img"></p>
+<p>size方法主要思路是先在没有锁的情况下对所有段大小求和，如果不能成功（这是因为遍历过程中可能有其它线程正在对已经遍历过的段进行结构性更新），最多执行RETRIES_BEFORE_LOCK次，如果还不成功就在持有所有段锁的情况下再对所有段大小求和。在没有锁的情况下主要是利用Segment中的modCount进行检测，在遍历过程中保存每个Segment的modCount，遍历完成之后再检测每个Segment的modCount有没有改变，如果有改变表示有其它线程正在对Segment进行结构性并发更新，需要重新计算。</p>
+<p>ConcurrentHashmap主要的方法大概这么多，其同步的方法在于使用了分段锁、final、volatile等减少了同步的范围，并保证了可见行。它的实现也比较复杂，需要多多思考和理解。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/DataStructure/" rel="tag"># DataStructure</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/18/violate/" rel="next" title="Violate">
+                <i class="fa fa-chevron-left"></i> Violate
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/22/maven/" rel="prev" title="Maven">
+                Maven <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lifeloner" />
+          <p class="site-author-name" itemprop="name">lifeloner</p>
+           
+              <p class="site-description motion-element" itemprop="description">fighting!</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ConcurrentHashmap"><span class="nav-number">1.</span> <span class="nav-text">ConcurrentHashmap</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lifeloner</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

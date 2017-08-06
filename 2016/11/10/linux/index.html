@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Commands," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Linux常用命令显示日期：date +%Y%m%d    date +%H：%M显示日历al                 cal 年月日：cal  month  year">
+<meta name="keywords" content="Commands">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux">
+<meta property="og:url" content="https://lifeloner.github.io/2016/11/10/linux/index.html">
+<meta property="og:site_name" content="lifeloner">
+<meta property="og:description" content="Linux常用命令显示日期：date +%Y%m%d    date +%H：%M显示日历al                 cal 年月日：cal  month  year">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-06T12:53:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux">
+<meta name="twitter:description" content="Linux常用命令显示日期：date +%Y%m%d    date +%H：%M显示日历al                 cal 年月日：cal  month  year">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lifeloner.github.io/2016/11/10/linux/"/>
+
+
+
+
+
+  <title>linux | lifeloner</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lifeloner</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">当你的才华还撑不起你的野心的时候，你就应该静下心来学习！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lifeloner.github.io/2016/11/10/linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifeloner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lifeloner">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-10T21:28:02+08:00">
+                2016-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Linux常用命令"><a href="#Linux常用命令" class="headerlink" title="Linux常用命令"></a>Linux常用命令</h1><p>显示日期：date +%Y%m%d    date +%H：%M<br>显示日历al<br>                 cal 年月日：cal  month  year<br><a id="more"></a><br>计算器：bc<br>                quit退出<br>帮助指令：man<br>                man 命令<br>数据同步磁盘：sync<br>关机：shutdown -t（秒）-r（重启） -h（停止系统服务后关机）<br>重启：reboot</p>
+<p>改变群组： chgrp  -r（递归） 文件／目录<br>改变拥有者：chown -r  拥有者：群组 文件／目录<br>改变属性：chmod  -r 数字 文件／目录 （rwx：421）</p>
+<p>目录所在磁盘信息：df   -a（所有）-k（kb） -m（mb）-h（gb，mb，kb自行显示） 文件／目录<br>当前目录所有文件容量：du -a(所有)  -s（总量）-k（kb）目录<br>连接档：in<br>              hard link（硬连接、实际连接，指向同一档案、不占空间、删除原始档不受影响）<br>              symbolic link（符号连接、快捷方式、占空间、删除原始档后不可用）<br>              用法 ：in   -s（符号连接、默认硬连接） -f（若存在同名删除再建立） 源文件  目标文件</p>
+<p>磁盘分割：fdisk  -l(所有装置)  装置名称<br>                  进入后会有一些命令，主要有：<br>                                                                    l 显示所有硬盘信息；<br>                                                                    n新增一个磁盘分区；<br>                                                                    p显示磁盘分区<br>                                                                    d删除一个磁盘分区<br>                                                                    q不存储离开<br>                                                                    w写入磁盘分区表离开<br>格式化磁盘：mke2fs  -b（设置bolck大小）-c（检查错误）磁盘名称<br>磁盘检验：fsck -A（所有装置扫描）-a（自动修复） -f（强制进行细部检查）<br>磁盘挂载：mount -a(所有磁盘全部挂载)  -t（指定格式类型） 装置名称   挂载点<br>卸载装置：umount 装置代号／挂载点</p>
+<p>虚拟内存：<br>                   将目录格式化为swap档案格式：mkswap 目录<br>                    启动：swapon    目录<br>                    关闭：swapoff    目录</p>
+<p>删除空的目录：rmdir -p（递归删除）目录<br>复制文档目录：cp  -l（hard link建立）-p（连属性一起复制过去）-r（递归）-s（symbolic link） -u（更新目标文件）  源文件   目标文件<br>删除档案目录：rm -f（强制） -r（递归） 文件／目录<br>移动档案／目录：mv   -f（强制） -u（更新） 源  目的</p>
+<p>查看：cat   -n（行号） -A（显示特殊字符） 文件<br> 一页一页翻动  ：more  文件<br>                                             空格键：向下翻一页    enter：下一行    ／字符串：搜索字符串  :f ：显示文件名和行数   q：退出<br>                            less  文件<br>                                             空格键：向下翻一页   pagedown：向下一页   pageup：向上一页   ／字符串：向下搜索字符串    ？／：向上搜索字符串    q：退出<br>取出前面几行：head   -n（n行）  文件<br>后面几行：tail  -n   文件<br>非ascll文件（二进制）：od  -t （类型）  文件<br>touch  -a（修改atime）-c（修改ctime）-m（修改mtime）文件</p>
+<p>预设权限：umask 数字<br>设置隐藏属性：chattr +-= 文件<br>                        常见的：i：无法修改、增加 、删除     a：只能增加不能修改删除<br>查看隐藏属性：lsattr  -a(隐藏属性)  -R（递归子目录）  文件<br>文件类型：file  文件<br>文件查找：<br>                查找执行档(命令)：which  -a（所有同名） 文件名<br>                查找特定档案（二进制、源文件、man说明文件）：whereis     -b（二进制文件）-s（source来源） -m（manual路径下） 文件<br>                locate  文件名（可以查找部分匹配文件名的文件） 文件名<br>                find     路径  参数<br>                                    （-name filename）<br>                                    （-user username）<br>                                    （-group name）</p>
+<p>压缩打包：<br>                gzip -d（解压缩） 文件<br>                zcat：查看gzip压缩文件内容<br>                bzip2  -z(压缩)  -d(解压缩)  文件<br>                bzcat  ：查看bzip2压缩的文件<br>                tar  -c(建立)  -x(解开) -t(查看)  -v（压缩过程显示文件）-f(使用档名)  -z(使用gzip)  -j(使用bzip2 )  -P（使用绝对路径）-p（保持原来文件属性）<br>                             eg：tar -zcvf   /tmp/a.tar.gz  /home /etc  把home 和 etc目录打包并gzip压缩到／tmp下的a中<br>                                     tar -zxvf  ／tmp／a.tar.gz  ／home  将 文件中的home先gzip解压然后解开打包 最后放在当前目录下<br>                dd  if=   of=    (bs= 默认512  count=)</p>
+<p>截取命令：<br>               cut：<br>                       -d  分割字符（单个字符）与 -f一起使用<br>                       -f  取出第几段  与-d配合使用<br>                       -c  取出固定的字符区间<br>                          eg：echo ￥path | cut -d ‘：’ -f 5      取出path种以：分割的第5块<br>                                 export | cut -c 12-   取出export配置第12个开始后的所有字符<br>               grep:<br>                         -c:计算匹配次数<br>                         -n：显示行号<br>                         -v:反过来没有匹配的那一行<br>                         -i：忽略大小写</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Commands/" rel="tag"># Commands</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/04/classbytes/" rel="next" title="Classbytes">
+                <i class="fa fa-chevron-left"></i> Classbytes
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/09/gc/" rel="prev" title="GC">
+                GC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lifeloner" />
+          <p class="site-author-name" itemprop="name">lifeloner</p>
+           
+              <p class="site-description motion-element" itemprop="description">fighting!</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux常用命令"><span class="nav-number">1.</span> <span class="nav-text">Linux常用命令</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lifeloner</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

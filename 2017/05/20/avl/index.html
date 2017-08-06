@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="DataStructure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="AVL Tree定义：首先是BST，而且任何一个节点的左子树和右子树高度差不超过1">
+<meta name="keywords" content="DataStructure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AVL树">
+<meta property="og:url" content="https://lifeloner.github.io/2017/05/20/avl/index.html">
+<meta property="og:site_name" content="lifeloner">
+<meta property="og:description" content="AVL Tree定义：首先是BST，而且任何一个节点的左子树和右子树高度差不超过1">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/avl1.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/avl2.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/avl3.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/avl4.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/avl5.png">
+<meta property="og:updated_time" content="2017-08-06T12:53:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AVL树">
+<meta name="twitter:description" content="AVL Tree定义：首先是BST，而且任何一个节点的左子树和右子树高度差不超过1">
+<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/avl1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lifeloner.github.io/2017/05/20/avl/"/>
+
+
+
+
+
+  <title>AVL树 | lifeloner</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lifeloner</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">当你的才华还撑不起你的野心的时候，你就应该静下心来学习！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lifeloner.github.io/2017/05/20/avl/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifeloner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lifeloner">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AVL树</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-20T20:39:02+08:00">
+                2017-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Basic/" itemprop="url" rel="index">
+                    <span itemprop="name">Basic</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="AVL-Tree"><a href="#AVL-Tree" class="headerlink" title="AVL Tree"></a>AVL Tree</h1><p>定义：首先是BST，而且任何一个节点的左子树和右子树高度差不超过1<br><a id="more"></a><br>AVL定义：<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">AvlTree&lt;T</span> <span class="keyword">extends</span> <span class="title">Comparable&lt;T&gt;&gt;</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="type">AvlTreeNode</span> root;</div><div class="line">    public <span class="type">AvlTree</span>() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">AvlTreeNode&lt;T</span> <span class="keyword">extends</span> <span class="title">Comparable&lt;T&gt;&gt;</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="type">T</span> key;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> int height;</div><div class="line">        <span class="keyword">private</span> <span class="type">AvlTreeNode</span>&lt;<span class="type">T</span>&gt; left;</div><div class="line">        <span class="keyword">private</span> <span class="type">AvlTreeNode</span>&lt;<span class="type">T</span>&gt; right;</div></pre></td></tr></table></figure></p>
+<p>AVL树在插入和删除时会改变它的平衡结构，具体的不平衡情况如下所示：<br><img src="http://oqcre1dsl.bkt.clouddn.com/avl1.png" alt="img"></p>
+<ul>
+<li>LL：节点左子树的左子树的高度高</li>
+<li>LR：节点左子树的右子树的高度高</li>
+<li>RL：节点右子树的左子树的高度高</li>
+<li>RR：节点右子树的右子树的高度高</li>
+</ul>
+<p>AVL的旋转<br>    为了保持平很需要进行旋转操作来保持平衡，4种不平衡情况具体的旋转操作情况如下：</p>
+<p>（1）LL与RR<br><img src="http://oqcre1dsl.bkt.clouddn.com/avl2.png" alt="img"><br><img src="http://oqcre1dsl.bkt.clouddn.com/avl3.png" alt="img"></p>
+<p>LL旋转操作比较简单，只需要将不平衡的节点k2向右旋转，使得其左孩子k1成为“根”节点，然后k2成为其右孩子，k1的右子树称为k2的左子树，此时树已经平衡了，最后把k1和k2的高度进行更新<br>RR以此类似，只需要把k2向左旋转<br>LL旋转：<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public AvlTreeNode leftLeftRotation(AvlTreeNode <span class="tag">&lt;T&gt;</span><span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line"><span class="title">    AvlTreeNode</span> <span class="tag">&lt;T&gt;</span>left = <span class="keyword">node</span>.<span class="title">left</span>;</div><div class="line">    <span class="keyword">node</span>.<span class="title">left</span> = left.right;</div><div class="line">    left.right = <span class="keyword">node</span><span class="title">;</span></div><div class="line"><span class="title">    node</span>.height = Math.max(height(<span class="keyword">node</span>.<span class="title">left</span>), height(<span class="keyword">node</span>.<span class="title">right</span>)) + <span class="number">1</span>;</div><div class="line">    left.height = Math.max(<span class="keyword">node</span>.<span class="title">height</span>, height(left.left)) + <span class="number">1</span>;</div><div class="line">    return left;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>RR旋转：<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public AvlTreeNode rightRightRotation(AvlTreeNode<span class="tag">&lt;T&gt;</span> <span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line"><span class="title">    AvlTreeNode</span> <span class="tag">&lt;T&gt;</span>right = <span class="keyword">node</span>.<span class="title">right</span>;</div><div class="line">    <span class="keyword">node</span>.<span class="title">right</span> = right.left;</div><div class="line">    right.left = <span class="keyword">node</span><span class="title">;</span></div><div class="line"><span class="title">    node</span>.height = Math.max(height(<span class="keyword">node</span>.<span class="title">left</span>), height(<span class="keyword">node</span>.<span class="title">right</span>)) + <span class="number">1</span>;</div><div class="line">    right.height = Math.max(<span class="keyword">node</span>.<span class="title">height</span>, height(right.right)) + <span class="number">1</span>;</div><div class="line">    return right;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>（2）LR与RL<br><img src="http://oqcre1dsl.bkt.clouddn.com/avl4.png" alt="img"><br><img src="http://oqcre1dsl.bkt.clouddn.com/avl5.png" alt="img"><br>LR的旋转稍微复杂一点，首先对不平衡节点k3的左孩子k1进行一次“RR”旋转，这样树变成了LL不平衡状态，再进行一次“LL”旋转即可达到平衡<br>同样RL的旋转情况与之一一对应，先进行一次“LL”旋转然后进行一次“RR”旋转<br>LR与RL旋转：<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public AvlTreeNode leftRightRotation(AvlTreeNode <span class="tag">&lt;T&gt;</span><span class="keyword">node</span><span class="title">)&#123;</span></div><div class="line"><span class="title">    node</span>.<span class="attr">left=</span>rightRightRotation(<span class="keyword">node</span>.<span class="title">left</span>);</div><div class="line">    return leftLeftRotation(<span class="keyword">node</span><span class="title">);</span></div><div class="line"><span class="title">&#125;</span></div><div class="line"><span class="title"></span></div><div class="line"><span class="title">public</span> AvlTreeNode rightLeftRotation(AvlTreeNode <span class="tag">&lt;T&gt;</span><span class="keyword">node</span><span class="title">)&#123;</span></div><div class="line"><span class="title">    node</span>.<span class="attr">right=</span>leftLeftRotation(<span class="keyword">node</span>.<span class="title">right</span>);</div><div class="line">    return rightRightRotation(<span class="keyword">node</span><span class="title">);</span></div><div class="line"><span class="title">&#125;</span></div></pre></td></tr></table></figure></p>
+<p>插入节点<br>插入过程和BST一样，但它会导致树不平衡，所以需要旋转来维持树的平衡：递归查询插入点，然后判断是否平衡，并根据不平衡类型做相应的旋转<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">public AvlTreeNode insert(T key, AvlTreeNode <span class="tag">&lt;T&gt;</span><span class="keyword">node</span><span class="title">)&#123;</span></div><div class="line"><span class="title">    if</span>(<span class="keyword">node</span><span class="title">==null</span>)&#123;</div><div class="line">        <span class="keyword">node</span><span class="title">=new</span> AvlTreeNode(key);</div><div class="line">        return <span class="keyword">node</span><span class="title">;</span></div><div class="line"><span class="title">    &#125;</span></div><div class="line"><span class="title">    if</span>(<span class="keyword">node</span>.<span class="title">key</span>.compareTo(key)==<span class="number">0</span>)&#123;</div><div class="line">        throw new RuntimeException(<span class="string">"节点值重复了"</span>);</div><div class="line">    &#125;else if(<span class="keyword">node</span>.<span class="title">key</span>.compareTo(key)&gt;<span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">node</span>.<span class="title">left</span>=insert(key,<span class="keyword">node</span>.<span class="title">left</span>);</div><div class="line">        if(height(<span class="keyword">node</span>.<span class="title">left</span>)-height(<span class="keyword">node</span>.<span class="title">right</span>)&gt;<span class="number">1</span>)&#123;</div><div class="line">            if(<span class="keyword">node</span>.<span class="title">left</span>.key.compareTo(key)&gt;<span class="number">0</span>)&#123;</div><div class="line">                <span class="keyword">node</span><span class="title">= leftLeftRotation</span>(<span class="keyword">node</span><span class="title">);</span></div><div class="line"><span class="title">            &#125;else</span> &#123;</div><div class="line">                <span class="keyword">node</span><span class="title">= leftRightRotation</span>(<span class="keyword">node</span><span class="title">);</span></div><div class="line"><span class="title">            &#125;</span></div><div class="line"><span class="title">        &#125;</span></div><div class="line"><span class="title">    &#125;else</span> &#123;</div><div class="line">        <span class="keyword">node</span>.<span class="title">right</span>=insert(key,<span class="keyword">node</span>.<span class="title">right</span>);</div><div class="line">        if(height(<span class="keyword">node</span>.<span class="title">right</span>)-height(<span class="keyword">node</span>.<span class="title">left</span>)&gt;<span class="number">1</span>)&#123;</div><div class="line">            if(<span class="keyword">node</span>.<span class="title">right</span>.key.compareTo(key)<span class="tag">&lt;0)&#123;</span></div><div class="line"><span class="tag">                node=rightRightRotation(node);</span></div><div class="line"><span class="tag">            &#125;else &#123;</span></div><div class="line"><span class="tag">                node=rightLeftRotation(node);</span></div><div class="line"><span class="tag">            &#125;</span></div><div class="line"><span class="tag">        &#125;</span></div><div class="line"><span class="tag">    &#125;</span></div><div class="line"><span class="tag">    node.height=Math.max(height(node.left),height(node.right))+1;</span></div><div class="line"><span class="tag">    return node;</span></div><div class="line"><span class="tag">&#125;</span></div></pre></td></tr></table></figure></p>
+<p>删除过程<br>删除过程首先定位到删除的节点，找出最“接近”（左子树高则选择左子树最大节点，然后处理左子树使其平衡，然后递归向上判断平衡；同样对于右子树高的情况，先找出右子树最小的节点来替代当前点，然后处理右子树使其平衡，最后递归向上使其平衡）的节点来替换它，最后处理子树平衡再向上递归处理不平衡<br>代码如下：<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">public AvlTreeNode remove(T key,AvlTreeNode <span class="tag">&lt;T&gt;</span><span class="keyword">node</span><span class="title">)&#123;</span></div><div class="line"><span class="title">    if</span>(<span class="keyword">node</span><span class="title">==null</span>||<span class="attr">key=</span>=null)&#123;</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">    if(<span class="keyword">node</span>.<span class="title">key</span>.compareTo(key)&gt;<span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">node</span>.<span class="title">left</span>=remove(key,<span class="keyword">node</span>.<span class="title">left</span>);</div><div class="line">        if(height(<span class="keyword">node</span>.<span class="title">right</span>)-height(<span class="keyword">node</span>.<span class="title">left</span>)&gt;<span class="number">1</span>)&#123;</div><div class="line">            if(height(<span class="keyword">node</span>.<span class="title">right</span>.left)&gt;height(<span class="keyword">node</span>.<span class="title">right</span>.right))&#123;</div><div class="line">                <span class="keyword">node</span><span class="title">=rightLeftRotation</span>(<span class="keyword">node</span><span class="title">);</span></div><div class="line"><span class="title">            &#125;else</span> &#123;</div><div class="line">                <span class="keyword">node</span><span class="title">=rightRightRotation</span>(<span class="keyword">node</span><span class="title">);</span></div><div class="line"><span class="title">            &#125;</span></div><div class="line"><span class="title">        &#125;</span></div><div class="line"><span class="title">    &#125;else</span> if(<span class="keyword">node</span>.<span class="title">key</span>.compareTo(key)<span class="tag">&lt;0)&#123;</span></div><div class="line"><span class="tag">        node.right=remove(key,node.right);</span></div><div class="line"><span class="tag">        if(height(node.left)-height(node.right)&gt;</span><span class="number">1</span>)&#123;</div><div class="line">            if(height(<span class="keyword">node</span>.<span class="title">left</span>.left)&gt;=height(<span class="keyword">node</span>.<span class="title">left</span>.right))&#123;</div><div class="line">                <span class="keyword">node</span><span class="title">=leftLeftRotation</span>(<span class="keyword">node</span><span class="title">);</span></div><div class="line"><span class="title">            &#125;else</span> &#123;</div><div class="line">                <span class="keyword">node</span><span class="title">=leftRightRotation</span>(<span class="keyword">node</span><span class="title">);</span></div><div class="line"><span class="title">            &#125;</span></div><div class="line"><span class="title">        &#125;</span></div><div class="line"><span class="title">    &#125;else</span>&#123;</div><div class="line">        if(<span class="keyword">node</span>.<span class="title">left</span>==null)&#123;</div><div class="line">            AvlTreeNode <span class="attr">tmp=</span><span class="keyword">node</span><span class="title">;</span></div><div class="line"><span class="title">            node</span>=<span class="keyword">node</span>.<span class="title">right</span>;</div><div class="line">            tmp.<span class="attr">right=</span>null;</div><div class="line">        &#125;</div><div class="line">        else if(<span class="keyword">node</span>.<span class="title">right</span>==null)&#123;</div><div class="line">            AvlTreeNode <span class="attr">tmp=</span><span class="keyword">node</span><span class="title">;</span></div><div class="line"><span class="title">            node</span>=<span class="keyword">node</span>.<span class="title">left</span>;</div><div class="line">            tmp.<span class="attr">left=</span>null;</div><div class="line">        &#125;</div><div class="line">        else &#123;</div><div class="line">            if(height(<span class="keyword">node</span>.<span class="title">left</span>)&gt;height(<span class="keyword">node</span>.<span class="title">right</span>))&#123;</div><div class="line">                AvlTreeNode<span class="tag">&lt;T&gt;</span> <span class="attr">tmp=</span><span class="keyword">node</span>.<span class="title">left</span>;</div><div class="line">                while(tmp.right!=null)&#123;</div><div class="line">                    <span class="attr">tmp=</span>tmp.right;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">node</span>.<span class="title">key</span>=tmp.key;</div><div class="line">                <span class="keyword">node</span>.<span class="title">left</span>=remove(tmp.key,<span class="keyword">node</span>.<span class="title">left</span>);</div><div class="line">            &#125;else&#123;</div><div class="line">                AvlTreeNode <span class="tag">&lt;T&gt;</span><span class="attr">tmp=</span><span class="keyword">node</span>.<span class="title">right</span>;</div><div class="line">                while(tmp.left!=null)&#123;</div><div class="line">                    <span class="attr">tmp=</span>tmp.left;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">node</span>.<span class="title">key</span>=tmp.key;</div><div class="line">                <span class="keyword">node</span>.<span class="title">right</span>=remove(tmp.key,<span class="keyword">node</span>.<span class="title">right</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if(<span class="keyword">node</span><span class="title">!=null</span>) &#123;</div><div class="line">        <span class="keyword">node</span>.<span class="title">height</span> = Math.max(height(<span class="keyword">node</span>.<span class="title">left</span>), height(<span class="keyword">node</span>.<span class="title">right</span>)) + <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    return <span class="keyword">node</span><span class="title">;</span></div><div class="line"><span class="title">&#125;</span></div></pre></td></tr></table></figure></p>
+<p>总结：<br>AVL插入删除过程需要处理平衡，删除过程较复杂。所以效率比BST低，但是查询操作稳定为O(lgn)。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DataStructure/" rel="tag"># DataStructure</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/21/design/" rel="next" title="常用设计模式">
+                <i class="fa fa-chevron-left"></i> 常用设计模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/21/clone/" rel="prev" title="Clone">
+                Clone <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lifeloner" />
+          <p class="site-author-name" itemprop="name">lifeloner</p>
+           
+              <p class="site-description motion-element" itemprop="description">fighting!</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AVL-Tree"><span class="nav-number">1.</span> <span class="nav-text">AVL Tree</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lifeloner</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

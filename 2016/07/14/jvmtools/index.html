@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="JVM性能监控工具jdk中常见的命令有如下几种：">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM Tools">
+<meta property="og:url" content="https://lifeloner.github.io/2016/07/14/jvmtools/index.html">
+<meta property="og:site_name" content="lifeloner">
+<meta property="og:description" content="JVM性能监控工具jdk中常见的命令有如下几种：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-06T12:53:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM Tools">
+<meta name="twitter:description" content="JVM性能监控工具jdk中常见的命令有如下几种：">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lifeloner.github.io/2016/07/14/jvmtools/"/>
+
+
+
+
+
+  <title>JVM Tools | lifeloner</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lifeloner</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">当你的才华还撑不起你的野心的时候，你就应该静下心来学习！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lifeloner.github.io/2016/07/14/jvmtools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifeloner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lifeloner">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JVM Tools</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-14T20:04:12+08:00">
+                2016-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="JVM性能监控工具"><a href="#JVM性能监控工具" class="headerlink" title="JVM性能监控工具"></a>JVM性能监控工具</h1><p>jdk中常见的命令有如下几种：<br><a id="more"></a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">jps</td>
+<td style="text-align:center">JVM Process Status Tool，显示指定系统内所有的HotSpot虚拟机进程</td>
+</tr>
+<tr>
+<td style="text-align:left">jstat</td>
+<td style="text-align:center">JVM Statistics Monitoring Tool，用于收集HotSpot虚拟机各方面的运行数据</td>
+</tr>
+<tr>
+<td style="text-align:left">jinfo</td>
+<td style="text-align:center">Configuration Info for Java，显示虚拟机配置信息</td>
+</tr>
+<tr>
+<td style="text-align:left">jmap</td>
+<td style="text-align:center">Memory Map for Java，生成虚拟机的内存转存储快照（heapdump文件）</td>
+</tr>
+<tr>
+<td style="text-align:left">jhat</td>
+<td style="text-align:center">VM Heap Dump Browser，用于分析heapdump文件，它会建立一个HTTP/HTML服务器，让用户可以在浏览器上查看分析结果</td>
+</tr>
+<tr>
+<td style="text-align:left">jstat</td>
+<td style="text-align:center">Stack Trace for Java，显示虚拟机的线程快照</td>
+</tr>
+</tbody>
+</table>
+<p>1.jps<br>列出正在运行的虚拟机进程，并显示虚拟机执行主类（Main Class，main()函数所在的类）名称以及这些进程的本地虚拟机唯一ID（Local Virtual Machine Identifier，LVMID）,LVMID与操作系统的进程ID是一致的。<br>jps命令格式：jsp  [options]  [hostid]<br>jps -l</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">选项</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-q</td>
+<td style="text-align:center">只输出LVMID，省略主类的名称</td>
+</tr>
+<tr>
+<td style="text-align:left">-m</td>
+<td style="text-align:center">输出虚拟机进程启动时传递给主类main()函数的参数</td>
+</tr>
+<tr>
+<td style="text-align:left">-l</td>
+<td style="text-align:center">输出主类的全名，如果进程执行的是jar包，输出Jar路径</td>
+</tr>
+<tr>
+<td style="text-align:left">-v</td>
+<td style="text-align:center">输出虚拟机进程启动时JVM参数</td>
+</tr>
+</tbody>
+</table>
+<p>2.jstat<br>用于监视虚拟机各种运行状态信息的命令行工具。它可以显示本地或远程虚拟机进程中的类装载、内存、垃圾收集、JIT编译等运行数据。<br>jstat命令格式：jstat  [option vmid [ interval[s|ms] [count] ] ]<br>jstat –gc 2764 250 20</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">选项</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-class</td>
+<td style="text-align:center">监视类装载，卸载数量、总空间以及类装载所耗费的时间</td>
+</tr>
+<tr>
+<td style="text-align:left">-gc</td>
+<td style="text-align:center">监视Java堆情况，包括Eden区、两个survivor区、老年代、永久代等的容量、已用空间、GC时间合计等信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-gccapacity</td>
+<td style="text-align:center">监视内容与-gc基本相同，但输出主要关注Java堆各个区域使用到的最大、最小空间</td>
+</tr>
+<tr>
+<td style="text-align:left">-gcutil</td>
+<td style="text-align:center">监视内容与-gc基本相同，但输出主要关注已使用空间占总空间的百分比</td>
+</tr>
+<tr>
+<td style="text-align:left">-gccause</td>
+<td style="text-align:center">与-gcutil功能一样，但是会额外输出导致上一次GC产生的原因</td>
+</tr>
+<tr>
+<td style="text-align:left">-gcnew</td>
+<td style="text-align:center">监视新生代GC情况</td>
+</tr>
+<tr>
+<td style="text-align:left">-gcnewcapacity</td>
+<td style="text-align:center">监视内容与-gcnew基本相同，输出主要关注使用到的最大、最小空间</td>
+</tr>
+<tr>
+<td style="text-align:left">-gcold</td>
+<td style="text-align:center">监视老年代GC状况</td>
+</tr>
+<tr>
+<td style="text-align:left">-gcoldcapacity</td>
+<td style="text-align:center">监视内容与-gcold基本相同，输出主要关注使用到的最大、最小空间</td>
+</tr>
+<tr>
+<td style="text-align:left">-gcpermcapacity</td>
+<td style="text-align:center">输出永久代使用到的最大、最小空间</td>
+</tr>
+<tr>
+<td style="text-align:left">-compiler</td>
+<td style="text-align:center">输出JIT编译器编译过的方法、耗时等信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-printcompilation</td>
+<td style="text-align:center">输出已经被JIT编译的方法</td>
+</tr>
+</tbody>
+</table>
+<p>3.jinfo<br>实时地查看和调整虚拟机各项参数。<br>jinfo -flag MaxHeapSize 3850</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">选项</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-flag</td>
+<td style="text-align:center">输出指定虚拟机参数，如jinfo -flag MaxHeapSize pid</td>
+</tr>
+<tr>
+<td style="text-align:left">-sysprops</td>
+<td style="text-align:center">输出虚拟机进程的System.getProperties()的内容</td>
+</tr>
+<tr>
+<td style="text-align:left">-flag[+-] name</td>
+<td style="text-align:center">修改虚拟机参数值</td>
+</tr>
+<tr>
+<td style="text-align:left">-flag name=value</td>
+<td style="text-align:center">同上</td>
+</tr>
+</tbody>
+</table>
+<p>4.jmap<br>命令用于生成堆转储快照（一般称为heapdump或dump文件），jmap的作用并不仅仅是为了获取dump文件，它还可以查询finalize执行队列、Java堆和永久代的详细信息，如果空间使用率、当前用的是哪种收集器等。<br>jmap命令格式：jmap [option] vmid<br>jmap -dump:format=b,file=tomcat.bin 3850</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">选项</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-dump</td>
+<td style="text-align:center">生成Java堆转储快照。格式为：-dump:[live, ]format=b, file=<filename>，其中live子参数说明是否只dump出存活的对象</filename></td>
+</tr>
+<tr>
+<td style="text-align:left">-finalizerinfo</td>
+<td style="text-align:center">显示在F-Queue中等待Finalizer线程执行finalize方法的对象。只在Linux/Solaris平台下有效</td>
+</tr>
+<tr>
+<td style="text-align:left">-heap</td>
+<td style="text-align:center">显示Java堆详细信息，如使用哪种回收器、参数配置、分代状况等。只在Linux/Solaris平台下有效</td>
+</tr>
+<tr>
+<td style="text-align:left">-histo</td>
+<td style="text-align:center">显示堆中对象统计信息，包括类、实例数量、合计容量</td>
+</tr>
+<tr>
+<td style="text-align:left">-permstat</td>
+<td style="text-align:center">以ClassLoader为统计口径显示永久代内存状态。只在Linux/Solaris平台下有效</td>
+</tr>
+<tr>
+<td style="text-align:left">-F</td>
+<td style="text-align:center">当虚拟机进程对-dump选项没有响应时，可使用这个选项强制生成dump快照。只在Linux/Solaris平台下有效</td>
+</tr>
+</tbody>
+</table>
+<p>5.jhat<br> Sun JDK提供jhat（JVM Heap Analysis Tool）命令与jmap搭配使用，来分析jmap生成的堆转储快照。Jhat内置了一个微型的HTTP/HTML服务器。生产dump文件的分析结果后，可以在浏览器中查看。<br>jhat tomcat.bin</p>
+<p>6.jstack<br>jstack（Stack Trace for Java）命令用于生产虚拟机当前时刻的线程快照（一般称为threaddump或者javacore文件）。线程快照就是当虚拟机内每一条线程正在执行的方法堆栈集合，生产线程快照的主要目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致长时间等待等都是导致线程长时间停顿的常见原因。线程出现停顿的时候通过jstack来查看各个线程的调用堆栈，就可以知道没有响应的线程到底在后台做些什么事情，或者等待着什么资源。<br>jstack命令格式：jstack [option] vmid<br>jstack -l 3845</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">选项</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-F</td>
+<td style="text-align:center">当正常输出的请求不被响应时，强制输出线程堆栈</td>
+</tr>
+<tr>
+<td style="text-align:left">-l</td>
+<td style="text-align:center">除堆栈外，显示关于锁的附加信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-m</td>
+<td style="text-align:center">如果调用到本地方法的话，可以显示C/C++的堆栈</td>
+</tr>
+</tbody>
+</table>
+<p>7.可视化监控工具<br>JDK中除了提供大量的命令行工具外，还有两个功能强大的可视化工具：JConsole和VisualVM，这两个工具是JDK的正式成员。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/22/threadpool/" rel="next" title="ThreadPoolExcutor">
+                <i class="fa fa-chevron-left"></i> ThreadPoolExcutor
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/16/Json/" rel="prev" title="Json">
+                Json <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lifeloner" />
+          <p class="site-author-name" itemprop="name">lifeloner</p>
+           
+              <p class="site-description motion-element" itemprop="description">fighting!</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM性能监控工具"><span class="nav-number">1.</span> <span class="nav-text">JVM性能监控工具</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lifeloner</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -94,13 +94,13 @@
 
 
 
-<meta name="description" content="B-树与B+树背景    动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较">
+<meta name="description" content="背景动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！">
 <meta name="keywords" content="DataStructure">
 <meta property="og:type" content="article">
 <meta property="og:title" content="B Tree">
 <meta property="og:url" content="https://lifeloner.github.io/2017/05/21/btree/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="B-树与B+树背景    动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较">
+<meta property="og:description" content="背景动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/disk.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/btree.png">
@@ -120,10 +120,10 @@
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/btreeb.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/btreec.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/btree+.png">
-<meta property="og:updated_time" content="2017-08-06T12:53:21.000Z">
+<meta property="og:updated_time" content="2017-08-07T12:34:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="B Tree">
-<meta name="twitter:description" content="B-树与B+树背景    动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较">
+<meta name="twitter:description" content="背景动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/disk.png">
 
 
@@ -418,11 +418,6 @@
           
 
           
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-eye"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
-            </span>
-          
 
           
 
@@ -441,10 +436,10 @@
       
 
       
-        <h1 id="B-树与B-树"><a href="#B-树与B-树" class="headerlink" title="B-树与B+树"></a>B-树与B+树</h1><p>背景<br>    动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！<br>在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！<br><a id="more"></a></p>
-<p>磁盘<br>    磁盘作为外存储器，读取效率比内存慢很多，它的结构如下图所示：<br><img src="http://oqcre1dsl.bkt.clouddn.com/disk.png" alt="img"></p>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！<br>在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！<br><a id="more"></a></p>
+<h2 id="磁盘"><a href="#磁盘" class="headerlink" title="磁盘"></a>磁盘</h2><p>磁盘作为外存储器，读取效率比内存慢很多，它的结构如下图所示：<br><img src="http://oqcre1dsl.bkt.clouddn.com/disk.png" alt="img"></p>
 <p>磁盘有多个盘片组成，盘片装在一个主轴上，并绕主轴高速旋转，当磁道在读/写头(又叫磁头) 下通过时，就可以进行数据的读 / 写了，每个盘面有一个磁头，它可以从一个磁到移到另一个磁道。所有磁头都装在同一个动臂上，因此不同盘面上的所有磁头都是同时移动的(行动整齐划一)。当盘片绕主轴旋转的时候，磁头与旋转的盘片形成一个圆柱体。各个盘面上半径相同的磁道组成了一个圆柱面，我们称为柱面 。因此，柱面的个数也就是盘面上的磁道数。<br>磁盘上数据必须用一个三维地址唯一标示：柱面号、盘面号、块号(磁道上的盘块)。读/写磁盘上某一指定数据需要下面3个步骤：<br>(1)  首先移动臂根据柱面号使磁头移动到所需要的柱面上，这一过程被称为定位或查找 。<br>(2)  如上图11.3中所示的6盘组示意图中，所有磁头都定位到了10个盘面的10条磁道上(磁头都是双向的)。这时根据盘面号来确定指定盘面上的磁道。<br>(3) 盘面确定以后，盘片开始旋转，将指定块号的磁道段移动至磁头下。<br>访问某一具体信息，由3部分时间组成：<br>● 查找时间(seek time) Ts: 完成上述步骤(1)所需要的时间。这部分时间代价最高，最大可达到0.1s左右。<br>● 等待时间(latency time) Tl: 完成上述步骤(3)所需要的时间。由于盘片绕主轴旋转速度很快，一般为7200转/分(电脑硬盘的性能指标之一）因此一般旋转一圈大约0.0083s。<br>● 传输时间(transmission time) Tt: 数据通过系统总线传送到内存的时间，一般传输一个字节(byte)大概0.02us=2*10^(-8)s<br>磁盘读取数据是以盘块(block)为基本单位的。位于同一盘块中的所有数据都能被一次性全部读取出来。而磁盘IO代价主要花费在查找时间Ts上。因此我们应该尽量将相关信息存放在同一盘块，同一磁道中。或者至少放在同一柱面或相邻柱面上，以求在读/写信息时尽量减少磁头来回移动的次数，避免过多的查找时间Ts</p>
-<p>B-树<br>B-树是一种多路查找树，能极大降低树的深度，许多数据库系统都一般使用B树或者B树的各种变形结构。B-树的定义如下：<br>一颗m阶的b-树结构<br>1）若根结点不是叶子结点，则至少有2个孩子，最多含有m个孩子（m&gt;=2）（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）<br>2）除根结点和叶子结点外，其它每个结点至少有[ceil(m / 2)]个孩子，最多含有m个孩子（其中ceil(x)是一个取上限的函数）；<br>3）所有叶子结点都出现在同一层，叶子结点不包含任何关键字信息(可以看做是外部接点或查询失败的接点，实际上这些结点不存在，指向这些结点的指针都为null)<br>4）每个非终端结点中包含有n个关键字信息： (n，P0，K1，P1，K2，P2，……，Kn，Pn)。其中：<br>       a)   Ki (i=1…n)为关键字，且关键字按顺序升序排序K(i-1)&lt; Ki<br>       b)   Pi为指向子树根的接点，且指针P(i-1)指向子树种所有结点的关键字均小于Ki，但都大于K(i-1)<br>       c)   关键字的个数n必须满足： [ceil(m / 2)-1]&lt;= n &lt;= m-1</p>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B-树"></a>B-树</h2><p>B-树是一种多路查找树，能极大降低树的深度，许多数据库系统都一般使用B树或者B树的各种变形结构。B-树的定义如下：<br>一颗m阶的b-树结构<br>1）若根结点不是叶子结点，则至少有2个孩子，最多含有m个孩子（m&gt;=2）（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）<br>2）除根结点和叶子结点外，其它每个结点至少有[ceil(m / 2)]个孩子，最多含有m个孩子（其中ceil(x)是一个取上限的函数）；<br>3）所有叶子结点都出现在同一层，叶子结点不包含任何关键字信息(可以看做是外部接点或查询失败的接点，实际上这些结点不存在，指向这些结点的指针都为null)<br>4）每个非终端结点中包含有n个关键字信息： (n，P0，K1，P1，K2，P2，……，Kn，Pn)。其中：<br>       a)   Ki (i=1…n)为关键字，且关键字按顺序升序排序K(i-1)&lt; Ki<br>       b)   Pi为指向子树根的接点，且指针P(i-1)指向子树种所有结点的关键字均小于Ki，但都大于K(i-1)<br>       c)   关键字的个数n必须满足： [ceil(m / 2)-1]&lt;= n &lt;= m-1</p>
 <p>一颗3阶B树示例如下图所示：<br><img src="http://oqcre1dsl.bkt.clouddn.com/btree.png" alt="img"></p>
 <p>首先节点定义为：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></div><div class="line">    <span class="comment">/*文件数*/</span> 关键字个数</div><div class="line">    <span class="keyword">int</span>  file_num;</div><div class="line">    <span class="comment">/*文件名(key)*/</span>  即 key</div><div class="line">    <span class="keyword">char</span> * file_name[max_file_num];</div><div class="line">    <span class="comment">/*指向子节点的指针*/</span>  孩子指针</div><div class="line">     BTNode * BTptr[max_file_num+<span class="number">1</span>];</div><div class="line">     <span class="comment">/*文件在硬盘中的存储位置*/</span>  实际数据磁盘地址</div><div class="line">     FILE_HARD_ADDR offset[max_file_num];</div><div class="line">&#125;BTNode;</div></pre></td></tr></table></figure></p>
 <p>B树包含N个关键字时，最大深度为：h=log┌m/2┐((N+1)/2 )+1，每一个非叶子结点含有ceil（m／2）个孩子</p>
@@ -454,9 +449,9 @@
 <p>下面看删除H,T,R,E过程：<br> （9）首先删除元素H，当然首先查找H，H在一个叶子结点中，且该叶子结点元素数目3大于最小元素数目ceil(m/2)-1=2，则操作很简单，咱们只需要移动K至原来H的位置，移动L至K的位置（也就是结点中删除元素后面的元素向前移动）<br> （10）删除T,因为T没有在叶子结点中，而是在中间结点中找到，咱们发现他的继承者W(字母升序的下个元素)，将W上移到T的位置，然后将原包含W的孩子结点中的W进行删除，这里恰好删除W后，该孩子结点中元素个数大于2，无需进行合并操作<br> （11）删除R，R在叶子结点中,但是该结点中元素数目为2，删除导致只有1个元素，已经小于最小元素数目ceil(5/2)-1=2,而由前面我们已经知道：如果其某个相邻兄弟结点中比较丰满（元素个数大于ceil(5/2)-1=2），则可以向父结点借一个元素，然后将最丰满的相邻兄弟结点中上移最后或最前一个元素到父节点中（有没有看到红黑树中左旋操作的影子?），在这个实例中，右相邻兄弟结点中比较丰满（3个元素大于2），所以先向父节点借一个元素W下移到该叶子结点中，代替原来S的位置，S前移；然后X在相邻右兄弟结点中上移到父结点中，最后在相邻右兄弟结点中删除X，后面元素前移。<br>   <img src="http://oqcre1dsl.bkt.clouddn.com/btree9.png" alt="img"><br>   <img src="http://oqcre1dsl.bkt.clouddn.com/btree10.png" alt="img"><br>   <img src="http://oqcre1dsl.bkt.clouddn.com/btree11.png" alt="img"></p>
 <p> （12）删除E， 删除后会导致很多问题，因为E所在的结点数目刚好达标，刚好满足最小元素个数（ceil(5/2)-1=2）,而相邻的兄弟结点也是同样的情况，删除一个元素都不能满足条件，所以需要该节点与某相邻兄弟结点进行合并操作；首先移动父结点中的元素（该元素在两个需要合并的两个结点元素之间）下移到其子结点中，然后将这两个结点进行合并成一个结点。所以在该实例中，咱们首先将父节点中的元素D下移到已经删除E而只有F的结点中，然后将含有D和F的结点和含有A,C的相邻兄弟结点进行合并成一个结点<br>然后发现父节点只包含一个元素G，没达标（因为非根节点包括叶子结点的关键字数n必须满足于2=&lt;n&lt;=4，而此处的n=1），这是不能够接受的。如果这个问题结点的相邻兄弟比较丰满，则可以向父结点借一个元素。假设这时右兄弟结点（含有Q,X）有一个以上的元素（Q右边还有元素），然后咱们将M下移到元素很少的子结点中，将Q上移到M的位置，这时，Q的左子树将变成M的右子树，也就是含有N，P结点被依附在M的右指针上。所以在这个实例中，咱们没有办法去借一个元素，只能与兄弟结点进行合并成一个结点，而根结点中的唯一元素M下移到子结点，这样，树的高度减少一层。<br>  <img src="http://oqcre1dsl.bkt.clouddn.com/btree12.png" alt="img"></p>
 <p>  在看一个删除操作：5阶B树，删除C<br>（a）先删除元素C的右子结点中的D元素上移到C的位置，但是出现上移元素后，只有一个元素的结点的情况。又因为含有E的结点，其相邻兄弟结点才刚脱贫（最少元素个数为2），不可能向父节点借元素，所以只能进行合并操作，于是这里将含有A,B的左兄弟结点和含有E的结点进行合并成一个结点。<br>（b）这样又出现只含有一个元素F结点的情况，这时，其相邻的兄弟结点是丰满的（元素个数为3&gt;最小元素个数2），这样就可以想父结点借元素了，把父结点中的J下移到该结点中，相应的如果结点中J后有元素则前移，然后相邻兄弟结点中的第一个元素（或者最后一个元素）上移到父节点中，后面的元素（或者前面的元素）前移（或者后移）；注意含有K，L的结点以前依附在M的左边，现在变为依附在J的右边。这样每个结点都满足B树结构性质<br> <img src="http://oqcre1dsl.bkt.clouddn.com/btreea.png" alt="img"><br> <img src="http://oqcre1dsl.bkt.clouddn.com/btreeb.png" alt="img"><br> <img src="http://oqcre1dsl.bkt.clouddn.com/btreec.png" alt="img"></p>
-<p>B+树<br>特点：（1）有n棵子树的结点中含有n-1 个关键字<br>      （2）所有的叶子结点中包含了全部关键字的信息，及指向含有这些关键字记录的指针，且叶子结点本身依关键字的大小自小而大的顺序链接。 (而B 树的叶子节点并没有包括全部需要查找的信息)<br>      （3）所有的非终端结点可以看成是索引部分，结点中仅含有其子树根结点中最大（或最小）关键字。 (而B 树的非终节点也包含需要查找的有效信息)<br>       <img src="http://oqcre1dsl.bkt.clouddn.com/btree+.png" alt="img"></p>
+<h2 id="B-树-1"><a href="#B-树-1" class="headerlink" title="B+树"></a>B+树</h2><p>特点：（1）有n棵子树的结点中含有n-1 个关键字<br>      （2）所有的叶子结点中包含了全部关键字的信息，及指向含有这些关键字记录的指针，且叶子结点本身依关键字的大小自小而大的顺序链接。 (而B 树的叶子节点并没有包括全部需要查找的信息)<br>      （3）所有的非终端结点可以看成是索引部分，结点中仅含有其子树根结点中最大（或最小）关键字。 (而B 树的非终节点也包含需要查找的有效信息)<br>       <img src="http://oqcre1dsl.bkt.clouddn.com/btree+.png" alt="img"></p>
 <p>优点：<br>（1）B+-tree的磁盘读写代价更低<br>        B+-tree的内部结点并没有指向关键字具体信息的指针。因此其内部结点相对B 树更小。如果把所有同一内部结点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多。一次性读入内存中的需要查找的关键字也就越多。相对来说IO读写次数也就降低了。<br>（2）B+-tree的查询效率更加稳定<br>由于非终结点并不是最终指向文件内容的结点，而只是叶子结点中关键字的索引。所以任何关键字的查找必须走一条从根结点到叶子结点的路。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。<br>（3）B+树支持范围查询<br>    B+树只要遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作（或者说效率太低）</p>
-<p>总结：<br>B树：有序数组+平衡多叉树；<br>B+树：有序数组链表+平衡多叉树；</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>B树：有序数组+平衡多叉树；<br>B+树：有序数组链表+平衡多叉树；</p>
 <p>（1）对于单个查询，b树可能更早的返回数据，因为内节点也存储了数据信息，而b+树需要查到叶子结点，但是b+树节点需要更少的空间所以磁盘I／O会少一点，除此之外，b+树支持范围查询和扫描，所以更加方便！<br>（2）b树和b+树在内存中没有任何优势，不如AVL和红黑树，但是在磁盘降低了树的深度，其I／O次数明显减少，所以大大降低了查询时间，被广泛用于数据库索引（Mysql）。</p>
 
       
@@ -470,7 +465,7 @@
     
       <div>
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>Thanks!</div>
+  <div>谢谢大佬的打赏!</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>赏</span>
   </button>
@@ -613,7 +608,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -624,7 +619,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -720,7 +715,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#B-树与B-树"><span class="nav-number">1.</span> <span class="nav-text">B-树与B+树</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#磁盘"><span class="nav-number">2.</span> <span class="nav-text">磁盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树"><span class="nav-number">3.</span> <span class="nav-text">B-树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树-1"><span class="nav-number">4.</span> <span class="nav-text">B+树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结："><span class="nav-number">5.</span> <span class="nav-text">总结：</span></a></li></ol></div>
             
 
           </div>
@@ -769,7 +764,7 @@
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i>
+      <i class="fa fa-user">本站访客数</i>
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       次
     </span>
@@ -777,7 +772,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i>
+      <i class="fa fa-eye">本站总访问量</i>
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       次
     </span>

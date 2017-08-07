@@ -94,24 +94,24 @@
 
 
 
-<meta name="description" content="初识Json在对接第三方过程中，经常遇到格式不对和校验失败的问题，大多数是第三方返回的json存在各种问题，整理一下json的格式和常见用法。">
+<meta name="description" content="在对接第三方过程中，经常遇到格式不对和校验失败的问题，大多数是第三方返回的json存在各种问题，整理一下json的格式和常见用法。">
 <meta name="keywords" content="Json,Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Json">
+<meta property="og:title" content="初识Json">
 <meta property="og:url" content="https://lifeloner.github.io/2016/07/16/Json/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="初识Json在对接第三方过程中，经常遇到格式不对和校验失败的问题，大多数是第三方返回的json存在各种问题，整理一下json的格式和常见用法。">
+<meta property="og:description" content="在对接第三方过程中，经常遇到格式不对和校验失败的问题，大多数是第三方返回的json存在各种问题，整理一下json的格式和常见用法。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/array.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/array.png?imageMogr2/thumbnail/!70p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/jsonobject.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/jsonresult.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/jsontojava.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/jsonresults.png">
-<meta property="og:updated_time" content="2017-08-06T12:53:21.000Z">
+<meta property="og:updated_time" content="2017-08-07T13:15:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Json">
-<meta name="twitter:description" content="初识Json在对接第三方过程中，经常遇到格式不对和校验失败的问题，大多数是第三方返回的json存在各种问题，整理一下json的格式和常见用法。">
-<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/array.png">
+<meta name="twitter:title" content="初识Json">
+<meta name="twitter:description" content="在对接第三方过程中，经常遇到格式不对和校验失败的问题，大多数是第三方返回的json存在各种问题，整理一下json的格式和常见用法。">
+<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/array.png?imageMogr2/thumbnail/!70p">
 
 
 
@@ -146,7 +146,7 @@
 
 
 
-  <title>Json | lifeloner</title>
+  <title>初识Json | lifeloner</title>
   
 
 
@@ -340,7 +340,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Json</h1>
+          <h1 class="post-title" itemprop="name headline">初识Json</h1>
         
 
         <div class="post-meta">
@@ -375,8 +375,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Language/" itemprop="url" rel="index">
-                    <span itemprop="name">Language</span>
+                  <a href="/categories/Basic/" itemprop="url" rel="index">
+                    <span itemprop="name">Basic</span>
                   </a>
                 </span>
 
@@ -392,7 +392,7 @@
 
           
           
-             <span id="/2016/07/16/Json/" class="leancloud_visitors" data-flag-title="Json">
+             <span id="/2016/07/16/Json/" class="leancloud_visitors" data-flag-title="初识Json">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -404,11 +404,6 @@
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-eye"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
-            </span>
           
 
           
@@ -428,7 +423,7 @@
       
 
       
-        <h1 id="初识Json"><a href="#初识Json" class="headerlink" title="初识Json"></a>初识Json</h1><p>在对接第三方过程中，经常遇到格式不对和校验失败的问题，大多数是第三方返回的json存在各种问题，整理一下json的格式和常见用法。<br><a id="more"></a><br>首先，json 数据的书写格式是：名称/值对，和java中map很类似，但它的key只能用string，如”firstName” : “John”，json值可以为：数字（整数或浮点数），字符串（在双引号中），逻辑值（true 或 false），数组（在方括号中），对象（在花括号中），null。<br>JSON 对象在花括号中书写，对象可以包含多个名称/值对，如：{ “firstName”:”John” , “lastName”:”Doe” }<br>JSON 数组在方括号中书写，数组可包含多个对象，如：<br><img src="http://oqcre1dsl.bkt.clouddn.com/array.png" alt="img"><br>所以Json对象中，可以嵌套很多层，形成复杂的结构。json对象的创建如下：<br><img src="http://oqcre1dsl.bkt.clouddn.com/jsonobject.png" alt="img"><br>结果如下：<br><img src="http://oqcre1dsl.bkt.clouddn.com/jsonresult.png" alt="img"><br>另外，Json和java中的容器也可以相互转换，如下所示：<br><img src="http://oqcre1dsl.bkt.clouddn.com/jsontojava.png" alt="img"><br>结果如下：<br><img src="http://oqcre1dsl.bkt.clouddn.com/jsonresults.png" alt="img"><br>以上是json的格式和常见的用法，复杂的json也是通过多层嵌套组合而成。</p>
+        <p>在对接第三方过程中，经常遇到格式不对和校验失败的问题，大多数是第三方返回的json存在各种问题，整理一下json的格式和常见用法。<br><a id="more"></a><br>首先，json 数据的书写格式是：名称/值对，和java中map很类似，但它的key只能用string，如”firstName” : “John”，json值可以为：数字（整数或浮点数），字符串（在双引号中），逻辑值（true 或 false），数组（在方括号中），对象（在花括号中），null。<br>JSON 对象在花括号中书写，对象可以包含多个名称/值对，如：{ “firstName”:”John” , “lastName”:”Doe” }<br>JSON 数组在方括号中书写，数组可包含多个对象，如：<br><img src="http://oqcre1dsl.bkt.clouddn.com/array.png?imageMogr2/thumbnail/!70p" alt="img"><br>所以Json对象中，可以嵌套很多层，形成复杂的结构。json对象的创建如下：<br><img src="http://oqcre1dsl.bkt.clouddn.com/jsonobject.png" alt="img"><br>结果如下：<br><img src="http://oqcre1dsl.bkt.clouddn.com/jsonresult.png" alt="img"><br>另外，Json和java中的容器也可以相互转换，如下所示：<br><img src="http://oqcre1dsl.bkt.clouddn.com/jsontojava.png" alt="img"><br>结果如下：<br><img src="http://oqcre1dsl.bkt.clouddn.com/jsonresults.png" alt="img"><br>以上是json的格式和常见的用法，复杂的json也是通过多层嵌套组合而成。</p>
 
       
     </div>
@@ -441,7 +436,7 @@
     
       <div>
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>Thanks!</div>
+  <div>谢谢大佬的打赏!</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>赏</span>
   </button>
@@ -490,8 +485,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/14/jvmtools/" rel="next" title="JVM Tools">
-                <i class="fa fa-chevron-left"></i> JVM Tools
+              <a href="/2016/07/14/jvmtools/" rel="next" title="JVM性能监控工具">
+                <i class="fa fa-chevron-left"></i> JVM性能监控工具
               </a>
             
           </div>
@@ -554,17 +549,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/photo.png"
@@ -590,7 +576,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -601,7 +587,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -688,22 +674,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#初识Json"><span class="nav-number">1.</span> <span class="nav-text">初识Json</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -746,7 +716,7 @@
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i>
+      <i class="fa fa-user">本站访客数</i>
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       次
     </span>
@@ -754,7 +724,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i>
+      <i class="fa fa-eye">本站总访问量</i>
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       次
     </span>

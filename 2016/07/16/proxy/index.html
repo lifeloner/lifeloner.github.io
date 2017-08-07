@@ -94,20 +94,20 @@
 
 
 
-<meta name="description" content="Java动态代理 动态代理模式是一种常用的设计模式，被广泛用于Spring，Mybatis，Hibernate等框架中。由于静态代理每一个代理类在编译之后都会生成一个class文件，代理类所实现的接口和所代理的方法都被固定，所以会导致系统中的类个数急剧增加，而动态代理可以让系统能够根据实际需要来动态创建代理类，让同一个代理类能够代理多个不同的真实主题类而且可以代理不同的方法。其中主要的类有Prox">
+<meta name="description" content="动态代理模式是一种常用的设计模式，被广泛用于Spring，Mybatis，Hibernate等框架中。由于静态代理每一个代理类在编译之后都会生成一个class文件，代理类所实现的接口和所代理的方法都被固定，所以会导致系统中的类个数急剧增加，而动态代理可以让系统能够根据实际需要来动态创建代理类，让同一个代理类能够代理多个不同的真实主题类而且可以代理不同的方法。其中主要的类有Proxy、Invocat">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java Proxy">
 <meta property="og:url" content="https://lifeloner.github.io/2016/07/16/proxy/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="Java动态代理 动态代理模式是一种常用的设计模式，被广泛用于Spring，Mybatis，Hibernate等框架中。由于静态代理每一个代理类在编译之后都会生成一个class文件，代理类所实现的接口和所代理的方法都被固定，所以会导致系统中的类个数急剧增加，而动态代理可以让系统能够根据实际需要来动态创建代理类，让同一个代理类能够代理多个不同的真实主题类而且可以代理不同的方法。其中主要的类有Prox">
+<meta property="og:description" content="动态代理模式是一种常用的设计模式，被广泛用于Spring，Mybatis，Hibernate等框架中。由于静态代理每一个代理类在编译之后都会生成一个class文件，代理类所实现的接口和所代理的方法都被固定，所以会导致系统中的类个数急剧增加，而动态代理可以让系统能够根据实际需要来动态创建代理类，让同一个代理类能够代理多个不同的真实主题类而且可以代理不同的方法。其中主要的类有Proxy、Invocat">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/proxy.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/cglib.png">
-<meta property="og:updated_time" content="2017-08-06T12:53:21.000Z">
+<meta property="og:updated_time" content="2017-08-07T13:14:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java Proxy">
-<meta name="twitter:description" content="Java动态代理 动态代理模式是一种常用的设计模式，被广泛用于Spring，Mybatis，Hibernate等框架中。由于静态代理每一个代理类在编译之后都会生成一个class文件，代理类所实现的接口和所代理的方法都被固定，所以会导致系统中的类个数急剧增加，而动态代理可以让系统能够根据实际需要来动态创建代理类，让同一个代理类能够代理多个不同的真实主题类而且可以代理不同的方法。其中主要的类有Prox">
+<meta name="twitter:description" content="动态代理模式是一种常用的设计模式，被广泛用于Spring，Mybatis，Hibernate等框架中。由于静态代理每一个代理类在编译之后都会生成一个class文件，代理类所实现的接口和所代理的方法都被固定，所以会导致系统中的类个数急剧增加，而动态代理可以让系统能够根据实际需要来动态创建代理类，让同一个代理类能够代理多个不同的真实主题类而且可以代理不同的方法。其中主要的类有Proxy、Invocat">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/proxy.png">
 
 
@@ -372,8 +372,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Language/" itemprop="url" rel="index">
-                    <span itemprop="name">Language</span>
+                  <a href="/categories/Basic/" itemprop="url" rel="index">
+                    <span itemprop="name">Basic</span>
                   </a>
                 </span>
 
@@ -402,11 +402,6 @@
           
 
           
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-eye"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
-            </span>
-          
 
           
 
@@ -425,7 +420,7 @@
       
 
       
-        <h1 id="Java动态代理"><a href="#Java动态代理" class="headerlink" title="Java动态代理"></a>Java动态代理</h1><p> 动态代理模式是一种常用的设计模式，被广泛用于Spring，Mybatis，Hibernate等框架中。由于静态代理每一个代理类在编译之后都会生成一个class文件，代理类所实现的接口和所代理的方法都被固定，所以会导致系统中的类个数急剧增加，而动态代理可以让系统能够根据实际需要来动态创建代理类，让同一个代理类能够代理多个不同的真实主题类而且可以代理不同的方法。其中主要的类有Proxy、InvocationHandler。<br><a id="more"></a><br> Proxy中主要的方法如下：</p>
+        <p>动态代理模式是一种常用的设计模式，被广泛用于Spring，Mybatis，Hibernate等框架中。由于静态代理每一个代理类在编译之后都会生成一个class文件，代理类所实现的接口和所代理的方法都被固定，所以会导致系统中的类个数急剧增加，而动态代理可以让系统能够根据实际需要来动态创建代理类，让同一个代理类能够代理多个不同的真实主题类而且可以代理不同的方法。其中主要的类有Proxy、InvocationHandler。<br><a id="more"></a><br> Proxy中主要的方法如下：</p>
 <ul>
 <li>public static Class&lt;?&gt; getProxyClass(ClassLoader loader,Class&lt;?&gt;… interfaces):该方法用于返回一个Class类型的代理类，在参数中需要提供类加载器并需要指定代理的接口数组（与真实主题类的接口列表一致）。</li>
 <li>public static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[]interfaces, InvocationHandler h):该方法用于返回一个动态创建的代理类的实例，方法中第一个参数loader表示代理类的类加载器，第二个参数interfaces表示代理类所实现的接口列表（与真实主题类的接口列表一致），第三个参数h表示所指派的调用处理程序类。</li>
@@ -448,7 +443,7 @@
     
       <div>
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>Thanks!</div>
+  <div>谢谢大佬的打赏!</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>赏</span>
   </button>
@@ -495,8 +490,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/16/Json/" rel="next" title="Json">
-                <i class="fa fa-chevron-left"></i> Json
+              <a href="/2016/07/16/Json/" rel="next" title="初识Json">
+                <i class="fa fa-chevron-left"></i> 初识Json
               </a>
             
           </div>
@@ -559,17 +554,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/photo.png"
@@ -595,7 +581,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -606,7 +592,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -693,22 +679,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java动态代理"><span class="nav-number">1.</span> <span class="nav-text">Java动态代理</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -751,7 +721,7 @@
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i>
+      <i class="fa fa-user">本站访客数</i>
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       次
     </span>
@@ -759,7 +729,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i>
+      <i class="fa fa-eye">本站总访问量</i>
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       次
     </span>

@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="JVM性能监控工具jdk中常见的命令有如下几种：">
+<meta name="description" content="JDK中常见的命令有如下几种：">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM Tools">
+<meta property="og:title" content="JVM性能监控工具">
 <meta property="og:url" content="https://lifeloner.github.io/2016/07/14/jvmtools/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="JVM性能监控工具jdk中常见的命令有如下几种：">
+<meta property="og:description" content="JDK中常见的命令有如下几种：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-06T12:53:21.000Z">
+<meta property="og:updated_time" content="2017-08-07T13:17:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JVM Tools">
-<meta name="twitter:description" content="JVM性能监控工具jdk中常见的命令有如下几种：">
+<meta name="twitter:title" content="JVM性能监控工具">
+<meta name="twitter:description" content="JDK中常见的命令有如下几种：">
 
 
 
@@ -140,7 +140,7 @@
 
 
 
-  <title>JVM Tools | lifeloner</title>
+  <title>JVM性能监控工具 | lifeloner</title>
   
 
 
@@ -334,7 +334,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JVM Tools</h1>
+          <h1 class="post-title" itemprop="name headline">JVM性能监控工具</h1>
         
 
         <div class="post-meta">
@@ -386,7 +386,7 @@
 
           
           
-             <span id="/2016/07/14/jvmtools/" class="leancloud_visitors" data-flag-title="JVM Tools">
+             <span id="/2016/07/14/jvmtools/" class="leancloud_visitors" data-flag-title="JVM性能监控工具">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -398,11 +398,6 @@
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-eye"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
-            </span>
           
 
           
@@ -422,7 +417,7 @@
       
 
       
-        <h1 id="JVM性能监控工具"><a href="#JVM性能监控工具" class="headerlink" title="JVM性能监控工具"></a>JVM性能监控工具</h1><p>jdk中常见的命令有如下几种：<br><a id="more"></a></p>
+        <p>JDK中常见的命令有如下几种：<br><a id="more"></a></p>
 <table>
 <thead>
 <tr>
@@ -457,7 +452,7 @@
 </tr>
 </tbody>
 </table>
-<p>1.jps<br>列出正在运行的虚拟机进程，并显示虚拟机执行主类（Main Class，main()函数所在的类）名称以及这些进程的本地虚拟机唯一ID（Local Virtual Machine Identifier，LVMID）,LVMID与操作系统的进程ID是一致的。<br>jps命令格式：jsp  [options]  [hostid]<br>jps -l</p>
+<h2 id="JPS"><a href="#JPS" class="headerlink" title="JPS"></a>JPS</h2><p>列出正在运行的虚拟机进程，并显示虚拟机执行主类（Main Class，main()函数所在的类）名称以及这些进程的本地虚拟机唯一ID（Local Virtual Machine Identifier，LVMID）,LVMID与操作系统的进程ID是一致的。<br>jps命令格式：jsp  [options]  [hostid]<br>jps -l</p>
 <table>
 <thead>
 <tr>
@@ -484,7 +479,7 @@
 </tr>
 </tbody>
 </table>
-<p>2.jstat<br>用于监视虚拟机各种运行状态信息的命令行工具。它可以显示本地或远程虚拟机进程中的类装载、内存、垃圾收集、JIT编译等运行数据。<br>jstat命令格式：jstat  [option vmid [ interval[s|ms] [count] ] ]<br>jstat –gc 2764 250 20</p>
+<h2 id="Jstat"><a href="#Jstat" class="headerlink" title="Jstat"></a>Jstat</h2><p>用于监视虚拟机各种运行状态信息的命令行工具。它可以显示本地或远程虚拟机进程中的类装载、内存、垃圾收集、JIT编译等运行数据。<br>jstat命令格式：jstat  [option vmid [ interval[s|ms] [count] ] ]<br>jstat –gc 2764 250 20</p>
 <table>
 <thead>
 <tr>
@@ -543,7 +538,7 @@
 </tr>
 </tbody>
 </table>
-<p>3.jinfo<br>实时地查看和调整虚拟机各项参数。<br>jinfo -flag MaxHeapSize 3850</p>
+<h2 id="Jinfo"><a href="#Jinfo" class="headerlink" title="Jinfo"></a>Jinfo</h2><p>实时地查看和调整虚拟机各项参数。<br>jinfo -flag MaxHeapSize 3850</p>
 <table>
 <thead>
 <tr>
@@ -570,7 +565,7 @@
 </tr>
 </tbody>
 </table>
-<p>4.jmap<br>命令用于生成堆转储快照（一般称为heapdump或dump文件），jmap的作用并不仅仅是为了获取dump文件，它还可以查询finalize执行队列、Java堆和永久代的详细信息，如果空间使用率、当前用的是哪种收集器等。<br>jmap命令格式：jmap [option] vmid<br>jmap -dump:format=b,file=tomcat.bin 3850</p>
+<h2 id="Jmap"><a href="#Jmap" class="headerlink" title="Jmap"></a>Jmap</h2><p>命令用于生成堆转储快照（一般称为heapdump或dump文件），jmap的作用并不仅仅是为了获取dump文件，它还可以查询finalize执行队列、Java堆和永久代的详细信息，如果空间使用率、当前用的是哪种收集器等。<br>jmap命令格式：jmap [option] vmid<br>jmap -dump:format=b,file=tomcat.bin 3850</p>
 <table>
 <thead>
 <tr>
@@ -605,8 +600,8 @@
 </tr>
 </tbody>
 </table>
-<p>5.jhat<br> Sun JDK提供jhat（JVM Heap Analysis Tool）命令与jmap搭配使用，来分析jmap生成的堆转储快照。Jhat内置了一个微型的HTTP/HTML服务器。生产dump文件的分析结果后，可以在浏览器中查看。<br>jhat tomcat.bin</p>
-<p>6.jstack<br>jstack（Stack Trace for Java）命令用于生产虚拟机当前时刻的线程快照（一般称为threaddump或者javacore文件）。线程快照就是当虚拟机内每一条线程正在执行的方法堆栈集合，生产线程快照的主要目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致长时间等待等都是导致线程长时间停顿的常见原因。线程出现停顿的时候通过jstack来查看各个线程的调用堆栈，就可以知道没有响应的线程到底在后台做些什么事情，或者等待着什么资源。<br>jstack命令格式：jstack [option] vmid<br>jstack -l 3845</p>
+<h2 id="Jhat"><a href="#Jhat" class="headerlink" title="Jhat"></a>Jhat</h2><p> Sun JDK提供jhat（JVM Heap Analysis Tool）命令与jmap搭配使用，来分析jmap生成的堆转储快照。Jhat内置了一个微型的HTTP/HTML服务器。生产dump文件的分析结果后，可以在浏览器中查看。<br>jhat tomcat.bin</p>
+<h2 id="Jstack"><a href="#Jstack" class="headerlink" title="Jstack"></a>Jstack</h2><p>jstack（Stack Trace for Java）命令用于生产虚拟机当前时刻的线程快照（一般称为threaddump或者javacore文件）。线程快照就是当虚拟机内每一条线程正在执行的方法堆栈集合，生产线程快照的主要目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致长时间等待等都是导致线程长时间停顿的常见原因。线程出现停顿的时候通过jstack来查看各个线程的调用堆栈，就可以知道没有响应的线程到底在后台做些什么事情，或者等待着什么资源。<br>jstack命令格式：jstack [option] vmid<br>jstack -l 3845</p>
 <table>
 <thead>
 <tr>
@@ -629,7 +624,7 @@
 </tr>
 </tbody>
 </table>
-<p>7.可视化监控工具<br>JDK中除了提供大量的命令行工具外，还有两个功能强大的可视化工具：JConsole和VisualVM，这两个工具是JDK的正式成员。</p>
+<h2 id="可视化监控工具"><a href="#可视化监控工具" class="headerlink" title="可视化监控工具"></a>可视化监控工具</h2><p>JDK中除了提供大量的命令行工具外，还有两个功能强大的可视化工具：JConsole和VisualVM，这两个工具是JDK的正式成员。</p>
 
       
     </div>
@@ -642,7 +637,7 @@
     
       <div>
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>Thanks!</div>
+  <div>谢谢大佬的打赏!</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>赏</span>
   </button>
@@ -699,8 +694,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/07/16/Json/" rel="prev" title="Json">
-                Json <i class="fa fa-chevron-right"></i>
+              <a href="/2016/07/16/Json/" rel="prev" title="初识Json">
+                初识Json <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -789,7 +784,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -800,7 +795,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -896,7 +891,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM性能监控工具"><span class="nav-number">1.</span> <span class="nav-text">JVM性能监控工具</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JPS"><span class="nav-number">1.</span> <span class="nav-text">JPS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jstat"><span class="nav-number">2.</span> <span class="nav-text">Jstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jinfo"><span class="nav-number">3.</span> <span class="nav-text">Jinfo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jmap"><span class="nav-number">4.</span> <span class="nav-text">Jmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jhat"><span class="nav-number">5.</span> <span class="nav-text">Jhat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jstack"><span class="nav-number">6.</span> <span class="nav-text">Jstack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化监控工具"><span class="nav-number">7.</span> <span class="nav-text">可视化监控工具</span></a></li></ol></div>
             
 
           </div>
@@ -945,7 +940,7 @@
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i>
+      <i class="fa fa-user">本站访客数</i>
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       次
     </span>
@@ -953,7 +948,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i>
+      <i class="fa fa-eye">本站总访问量</i>
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       次
     </span>

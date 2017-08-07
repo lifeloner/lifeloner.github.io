@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="GC," />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -94,15 +94,15 @@
 
 
 
-<meta name="description" content="Java内存模型与GC一 、Java内存区域       java与c＋＋很大的区别在于内存管理上，c＋＋中主要由程序员对内存进行申请和释放（new、delete／malloc、free），而java中内存交由JVM来管理，虽然这在一定程度上减少了java程序员的负担，但了解JVM内存管理、GC机制能够帮助我们写出高质量、高效率的代码、并能排除内存溢出、内存泄漏等常见问题，下面我们先了解一下jav">
-<meta name="keywords" content="GC">
+<meta name="description" content="Java垃圾回收器相关基础">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GC">
+<meta property="og:title" content="Java GC">
 <meta property="og:url" content="https://lifeloner.github.io/2017/01/09/gc/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="Java内存模型与GC一 、Java内存区域       java与c＋＋很大的区别在于内存管理上，c＋＋中主要由程序员对内存进行申请和释放（new、delete／malloc、free），而java中内存交由JVM来管理，虽然这在一定程度上减少了java程序员的负担，但了解JVM内存管理、GC机制能够帮助我们写出高质量、高效率的代码、并能排除内存溢出、内存泄漏等常见问题，下面我们先了解一下jav">
+<meta property="og:description" content="Java垃圾回收器相关基础">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/memory.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/memory.png?imageMogr2/thumbnail/!42p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/point.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/direct.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/gc.png">
@@ -110,11 +110,11 @@
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/parallel.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/cms.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/g1.png">
-<meta property="og:updated_time" content="2017-08-06T12:53:21.000Z">
+<meta property="og:updated_time" content="2017-08-07T12:51:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GC">
-<meta name="twitter:description" content="Java内存模型与GC一 、Java内存区域       java与c＋＋很大的区别在于内存管理上，c＋＋中主要由程序员对内存进行申请和释放（new、delete／malloc、free），而java中内存交由JVM来管理，虽然这在一定程度上减少了java程序员的负担，但了解JVM内存管理、GC机制能够帮助我们写出高质量、高效率的代码、并能排除内存溢出、内存泄漏等常见问题，下面我们先了解一下jav">
-<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/memory.png">
+<meta name="twitter:title" content="Java GC">
+<meta name="twitter:description" content="Java垃圾回收器相关基础">
+<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/memory.png?imageMogr2/thumbnail/!42p">
 
 
 
@@ -149,7 +149,7 @@
 
 
 
-  <title>GC | lifeloner</title>
+  <title>Java GC | lifeloner</title>
   
 
 
@@ -343,7 +343,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">GC</h1>
+          <h1 class="post-title" itemprop="name headline">Java GC</h1>
         
 
         <div class="post-meta">
@@ -395,7 +395,7 @@
 
           
           
-             <span id="/2017/01/09/gc/" class="leancloud_visitors" data-flag-title="GC">
+             <span id="/2017/01/09/gc/" class="leancloud_visitors" data-flag-title="Java GC">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -407,11 +407,6 @@
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-eye"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
-            </span>
           
 
           
@@ -431,7 +426,11 @@
       
 
       
-        <h1 id="Java内存模型与GC"><a href="#Java内存模型与GC" class="headerlink" title="Java内存模型与GC"></a>Java内存模型与GC</h1><p>一 、Java内存区域<br>       java与c＋＋很大的区别在于内存管理上，c＋＋中主要由程序员对内存进行申请和释放（new、delete／malloc、free），而java中内存交由JVM来管理，虽然这在一定程度上减少了java程序员的负担，但了解JVM内存管理、GC机制能够帮助我们写出高质量、高效率的代码、并能排除内存溢出、内存泄漏等常见问题，下面我们先了解一下java的内存区域。<br>       JVM的内存区域划分如下图所示：<br><a id="more"></a><br><img src="http://oqcre1dsl.bkt.clouddn.com/memory.png" alt="img"><br>1.程序计数器<br>       程序计数器是一块较小的内存空间，用于记录线程的虚拟机字节码指令地址，程序的分支、循环、跳转、异常处理、以及线程切换都依赖与该计数器完成，它是线程私有的内存空间。</p>
+        <p>Java垃圾回收器相关基础<br><a id="more"></a></p>
+<h2 id="Java内存区域"><a href="#Java内存区域" class="headerlink" title="Java内存区域"></a>Java内存区域</h2><pre><code>java与c＋＋很大的区别在于内存管理上，c＋＋中主要由程序员对内存进行申请和释放（new、delete／malloc、free），而java中内存交由JVM来管理，虽然这在一定程度上减少了java程序员的负担，但了解JVM内存管理、GC机制能够帮助我们写出高质量、高效率的代码、并能排除内存溢出、内存泄漏等常见问题，下面我们先了解一下java的内存区域。
+JVM的内存区域划分如下图所示：
+</code></pre><p><img src="http://oqcre1dsl.bkt.clouddn.com/memory.png?imageMogr2/thumbnail/!42p" alt="img"></p>
+<p>1.程序计数器<br>       程序计数器是一块较小的内存空间，用于记录线程的虚拟机字节码指令地址，程序的分支、循环、跳转、异常处理、以及线程切换都依赖与该计数器完成，它是线程私有的内存空间。</p>
 <p>2.java虚拟机栈<br>       虚拟机栈也是线程私有的，它描述了java方法执行的内存模型：每一个方法执行时都会创建一个栈帧用于存放局部变量表、操作数、方法出口等信息。每一个方法的调用和结束对应着栈帧入栈和出栈操作。局部变量表存放了基本的类型（boolean、byte、char、int、long、float、double），引用类型（reference，简单理解为对象的内存地址而不是对象本身），returnAddress（返回地址即虚拟机一条字节码指令，局部变量表大小在编译器确定，运行期间不会改变。该区域中可能出现StackOverFlowError（栈深度超过JVM允许深度），OutOfMemoryError（无法申请足够内存）。</p>
 <p>3.本地方法栈<br>       与虚拟机栈很类似，区别在于虚拟机栈对应的是java方法，而本地方法栈对应的是native方法服务（如c＋＋），JVM对本地方法栈的语言、数据结构没有要求，有的虚拟机（如HotSpot）甚至把虚拟机栈和本地方法栈合二为一统一管理。</p>
 <p>4.java堆<br>        这部分区域对大家最熟悉不过了，它是JVM管理的内存区域中最大的一块，存放着对象的实例，为所有线程共享，几乎所有的对象实例都在堆上分配内存（几乎而不是完全绝对）。堆也是GC回收的主要的区域，同样该区域也会抛出 OutOfMemoryError异常。</p>
@@ -439,7 +438,7 @@
 <p>6.直接内存<br>       直接内存不是JVM运行时数据区的一部分，也不是JVM定义的内存区域。但该区域也被频繁使用，可能导致OutOfMemoryError异常。NIO出现，引入了基于channel和buffer的I／O方式，它可以使用native函数库直接分配堆外内存，然后通过java堆中的directByteBuffer对象作为该内存的应用进行操作，以此来避免java堆和native堆来回复制数据，提高了性能。</p>
 <p>下面我们以HotSpot虚拟机为例，了解一下创建对象时堆内存分配以及对象的访问过程。<br>      （1）对象创建<br>        当使用new创建一个对象时，虚拟机首先在方法区的常量池中定位到一个类的符号引用，检查符号引用的类是否被加载、解析、初始化，具体细节可以阅读java类加载机制相关知识点。在类加载后，需要在堆中分配内存，堆中的内存常常不是规整的往往存在内存碎片，所以需要使用“空闲列表”的方式来选择分配的地址。在分配内存时还需要注意线程安全，防止出现给对象A分配内存后没修改地址而对象B使用了相同的地址指针，所以可以采用2种办法：一是使用同步方式（虚拟机采用CAS的原子语义方式而不是锁），二是给每个线程分配一小块缓冲（TLAB），当线程使用完TLAB后再同步分配内存。对象内存分配后，JVM将内存空间初始化为零值（不包括对象头），接下来虚拟机将对象所属类的元数据信息、对象哈希码、gc分代年龄、对象锁信息放入对象内存的对象头中，这样JVM的对象初始化工作完成了，但在程序员看来对象的字段都还没初始化，接下来执行<init>方法，按照构造函数要求对对象进行初始化，这样对象的整个初始化过程完成。<br>     （2）对象访问<br>        使用栈上的reference来操作堆中对象实例，应用定位和访问的方式有句柄和直接指针两种。<br><img src="http://oqcre1dsl.bkt.clouddn.com/point.png" alt="img"><br><img src="http://oqcre1dsl.bkt.clouddn.com/direct.png" alt="img"></init></p>
 <p>句柄方式需要在堆中申请一块额外的内存，reference存储了句柄的的地址，句柄优势在于对象实例被移动时只会改变句柄中实例数据指针，reference不用改变。直接指针方式优势在于定位速度快，省掉一次指针定位时间，hotspot虚拟机采用的直接指针方式，在大量对象访问情况下性能提升比较客观。</p>
-<p>二、GC<br>在学习GC前，我们首先需要明白几个问题：哪些内存需要回收？什么时候回收？怎么回收？</p>
+<h2 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h2><p>在学习GC前，我们首先需要明白几个问题：哪些内存需要回收？什么时候回收？怎么回收？</p>
 <p>1.对象的存活<br>       判断对象是否死亡方式有多种，其中主要的方式有：引用计数法、可达性分析法。<br>引用计数法：给对象添加一个引用计数器，每当有一个引用指向它，计数器加1，当引用失效，计数器减1，减为0则对象可以回收，但无法解决对象之间相互循环引用问题。<br>可达性分析法：通过GC Roots对象为起点，往下搜索，经过的路径称为引用链，当对象通过引用链和GC Roots不可达时则可以回收。java中使用可达性分析算法来判断对象存活情况，java中常见的GC Roots有虚拟机栈引用的对象，方法区中常量、静态变量引用的对象、本地方法栈JNI引用的对象。<br>      即使对象与GC Roots不可达，对象也并非必死不可，对象死亡至少经历2个标记过程，首先前面提到的不可达是第一次标记，然后进行一次筛选来确定是否需要执行finalize方法，若对象没有复写finalize方法或者之前已经执行过finalize，那么虚拟机将不再执行finalize方法。在第一次标记后，并需要执行finalize时，finalize是对象逃脱回收的最后机会，对象被放在F－Queue队列中，然后由一个低优先级的Finalizer线程执行对象finalize方法，如果对象在finalize中把自己引用（this）赋值给某个类变量或对象成员变量，那它将被移除被回收的集合，如果仍没有逃脱那基本将被JVM真正回收。一个对象可以在GC时逃脱，但只能逃脱一次，因为finalize只能执行一次。<br>       GC并不仅仅发生在堆中，在方法区（hotspot中成为永久代）也会发生GC，只是回收效率较低。永久代中回收的内容主要有常量和类，一个常量没有任何地方使用就被认为是废弃的可以进行回收了，但类的判断要求严格的多，需要满足的条件有：类所有实例被回收；加载类的ClassLoader被收回手；Class对象没有在任何地方引用，无法通过反射访问类方法和字段。只有满足这3个要求，JVM才有可能（并不一定）回收该类。</p>
 <p>2.GC算法<br>     主要的gc算法有4种：标记－清除算法，复制算法，标记－整理算法，分代收集算法。<br>    （1）标记－清除算法<br>       标记－清除算法分为标记、清除2个阶段，首先对需要回收的对象进行标记，完成后统一回收标记的对象。它存在2个缺点：标记清除过程效率低，而且gc后存在大量不连续的内存碎片，导致以后分配大内存对象时内存不足，不得不触发另一次gc。<br>    （2）复制算法<br>        复制算法思想是把内存容量划分为大小相等的2块，每次使用其中一块，当内存不足时将存活的对象复制到另一块内存，这样就不存在内存碎片问题。但这样内存的使用率较低，没有充分利用内存，有些浪费。IBM经过研究表明，大部分对象（约98%）都是朝生夕死，并不需要按照1:1来划分，所以提出了eden，survivor（2个survivor，eden，suivivor比例为8:1）区域，将eden，survivor中对象移动另一块survivor中，最后清理掉eden，survivor区域，这样仅仅浪费了10%的内存，这也是hotspot默认的方式，当不能保证不超过10%内存大小对象存活时，需要依赖其他内存（老年代）进行分配担保。当存活对象较多时，回收效率较低，所以复制算法一般用于年轻代。<br>    （3）标记－整理算法<br>       对于老年代，提出了另一种方法：标记－整理算法，相比标记－清除算法，他不是直接对对象进行回收，而是把存活对象移动到一端，然后清理到边界以外的内存区域。<br>    （4）分代收集算法<br>       分代收集算法根据对象存活时间把对象分为年轻代、老年代，根据每个阶段采取不同的收集算法，一般对于年轻代大量的对象会死去，一般采用复制算法，对于老年代对象存活旅高，也没有分配担保，一般使用标记－清除，标记－整理算法。</p>
 <p>3.HotSpot GC算法实现<br> 在gc前，首先需要找出GC Roots节点以及引用链，一般作为GC Roots的节点主要有全局性引用（常量、类静态属性）以及执行上下文（栈帧的本地变量表）。在可达性分析时需要保证一致性，在枚举gc roots以及引用链时，需要停止java线程的执行（stop the world），不然对象引用关系在不断变化。在线程停止，检查寻找gc roots时，jvm并不需要一个一个的检查，hotspot使用了OopMap数据结构来达到这个目的，该数据结构记录了对象偏移量上是什么类型数据。<br> 在OopMap帮助下，hotspot快速完成gc roots枚举，但hotspot没有为每个指令都生成OopMap，只是在特定的位置纪录了这些信息，这些位置被称为安全点。程序执行时并非在所有地方都可以停止下来gc，只能在安全点暂停下来，所以一般的安全点选取在方法调用、循环跳转、异常跳转。在gc时需要使所有的线程都运行到最近的安全点（safe point）上，所以有2种方案，一是抢先式中断：在gc时中断全部线程，若线程不在安全点上让他恢复运行到安全点上，另一种是主动式中断：不主动中断线程，通过设置标志，让线程主动轮询标志，发现中断标志后自己中断挂起，轮询位置刚好和安全点重合。<br> 对于线程处于sleep、blocked时，线程无法执行到安全点时，需要使用安全域来解决。线程进入安全域（safe region）后，gc时不需要关注处于安全域状态的线程。当线程离开安全域时需要检查是否已经完成gc过程，若没有完成必须等到整改gc完成才能离开安全域。</p>
@@ -457,7 +456,7 @@
     
       <div>
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>Thanks!</div>
+  <div>谢谢大佬的打赏!</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>赏</span>
   </button>
@@ -491,7 +490,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/GC/" rel="tag"># GC</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
         </div>
       
@@ -604,7 +603,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -615,7 +614,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -711,7 +710,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java内存模型与GC"><span class="nav-number">1.</span> <span class="nav-text">Java内存模型与GC</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java内存区域"><span class="nav-number">1.</span> <span class="nav-text">Java内存区域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC"><span class="nav-number">2.</span> <span class="nav-text">GC</span></a></li></ol></div>
             
 
           </div>
@@ -760,7 +759,7 @@
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i>
+      <i class="fa fa-user">本站访客数</i>
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       次
     </span>
@@ -768,7 +767,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i>
+      <i class="fa fa-eye">本站总访问量</i>
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       次
     </span>

@@ -94,13 +94,13 @@
 
 
 
-<meta name="description" content="背景动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！">
+<meta name="description" content="背景动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很难直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高">
 <meta name="keywords" content="DataStructure">
 <meta property="og:type" content="article">
 <meta property="og:title" content="B Tree">
 <meta property="og:url" content="https://lifeloner.github.io/2017/05/21/btree/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="背景动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！">
+<meta property="og:description" content="背景动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很难直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/disk.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/btree.png">
@@ -120,10 +120,10 @@
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/btreeb.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/btreec.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/btree+.png">
-<meta property="og:updated_time" content="2017-08-07T12:34:34.000Z">
+<meta property="og:updated_time" content="2017-08-17T13:03:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="B Tree">
-<meta name="twitter:description" content="背景动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！">
+<meta name="twitter:description" content="背景动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很难直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/disk.png">
 
 
@@ -436,7 +436,7 @@
       
 
       
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！<br>在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！<br><a id="more"></a></p>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>动态查找树：BST，AVL，红黑树，B树，B+树等。前三种属于二叉查找树，查找效率与树的深度d有关，降低树的高度可以提升查找效率！<br>在实际大规模存储过程中，数据量往往很大，树存储数据量有限，所以造成树的深度很大，而且也很难直接放在内存中直接处理。所以导致树的深度很大，多次查找硬盘I／O过于频繁，查询效率较低，所以降低树的深度很重要，那么就需要采用多叉树结构！而B树使得树深度较低，所以查找效率较高！<br><a id="more"></a></p>
 <h2 id="磁盘"><a href="#磁盘" class="headerlink" title="磁盘"></a>磁盘</h2><p>磁盘作为外存储器，读取效率比内存慢很多，它的结构如下图所示：<br><img src="http://oqcre1dsl.bkt.clouddn.com/disk.png" alt="img"></p>
 <p>磁盘有多个盘片组成，盘片装在一个主轴上，并绕主轴高速旋转，当磁道在读/写头(又叫磁头) 下通过时，就可以进行数据的读 / 写了，每个盘面有一个磁头，它可以从一个磁到移到另一个磁道。所有磁头都装在同一个动臂上，因此不同盘面上的所有磁头都是同时移动的(行动整齐划一)。当盘片绕主轴旋转的时候，磁头与旋转的盘片形成一个圆柱体。各个盘面上半径相同的磁道组成了一个圆柱面，我们称为柱面 。因此，柱面的个数也就是盘面上的磁道数。<br>磁盘上数据必须用一个三维地址唯一标示：柱面号、盘面号、块号(磁道上的盘块)。读/写磁盘上某一指定数据需要下面3个步骤：<br>(1)  首先移动臂根据柱面号使磁头移动到所需要的柱面上，这一过程被称为定位或查找 。<br>(2)  如上图11.3中所示的6盘组示意图中，所有磁头都定位到了10个盘面的10条磁道上(磁头都是双向的)。这时根据盘面号来确定指定盘面上的磁道。<br>(3) 盘面确定以后，盘片开始旋转，将指定块号的磁道段移动至磁头下。<br>访问某一具体信息，由3部分时间组成：<br>● 查找时间(seek time) Ts: 完成上述步骤(1)所需要的时间。这部分时间代价最高，最大可达到0.1s左右。<br>● 等待时间(latency time) Tl: 完成上述步骤(3)所需要的时间。由于盘片绕主轴旋转速度很快，一般为7200转/分(电脑硬盘的性能指标之一）因此一般旋转一圈大约0.0083s。<br>● 传输时间(transmission time) Tt: 数据通过系统总线传送到内存的时间，一般传输一个字节(byte)大概0.02us=2*10^(-8)s<br>磁盘读取数据是以盘块(block)为基本单位的。位于同一盘块中的所有数据都能被一次性全部读取出来。而磁盘IO代价主要花费在查找时间Ts上。因此我们应该尽量将相关信息存放在同一盘块，同一磁道中。或者至少放在同一柱面或相邻柱面上，以求在读/写信息时尽量减少磁头来回移动的次数，避免过多的查找时间Ts</p>
 <h2 id="B-树"><a href="#B-树" class="headerlink" title="B-树"></a>B-树</h2><p>B-树是一种多路查找树，能极大降低树的深度，许多数据库系统都一般使用B树或者B树的各种变形结构。B-树的定义如下：<br>一颗m阶的b-树结构<br>1）若根结点不是叶子结点，则至少有2个孩子，最多含有m个孩子（m&gt;=2）（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）<br>2）除根结点和叶子结点外，其它每个结点至少有[ceil(m / 2)]个孩子，最多含有m个孩子（其中ceil(x)是一个取上限的函数）；<br>3）所有叶子结点都出现在同一层，叶子结点不包含任何关键字信息(可以看做是外部接点或查询失败的接点，实际上这些结点不存在，指向这些结点的指针都为null)<br>4）每个非终端结点中包含有n个关键字信息： (n，P0，K1，P1，K2，P2，……，Kn，Pn)。其中：<br>       a)   Ki (i=1…n)为关键字，且关键字按顺序升序排序K(i-1)&lt; Ki<br>       b)   Pi为指向子树根的接点，且指针P(i-1)指向子树种所有结点的关键字均小于Ki，但都大于K(i-1)<br>       c)   关键字的个数n必须满足： [ceil(m / 2)-1]&lt;= n &lt;= m-1</p>
@@ -522,7 +522,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/26/AQS/" rel="prev" title="Java并发之AQS">
+              <a href="/2017/06/10/AQS/" rel="prev" title="Java并发之AQS">
                 Java并发之AQS <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -601,7 +601,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -623,7 +623,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

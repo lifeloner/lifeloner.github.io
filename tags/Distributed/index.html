@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -94,18 +94,16 @@
 
 
 
-<meta name="description" content="背景Clone是Object类下的一个方法，用于产生一个创建一个新的对象副本。clone主要分为深复制和浅复制，下面我们分别介绍clone如何工作，以及如何实现深复制和浅复制。">
-<meta name="keywords" content="Java">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Clone">
-<meta property="og:url" content="https://lifeloner.github.io/2017/05/21/clone/index.html">
+<meta name="description" content="Keep Moving!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="lifeloner">
+<meta property="og:url" content="https://lifeloner.github.io/tags/Distributed/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="背景Clone是Object类下的一个方法，用于产生一个创建一个新的对象副本。clone主要分为深复制和浅复制，下面我们分别介绍clone如何工作，以及如何实现深复制和浅复制。">
+<meta property="og:description" content="Keep Moving!">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-07T13:31:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Clone">
-<meta name="twitter:description" content="背景Clone是Object类下的一个方法，用于产生一个创建一个新的对象副本。clone主要分为深复制和浅复制，下面我们分别介绍clone如何工作，以及如何实现深复制和浅复制。">
+<meta name="twitter:title" content="lifeloner">
+<meta name="twitter:description" content="Keep Moving!">
 
 
 
@@ -134,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://lifeloner.github.io/2017/05/21/clone/"/>
+  <link rel="canonical" href="https://lifeloner.github.io/tags/Distributed/"/>
 
 
 
 
 
-  <title>Clone | lifeloner</title>
+  <title>标签: Distributed | lifeloner</title>
   
 
 
@@ -165,7 +163,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -303,220 +301,54 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block tag">
 
-  
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>Distributed<small>标签</small>
+        </h1>
+      </div>
 
-  
-  
-  
+      
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lifeloner.github.io/2017/05/21/clone/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifeloner">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/photo.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lifeloner">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+            <a class="post-title-link" href="/2017/08/10/distributed/" itemprop="url">
+              
+                <span itemprop="name">大型网站架构概念</span>
+              
+            </a>
         
-          <h1 class="post-title" itemprop="name headline">Clone</h1>
-        
+      </h2>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-21T20:06:49+08:00">
-                2017-05-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Basic/" itemprop="url" rel="index">
-                    <span itemprop="name">Basic</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/05/21/clone/" class="leancloud_visitors" data-flag-title="Clone">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Clone是Object类下的一个方法，用于产生一个创建一个新的对象副本。clone主要分为深复制和浅复制，下面我们分别介绍clone如何工作，以及如何实现深复制和浅复制。<br><a id="more"></a><br>克隆对象<br>    clone方法会返回原始对象的一个副本，一个良好的clone准则往往满足以下三个基本原则：<br>    （1）a.clone()!=a  克隆对象与原对象在heap上是两个独立的对象<br>    （2）a.clone().getClass()==a.getClass()    克隆的对象必须与原对象类型一致<br>    （3）a.clone().equals(a)    两个对象要想等<br>     这些并非强制要求，为了达到第三个目的，可能要重写equals方法。</p>
-<p>clone工作过程<br>    Object类提供了clone实现，它被声明为protect native，它的具体实现由本地代码完成，对象的复制通过super.clone()来完成。所以任何对象的复制最终通过一系列的调用到达Object的clone方法，它首先会检查当前类是否实现了Cloneable接口，如果没有实现则抛出CloneNotSupportted异常，该异常是一个受检异常。若该类实现了接口，则调用Object的clone方法创建一个拷贝给调用者。而这一过程通过创建一个新对象，然后将对象的各个域直接复制过来的，对于原始的类型和不可变类型这种方式没有任何问题，但对于可变的类型和引用类型，它们将指向相同的对象，所以在修改时容易相互影响。所以Object的clone是一种浅复制，必须覆盖clone方法来实现深复制。</p>
-<h2 id="Example："><a href="#Example：" class="headerlink" title="Example："></a>Example：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> standard;</div><div class="line"><span class="comment">/** * Created by fuyang on 2017/5/15. */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] money;    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(<span class="keyword">int</span>[] money, <span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.money = money;       </div><div class="line">        <span class="keyword">this</span>.age = age;    </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] getMoney() &#123;</div><div class="line">        <span class="keyword">return</span> money;    </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> age;    </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMoney</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.money[<span class="number">0</span>] = money;    </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.age = age;    </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span>    <span class="function"><span class="keyword">protected</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Student(money.clone(),<span class="keyword">this</span>.age);</div><div class="line">    <span class="comment">//          return super.clone();    </span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Student student=<span class="keyword">new</span> Student(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">100</span>&#125;,<span class="number">25</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Student cloneStu=(Student) student.clone();</div><div class="line">            System.out.println(cloneStu.getMoney()[<span class="number">0</span>]);</div><div class="line">            student.setMoney(<span class="number">200</span>);</div><div class="line">            System.out.println(student.getMoney()[<span class="number">0</span>]);</div><div class="line">            System.out.println(cloneStu.getMoney()[<span class="number">0</span>]);</div><div class="line">            &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">结果：</div><div class="line"><span class="number">100</span></div><div class="line"><span class="number">200</span></div><div class="line"><span class="number">100</span></div><div class="line">改为  <span class="keyword">super</span>.clone();</div><div class="line">则：</div><div class="line"><span class="number">100</span></div><div class="line"><span class="number">200</span></div><div class="line"><span class="number">200</span></div></pre></td></tr></table></figure>
-<h2 id="Tips："><a href="#Tips：" class="headerlink" title="Tips："></a>Tips：</h2><ul>
-<li>克隆方法用于创建对象的拷贝，为了使用clone方法，类必须实现java.lang.Cloneable接口重写protected方法clone，如果没有实现Clonebale接口会抛出CloneNotSupportedException</li>
-<li>在克隆java对象的时候不会调用构造器</li>
-<li>java提供一种叫浅拷贝（shallow copy）的默认方式实现clone，创建好对象的副本后然后通过赋值拷贝内容，意味着如果你的类包含可变对象，那么原始对象和克隆都将指向相同的内部对象，这是很危险的，因为发生在可变的字段上任何改变将反应到原始对象和副本对象上。为了避免这种情况，重写clone()方法。</li>
-</ul>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>谢谢大佬的打赏!</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>赏</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="http://oqcre1dsl.bkt.clouddn.com/wei.png" alt="lifeloner WeChat Pay"/>
-        <p>WeChat Pay</p>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-08-10T16:20:30+08:00"
+              content="2017-08-10" >
+          08-10
+        </time>
       </div>
-    
 
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="http://oqcre1dsl.bkt.clouddn.com/ali.png" alt="lifeloner Alipay"/>
-        <p>Alipay</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Java/" rel="tag"># Java</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/05/20/avl/" rel="next" title="AVL树">
-                <i class="fa fa-chevron-left"></i> AVL树
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/21/btree/" rel="prev" title="B Tree">
-                B Tree <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
-
-    <div class="post-spread">
       
     </div>
+
   </div>
+  
+  
+  
+
+  
 
 
           </div>
@@ -524,10 +356,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -548,17 +376,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/photo.png"
@@ -689,22 +508,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Example："><span class="nav-number">2.</span> <span class="nav-text">Example：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips："><span class="nav-number">3.</span> <span class="nav-text">Tips：</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -838,10 +641,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-
+  
 
   
 

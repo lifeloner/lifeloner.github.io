@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Distributed," />
 
 
 
@@ -94,16 +94,18 @@
 
 
 
-<meta name="description" content="Keep Moving!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="lifeloner">
-<meta property="og:url" content="https://lifeloner.github.io/archives/page/2/index.html">
+<meta name="description" content="随着计算机系统的规模变大，将所有的业务部署在一台机器上已经不能满足当今计算机系统了。微型机的出现及互联网的不断发展也促使了大量灵活多变的系统架构出现，尤其是分布式处理方式越来越受到工业界的青睐，计算机系统正在从集中式走向分布式架构。">
+<meta name="keywords" content="Distributed">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式一致性协议">
+<meta property="og:url" content="https://lifeloner.github.io/2017/09/11/consistency/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="Keep Moving!">
+<meta property="og:description" content="随着计算机系统的规模变大，将所有的业务部署在一台机器上已经不能满足当今计算机系统了。微型机的出现及互联网的不断发展也促使了大量灵活多变的系统架构出现，尤其是分布式处理方式越来越受到工业界的青睐，计算机系统正在从集中式走向分布式架构。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-19T14:28:07.349Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lifeloner">
-<meta name="twitter:description" content="Keep Moving!">
+<meta name="twitter:title" content="分布式一致性协议">
+<meta name="twitter:description" content="随着计算机系统的规模变大，将所有的业务部署在一台机器上已经不能满足当今计算机系统了。微型机的出现及互联网的不断发展也促使了大量灵活多变的系统架构出现，尤其是分布式处理方式越来越受到工业界的青睐，计算机系统正在从集中式走向分布式架构。">
 
 
 
@@ -132,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://lifeloner.github.io/archives/page/2/"/>
+  <link rel="canonical" href="https://lifeloner.github.io/2017/09/11/consistency/"/>
 
 
 
 
 
-  <title>归档 | lifeloner</title>
+  <title>分布式一致性协议 | lifeloner</title>
   
 
 
@@ -163,7 +165,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -301,411 +303,212 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lifeloner.github.io/2017/09/11/consistency/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifeloner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/photo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lifeloner">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">分布式一致性协议</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-11T10:00:01+08:00">
+                2017-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 25 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Distributed-System/" itemprop="url" rel="index">
+                    <span itemprop="name">Distributed System</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/2017/09/11/consistency/" class="leancloud_visitors" data-flag-title="分布式一致性协议">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/11/10/linux/" itemprop="url">
-              
-                <span itemprop="name">linux</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-11-10T21:28:02+08:00"
-              content="2016-11-10" >
-          11-10
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/09/04/classloader/" itemprop="url">
-              
-                <span itemprop="name">JVM类加载机制</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-09-04T20:04:12+08:00"
-              content="2016-09-04" >
-          09-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/09/04/classbytes/" itemprop="url">
-              
-                <span itemprop="name">JVM字节码执行引擎和编译、优化</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-09-04T20:04:12+08:00"
-              content="2016-09-04" >
-          09-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/07/22/maven/" itemprop="url">
-              
-                <span itemprop="name">Maven</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-07-22T23:08:48+08:00"
-              content="2016-07-22" >
-          07-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/07/19/concurrenthashmap/" itemprop="url">
-              
-                <span itemprop="name">Concurrenthashmap</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-07-19T00:28:08+08:00"
-              content="2016-07-19" >
-          07-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
+        <p>随着计算机系统的规模变大，将所有的业务部署在一台机器上已经不能满足当今计算机系统了。微型机的出现及互联网的不断发展也促使了大量灵活多变的系统架构出现，尤其是分布式处理方式越来越受到工业界的青睐，计算机系统正在从集中式走向分布式架构。<br><a id="more"></a></p>
+<h2 id="集中式到分布式"><a href="#集中式到分布式" class="headerlink" title="集中式到分布式"></a>集中式到分布式</h2><p>由于大型机成本较高，也存在单点问题，无法满足互联网应用爆炸式的增长需求。<br>集中式的特点:（1）部署简单；（2）单点故障<br>分布式特点:（1）分布性 （2）对等性（节点没有主/从之分）（3）并发性（多个节点并发操作共享资源）（4）缺乏全局时钟（无法确定事件先后顺序） （5）故障总会发生<br>分布式环境的常见问题:（1）通信异常（延迟）（2）网络分区（脑裂：只有部分节点能正常通信，这些小集群完成整个系统才能完成的任务） （3）三态（成功、失败、超时）（4）节点故障</p>
+<h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h2><p>事务是对系统中数据进行访问与更新操作组成的一个程序执行逻辑单元，事务具有4个特征：原子性，一致性，隔离性，持久性（ACID）。<br>原子性：事务必须是原子操作单元，各项操作要么全部执行成功，要么全部不执行；任何一项操作失败都会导致整个事务回滚，全部操作成功才意味着事务的成功完成。<br>一致性：事务的执行不能破坏系统的完整性和一致性，事务在执行前后系统都必须处于一致性状态，即事务执行使得系统从一个一致性状态转变到另一个一致性状态。若事务执行发生故障后，只有一部分操作修改写入数据库，那数据库就处于不一致性的状态。<br>隔离性：并发的事务是相互隔离的，一个事务不能被其他事务干扰，并发执行的事务又各自完整的数据空间，事务之间相互不干扰。SQL隔离性（未授权读、授权读、可重复读、串行化）<br>持久性：事务一旦提交，它的修改就应该是永久性的，即使系统崩溃后，重新修复也能恢复到事务提交成功后的状态</p>
+<p>在单机上实现事务比较简单，但在分布式系统中，分布式事务由多个分布式操作序列组成，而实现分布式事务的ACID更为复杂（通信、多节点、宕机）。当追求分布式系统严格一致性时，系统的可用性会收到影响，即可用性和一致性永远无法存在一个两全齐美的方案，折中考虑出现了CAP和BASE分布式理论。</p>
+<h3 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h3><h3 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h3>
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/07/18/violate/" itemprop="url">
-              
-                <span itemprop="name">Violate</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-07-18T00:19:22+08:00"
-              content="2016-07-18" >
-          07-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/07/16/dispatchservlet/" itemprop="url">
-              
-                <span itemprop="name">SpringMVC框架概括</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-07-16T22:56:57+08:00"
-              content="2016-07-16" >
-          07-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/07/16/springmvc/" itemprop="url">
-              
-                <span itemprop="name">SpringMVC</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-07-16T21:50:21+08:00"
-              content="2016-07-16" >
-          07-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/07/16/mybatis/" itemprop="url">
-              
-                <span itemprop="name">Mybatis</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-07-16T21:33:12+08:00"
-              content="2016-07-16" >
-          07-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/07/16/proxy/" itemprop="url">
-              
-                <span itemprop="name">Java Proxy</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-07-16T20:04:12+08:00"
-              content="2016-07-16" >
-          07-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>谢谢大佬的打赏!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://oqcre1dsl.bkt.clouddn.com/wei.png" alt="lifeloner WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://oqcre1dsl.bkt.clouddn.com/ali.png" alt="lifeloner Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Distributed/" rel="tag"># Distributed</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/10/distributed/" rel="next" title="大型网站架构概念">
+                <i class="fa fa-chevron-left"></i> 大型网站架构概念
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -713,6 +516,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -733,8 +540,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/photo.png"
@@ -865,6 +681,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#集中式到分布式"><span class="nav-number">1.</span> <span class="nav-text">集中式到分布式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式事务"><span class="nav-number">2.</span> <span class="nav-text">分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAP"><span class="nav-number">2.1.</span> <span class="nav-text">CAP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BASE"><span class="nav-number">2.2.</span> <span class="nav-text">BASE</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -998,11 +830,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
 
 
   

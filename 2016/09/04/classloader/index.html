@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/classloader.jpg">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/doubleparent.jpg">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/tomcat.png?imageMogr2/thumbnail/!40p">
-<meta property="og:updated_time" content="2017-08-07T12:58:48.000Z">
+<meta property="og:updated_time" content="2017-11-19T08:23:27.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM类加载机制">
 <meta name="twitter:description" content="类从被加载到虚拟机内存中开始到卸载出内存，整个的生命周期包括：加载、验证、准备、解析、初始化、使用、卸载，其中验证、准备、解析阶段统成为连接，7阶段关系如下图：">
@@ -421,7 +421,8 @@
       
 
       
-        <p>类从被加载到虚拟机内存中开始到卸载出内存，整个的生命周期包括：加载、验证、准备、解析、初始化、使用、卸载，其中验证、准备、解析阶段统成为连接，7阶段关系如下图：<br><a id="more"></a><br><img src="http://oqcre1dsl.bkt.clouddn.com/classloader.jpg" alt="img"><br>其中，加载、验证、准备、初始化、卸载顺序是确定的，而解析阶段不一样，可以在初始化之后再开始，这是为了支持java的运行时绑定。这些阶段通常都是互相交叉混合进行，在一个阶段执行过程中调用激活另一个阶段。</p>
+        <p>类从被加载到虚拟机内存中开始到卸载出内存，整个的生命周期包括：加载、验证、准备、解析、初始化、使用、卸载，其中验证、准备、解析阶段统成为连接，7阶段关系如下图：<br><a id="more"></a></p>
+<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/classloader.jpg" alt="img"><br></center><br>其中，加载、验证、准备、初始化、卸载顺序是确定的，而解析阶段不一样，可以在初始化之后再开始，这是为了支持java的运行时绑定。这些阶段通常都是互相交叉混合进行，在一个阶段执行过程中调用激活另一个阶段。</p>
 <h2 id="类加载时机"><a href="#类加载时机" class="headerlink" title="类加载时机"></a>类加载时机</h2><p>java虚拟机规范没有约束加载阶段，由具体的虚拟机实现来把握，而初始化阶段却有严格的规定，以下五种情况必须对类进行初始化：</p>
 <p> （1）使用new、getstatic、putstatic、invokestatic字节码指令时，类没有初始化，必须对类进行初始化<br> （2）使用reflect对类进行反射调用<br> （3）初始化类时，父类未初始化则需要触发类初始化<br> （4）jvm启动，会初始化指定包含main方法那个类<br> （5）jdk1.7动态语言支持，java.lang.invoke.methodhandle实例后的解析结果REF_getStatiic、REF_putStatiic、REF_invokeStatiic的方法句柄，这个方法句柄对应类没有初始化，首先要初始化该类</p>
 <p>对于这5种初始化场景成为类主动引用，除此之外其他的方式成为被动引用，不会触发初始化，常见的被动引用有：</p>
@@ -433,11 +434,13 @@
 <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>   准备阶段为类变量分配内存设置变量初始值，这里分配的是static变量，而非实例对象，并将static变量初始化为“零值”，而final static变量在准备阶段以及赋值为指定的值。</p>
 <h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>解析阶段将常量池中符号引用替换为直接引用，主要包含：<br>（1）类、接口解析<br>（2）字段解析<br>（3）类方法解析<br>（4）接口方法解析</p>
 <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p> 初始化是类加载最后一步，该阶段开始执行用户java代码，在准备阶段对类变量赋值为零值，而初始化将对类变量赋初始值。从另一个角度来说初始化阶段是执行类构造器<clinit>方法过程，<clinit>收集类变量赋值和static块（有先后顺序），有以下几点需要注意：<br>（1）jvm保证子类clinit执行前，父类clinit已经执行完毕<br>（2）clinit对于类并非必须，没有类变量和static也就不需要了<br>（3）接口不能使用static块，但有变量初始化过程，与类不同之处在于接口clinit方法不需要执行父接口clinit方法，除非使用了父接口的变量<br>（4）jvm会保证clinit方法的同步、加锁，只执行一次</clinit></clinit></p>
-<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>   java中任何一个类，都需要一个类加载器来进行加载，比较2个类是否相等，需要保证其来自的class文件相同并且被同一类加载器加载，否则是2个不同的类。java中类加载机制称为双亲委派模型，如下图所示：<br><img src="http://oqcre1dsl.bkt.clouddn.com/doubleparent.jpg" alt="img"><br>(1).BootStrap ClassLoader：启动类加载器，负责加载存放在%JAVA_HOME%\lib目录中的，或者通被-Xbootclasspath参数所指定的路径中的，并且被java虚拟机识别的(仅按照文件名识别，如rt.jar，名字不符合的类库，即使放在指定路径中也不会被加载)类库到虚拟机的内存中，启动类加载器无法被java程序直接引用。<br>(2).Extension ClassLoader：扩展类加载器，由sun.misc.Launcher$ExtClassLoader实现，负责加载%JAVA_HOME%\lib\ext目录中的，或者被java.ext.dirs系统变量所指定的路径中的所有类库，开发者可以直接使用扩展类加载器。<br>(3).Application ClassLoader：应用程序类加载器，由sun.misc.Launcher$AppClassLoader实现，负责加载用户类路径classpath上所指定的类库，是类加载器ClassLoader中的getSystemClassLoader()方法的返回值，开发者可以直接使用应用程序类加载器，如果程序中没有自定义过类加载器，该加载器就是程序中默认的类加载器。</p>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>   java中任何一个类，都需要一个类加载器来进行加载，比较2个类是否相等，需要保证其来自的class文件相同并且被同一类加载器加载，否则是2个不同的类。java中类加载机制称为双亲委派模型，如下图所示：</p>
+<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/doubleparent.jpg" alt="img"><br></center><br>(1).BootStrap ClassLoader：启动类加载器，负责加载存放在%JAVA_HOME%\lib目录中的，或者通被-Xbootclasspath参数所指定的路径中的，并且被java虚拟机识别的(仅按照文件名识别，如rt.jar，名字不符合的类库，即使放在指定路径中也不会被加载)类库到虚拟机的内存中，启动类加载器无法被java程序直接引用。<br>(2).Extension ClassLoader：扩展类加载器，由sun.misc.Launcher$ExtClassLoader实现，负责加载%JAVA_HOME%\lib\ext目录中的，或者被java.ext.dirs系统变量所指定的路径中的所有类库，开发者可以直接使用扩展类加载器。<br>(3).Application ClassLoader：应用程序类加载器，由sun.misc.Launcher$AppClassLoader实现，负责加载用户类路径classpath上所指定的类库，是类加载器ClassLoader中的getSystemClassLoader()方法的返回值，开发者可以直接使用应用程序类加载器，如果程序中没有自定义过类加载器，该加载器就是程序中默认的类加载器。</p>
 <p>上述三个JDK提供的类加载器虽然是父子类加载器关系，但是没有使用继承，而是使用了组合关系，加载顺序如下：</p>
 <p>(1).如果一个类加载器收到了类加载请求，它首先不会自己去尝试加载这个类，而是把类加载请求委派给父类加载器去完成。<br>(2).每一层的类加载器都把类加载请求委派给父类加载器，直到所有的类加载请求都应该传递给顶层的启动类加载器。<br>(3).如果顶层的启动类加载器无法完成加载请求，子类加载器尝试去加载，如果连最初发起类加载请求的类加载器也无法完成加载请求时，将会抛出ClassNotFoundException，而不再调用其子类加载器去进行类加载。</p>
 <p>在JDK1.2之前，自定义类加载器都要覆盖loadClass方法去实现加载类的功能，JDK1.2引入双亲委派模型之后，loadClass方法用于委派父类加载器进行类加载，只有父类加载器无法完成类加载请求时才调用自己的findClass方法进行类加载，因此在JDK1.2之前的类加载的loadClass方法没有遵循双亲委派模型，因此在JDK1.2之后，自定义类加载器不推荐覆盖loadClass方法，而只需要覆盖findClass方法即可。<br>双亲委派 模式的类加载机制的优点是java类它的类加载器一起具备了一种带优先级的层次关系，越是基础的类，越是被上层的类加载器进行加载，保证了java程序的稳定运行。</p>
-<h2 id="Tomcat案例分析"><a href="#Tomcat案例分析" class="headerlink" title="Tomcat案例分析"></a>Tomcat案例分析</h2><p>tomcat web服务器解决的问题：<br>（1）不同web应用使用了同一个第三方类库的不同版本，需要包装不同webapp类库可以相互独立<br>（2）同一web服务器上的webapp使用的java类库相互共享，如spring，如果将所有类库都进行加载，加载的类太多，方法区可能会溢出，所以需要解决共享问题<br>（3）web服务 器需要保证自身安全，自身类库和webapp类库隔离<br>（4）某一个webapp的jsp应用<br>tomcat采用了不同的类加载器来解决这些问题，它有／common、／server、／shared目录，web应用的类库在自己目录／WEB_INF下,一共有4类目录，tomcat在处理时采用了如下方式：<br>（1）／common：被tomcat和所有webapp共享<br>（2）／server：只能被tomcat使用<br>（3）／shared：只能被所有webapp使用<br>（4）／webapp／web－info：仅对某一webapp使用<br>类加载器如下：<br><img src="http://oqcre1dsl.bkt.clouddn.com/tomcat.png?imageMogr2/thumbnail/!40p" alt="img"><br>tomcat遵循了双亲委派机制，而OSGI作为一种灵活的类加载架构，对类加载有更大的启发，以后有时间多学习学习。</p>
+<h2 id="Tomcat案例分析"><a href="#Tomcat案例分析" class="headerlink" title="Tomcat案例分析"></a>Tomcat案例分析</h2><p>tomcat web服务器解决的问题：<br>（1）不同web应用使用了同一个第三方类库的不同版本，需要包装不同webapp类库可以相互独立<br>（2）同一web服务器上的webapp使用的java类库相互共享，如spring，如果将所有类库都进行加载，加载的类太多，方法区可能会溢出，所以需要解决共享问题<br>（3）web服务 器需要保证自身安全，自身类库和webapp类库隔离<br>（4）某一个webapp的jsp应用<br>tomcat采用了不同的类加载器来解决这些问题，它有／common、／server、／shared目录，web应用的类库在自己目录／WEB_INF下,一共有4类目录，tomcat在处理时采用了如下方式：<br>（1）／common：被tomcat和所有webapp共享<br>（2）／server：只能被tomcat使用<br>（3）／shared：只能被所有webapp使用<br>（4）／webapp／web－info：仅对某一webapp使用<br>类加载器如下：</p>
+<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/tomcat.png?imageMogr2/thumbnail/!40p" alt="img"><br></center><br>tomcat遵循了双亲委派机制，而OSGI作为一种灵活的类加载架构，对类加载有更大的启发，以后有时间多学习学习。</p>
 
       
     </div>
@@ -497,8 +500,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/04/classbytes/" rel="next" title="JVM字节码执行引擎和编译、优化">
-                <i class="fa fa-chevron-left"></i> JVM字节码执行引擎和编译、优化
+              <a href="/2016/07/22/maven/" rel="next" title="Maven">
+                <i class="fa fa-chevron-left"></i> Maven
               </a>
             
           </div>
@@ -507,8 +510,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/11/10/linux/" rel="prev" title="linux">
-                linux <i class="fa fa-chevron-right"></i>
+              <a href="/2016/09/04/classbytes/" rel="prev" title="JVM字节码执行引擎和编译、优化">
+                JVM字节码执行引擎和编译、优化 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -586,7 +589,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -608,7 +611,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

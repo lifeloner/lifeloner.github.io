@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/jmm.png?imageMogr2/thumbnail/!50p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/readwrite.png?imageMogr2/thumbnail/!38p">
-<meta property="og:updated_time" content="2017-08-07T13:11:39.000Z">
+<meta property="og:updated_time" content="2017-11-19T08:39:50.963Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Violate">
 <meta name="twitter:description" content="在Java高并发环境下，多个线程之间可能存在资源共享情况，可能造成了数据不一致情况。很多人都想到可以利用加锁的方式来实现，如java中的synchronized同步块和Lock，然而这种方式虽然可以解决问题，但加锁的本质是thread，只允许同一时刻只有一个线程来访问同步块，而在有些情况下我们并不需要严格的同步，只保证能读写最新的值即可，所以volatile能达到这个效果。">
@@ -421,9 +421,8 @@
 
       
         <p>在Java高并发环境下，多个线程之间可能存在资源共享情况，可能造成了数据不一致情况。很多人都想到可以利用加锁的方式来实现，如java中的synchronized同步块和Lock，然而这种方式虽然可以解决问题，但加锁的本质是thread，只允许同一时刻只有一个线程来访问同步块，而在有些情况下我们并不需要严格的同步，只保证能读写最新的值即可，所以volatile能达到这个效果。<br><a id="more"></a><br>在学习java并发编程前，我们先简单了解一下java内存模型。</p>
-<h2 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h2><p>Java内存模型中规定了所有的变量都存储在主内存中，每条线程还有自己的工作内存，线程的工作内存中保存了该线程使用到的变量到主内存副本拷贝，线程对变量的所有操作（读取、赋值）都必须在工作内存中进行，而不能直接读写主内存中的变量。不同线程之间无法直接访问对方工作内存中的变量，线程间变量值的传递均需要在主内存来完成，线程、主内存和工作内存的交互关系如下图所示：<br><img src="http://oqcre1dsl.bkt.clouddn.com/jmm.png?imageMogr2/thumbnail/!50p" alt="img"></p>
-<p><img src="http://oqcre1dsl.bkt.clouddn.com/readwrite.png?imageMogr2/thumbnail/!38p" alt="img"></p>
-<p>read and load 从主存复制变量到当前工作内存<br>use and assign  执行代码，改变共享变量值<br>store and write 用工作内存数据刷新主存相关内容</p>
+<h2 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h2><p>Java内存模型中规定了所有的变量都存储在主内存中，每条线程还有自己的工作内存，线程的工作内存中保存了该线程使用到的变量到主内存副本拷贝，线程对变量的所有操作（读取、赋值）都必须在工作内存中进行，而不能直接读写主内存中的变量。不同线程之间无法直接访问对方工作内存中的变量，线程间变量值的传递均需要在主内存来完成，线程、主内存和工作内存的交互关系如下图所示：</p>
+<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/jmm.png?imageMogr2/thumbnail/!50p" alt="img"><br><img src="http://oqcre1dsl.bkt.clouddn.com/readwrite.png?imageMogr2/thumbnail/!38p" alt="img"><br></center><br>read and load 从主存复制变量到当前工作内存<br>use and assign  执行代码，改变共享变量值<br>store and write 用工作内存数据刷新主存相关内容</p>
 <p>如：x＝1这条语句     执行线程必须先在自己的工作线程中对变量x所在的缓存行进行赋值操作，然后再写入主存当中。而不是直接将数值1写入主存中。<br>下面继续分析并发编程中原子性、可见行、顺序性等概念。</p>
 <h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>在Java中，对基本数据类型的变量的读取和赋值操作是原子性操作，这些操作是不可被中断的，要么执行，要么不执行，这和数据库中事物的原子性概念很类似。</p>
 <p>如 x = 10;  y = x;     x＋＋；x＝x＋1<br>在上面4个语句中，只有第一个是原子操作，其他都是复合操作，语句2包含2个操作，它先要去读取x的值，再将x的值写入工作内存，语句3和4都包含3个操作：读取x的值，进行加1操作，写入新的值  。<br>所以只有简单的读取、赋值（变量之间的相互赋值不是原子操作）才是原子操作，另外在32位机器上，long等64位数据赋值也不是原子操作。</p>
@@ -601,7 +600,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -623,7 +622,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

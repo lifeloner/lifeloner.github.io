@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/proxy.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/cglib.png">
-<meta property="og:updated_time" content="2017-08-07T13:14:01.000Z">
+<meta property="og:updated_time" content="2017-11-19T08:38:31.994Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java Proxy">
 <meta name="twitter:description" content="动态代理模式是一种常用的设计模式，被广泛用于Spring，Mybatis，Hibernate等框架中。由于静态代理每一个代理类在编译之后都会生成一个class文件，代理类所实现的接口和所代理的方法都被固定，所以会导致系统中的类个数急剧增加，而动态代理可以让系统能够根据实际需要来动态创建代理类，让同一个代理类能够代理多个不同的真实主题类而且可以代理不同的方法。其中主要的类有Proxy、Invocat">
@@ -428,9 +428,10 @@
 <p>InvocationHandler接口中最重要的一个方法：</p>
 <p>public Object invoke(Objectproxy, Method method, Object[] args):该方法用于处理对代理类实例的方法调用并返回相应的结果，当一个代理实例中的业务方法被调用时将自动调用该方法。invoke()方法包含三个参数，其中第一个参数proxy表示代理类的实例，第二个参数method表示需要代理的方法，第三个参数args表示代理方法的参数数组。</p>
 <p>动态代理类需要在运行时指定所代理真实主题类的接口，客户端在调用动态代理对象的方法时，调用请求会将请求自动转发给InvocationHandler对象的invoke()方法，由invoke()方法来实现对请求的统一处理。下面是一个具体的例子：</p>
-<p>程序中有Subject接口和其具体实现类RealSubject，方法为doSomething。<br><img src="http://oqcre1dsl.bkt.clouddn.com/proxy.png" alt="img"></p>
-<p>首先通过InvocationHandler创建调用处理器，然后Proxy的静态方法根据接口的classloader和interface产生动态代理对象，它继承Proxy类实现Subject接口，实现的Subject的方法实际调用处理器的invoke方法，而invoke方法利用反射调用的是被代理对象的方法（Object result=method.invoke(proxied,args)）。<br>然而 java动态代理也有一个缺点，由于java动态代理本质是对interface的代理，对于未实现接口的类无法进行代理，而cglib没有这个限制，下面是cglib的一些简介。</p>
-<p>cglib是针对类来实现代理的，他的原理是对指定的目标类生成一个子类，并覆盖其中方法实现增强，其本质采用的是继承，示例如下：<br><img src="http://oqcre1dsl.bkt.clouddn.com/cglib.png" alt="img"><br>在获取动态代理对象时，enhancer.setSuperclass(object.getClass())表明生产的代理对象为被代理类的子类，当调用代理类方法时通过intercept调用了父类的相应方法并传递了相应的参数。虽然cglib不需要接口，但对于final类，无法生成代理类，另一方面其底层使用了asm产生字节码，在android中dalvik虚拟机不支持此字节码，所以android中无法使用cglib。</p>
+<p>程序中有Subject接口和其具体实现类RealSubject，方法为doSomething。</p>
+<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/proxy.png" alt="img"><br></center><br>首先通过InvocationHandler创建调用处理器，然后Proxy的静态方法根据接口的classloader和interface产生动态代理对象，它继承Proxy类实现Subject接口，实现的Subject的方法实际调用处理器的invoke方法，而invoke方法利用反射调用的是被代理对象的方法（Object result=method.invoke(proxied,args)）。<br>然而 java动态代理也有一个缺点，由于java动态代理本质是对interface的代理，对于未实现接口的类无法进行代理，而cglib没有这个限制，下面是cglib的一些简介。</p>
+<p>cglib是针对类来实现代理的，他的原理是对指定的目标类生成一个子类，并覆盖其中方法实现增强，其本质采用的是继承，示例如下：</p>
+<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/cglib.png" alt="img"><br></center><br>在获取动态代理对象时，enhancer.setSuperclass(object.getClass())表明生产的代理对象为被代理类的子类，当调用代理类方法时通过intercept调用了父类的相应方法并传递了相应的参数。虽然cglib不需要接口，但对于final类，无法生成代理类，另一方面其底层使用了asm产生字节码，在android中dalvik虚拟机不支持此字节码，所以android中无法使用cglib。</p>
 
       
     </div>
@@ -490,8 +491,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/16/Json/" rel="next" title="初识Json">
-                <i class="fa fa-chevron-left"></i> 初识Json
+              <a href="/2016/07/14/jvmtools/" rel="next" title="JVM性能监控工具">
+                <i class="fa fa-chevron-left"></i> JVM性能监控工具
               </a>
             
           </div>
@@ -570,7 +571,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -592,7 +593,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

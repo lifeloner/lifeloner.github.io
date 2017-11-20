@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://lifeloner.github.io/"/>
-  <updated>2017-11-20T15:12:07.280Z</updated>
+  <updated>2017-11-20T15:14:17.093Z</updated>
   <id>https://lifeloner.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://lifeloner.github.io/2017/09/10/consistency/"/>
     <id>https://lifeloner.github.io/2017/09/10/consistency/</id>
     <published>2017-09-10T01:10:00.000Z</published>
-    <updated>2017-11-20T15:12:07.280Z</updated>
+    <updated>2017-11-20T15:14:17.093Z</updated>
     
     <content type="html"><![CDATA[<p>随着计算机系统的规模变大，将所有的业务部署在一台机器上已经不能满足当今计算机系统了。微型机的出现及互联网的不断发展也促使了大量灵活多变的系统架构出现，尤其是分布式处理方式越来越受到工业界的青睐，计算机系统正在从集中式走向分布式架构。<br><a id="more"></a></p>
 <h2 id="集中式到分布式"><a href="#集中式到分布式" class="headerlink" title="集中式到分布式"></a>集中式到分布式</h2><p>由于大型机成本较高，也存在单点问题，无法满足互联网应用爆炸式的增长需求。<br>集中式的特点:（1）部署简单；（2）单点故障<br>分布式特点:（1）分布性 （2）对等性（节点没有主/从之分）（3）并发性（多个节点并发操作共享资源）（4）缺乏全局时钟（无法确定事件先后顺序） （5）故障总会发生<br>分布式环境的常见问题:（1）通信异常（延迟）（2）网络分区（脑裂：只有部分节点能正常通信，这些小集群完成整个系统才能完成的任务） （3）三态（成功、失败、超时）（4）节点故障</p>
@@ -39,12 +39,12 @@
 <p>优缺点：<br>    优点：降低了阻塞范围<br>    缺点：第三阶段无法收到DoCommit请求后，参与者继续提交事务，引发数据不一致性</p>
 <h3 id="Paxos"><a href="#Paxos" class="headerlink" title="Paxos"></a>Paxos</h3><p>Paxos是一种基于消息传递且具有高度容错性的一致性算法，它主要解决的问题是在发送各种异常的分布式系统中，快速正确地在集群内部达成一致。<br>在Paxos一致性算法中，有三种参与角色，分别为：Proposer、Acceptor、Learner；在具体的实现中，一个进程可能充当不止一种角色。参与者可以以任意的速度执行，可能会出错而停止也可能会重启，消息在传递过程中也可能会出现不可预知的延迟，也可能会重复或丢失。</p>
 <p>Paxos被广泛应用于分布式系统中，如Google Chubby（分布式锁服务）以及Hypertable（分布式数据库）中，下面我们看看Paxos协议的工作过程。</p>
-<h3 id="提案生成与选定"><a href="#提案生成与选定" class="headerlink" title="提案生成与选定"></a>提案生成与选定</h3><p>提案的选定<br>    一个提案必须被半数以上的Acceptor批准；<br>    若提案[M,V]被批准，那么之后任何Proposer产生的编号比M高的提案，其Value值必须为V</p>
+<h4 id="提案生成与选定"><a href="#提案生成与选定" class="headerlink" title="提案生成与选定"></a>提案生成与选定</h4><p>提案的选定<br>    一个提案必须被半数以上的Acceptor批准；<br>    若提案[M,V]被批准，那么之后任何Proposer产生的编号比M高的提案，其Value值必须为V</p>
 <p>Proposer提案生成算法<br>    1.Proposer选择一个提案编号M，然后向某个Acceptor集合发出请求，并提出要求 （Prepare请求阶段）<br>        （1）承诺不再批准编号小于M的提案<br>        （2）若Acceptor已经批准过任何提案，那么就像Proposer反馈已经批准编号小于M的最大编号的提案的值<br>    2.如果Proposer收到了半数以上的Acceptor响应结果，他可以产生编号为[M,V]的提案，其中V是所有响应中编号最大的提案Value值；当然若没有半数以上Acceptor批准提案，V值可以任意选取<br>    3.确认提案后，Proposer将该提案再次发送个Acceptor集合（该集合并不一定是上次响应Prepare请求的集合，但任意两个半数以上集合肯定有公共的Acceptor），期望获得他们的批准</p>
 <p>Acceptor批准提案<br>    根据上述Prosposer提案生成流程，Acceptor会收到两种请求：Prepare与Accept<br>    Prepare请求：Acceptor可以响应任何一个Prepare请求<br>    Acceptor请求：在不违背现有承诺下，可以响应Acceptor请求<br>所以，Acceptor只要未响应过任何编号大于M的Prepare请求，他就可以接受这个编号M的提案；若已经对编号大于M的请求进行了响应，它可以忽略该编号为M的提案。因此每个Acceptor只需要记住它已经批准的最大编号以及已经做出Prepare请求响应的提案最大编号。</p>
 <p>选取主Proposer<br>    当然该算法还有一点问题，考虑一个特殊情况：若Proposer p1提出了编号为M1的提案，并完成了Propare阶段，此时Proposer p2提出了编号更大的M2提案，那么当p1进入阶段二时的Accept请求会被Acceptors忽略，如果p1再次生成新的更高编号M3，则p2第二阶段也失败，如此程序将陷入死循环。<br>    为了解决该问题，Paxos通过选取主Proposer来解决死循环，只有主Proposer才能提出议案，所以只要主Proposer和过半Acceptor正常工作，主Proposer提出更高编号的议案最终会被批准。</p>
-<h3 id="算法陈述"><a href="#算法陈述" class="headerlink" title="算法陈述"></a>算法陈述</h3><p>阶段一<br>    1.Proposer选择一个提案M，然后向Acceptor某个超过半数的集合发出Prepare请求<br>    2.如果Acceptor收到编号为M的Prepare请求，且该编号大于它已经响应过的所有Prepare请求，那么它可以把已经批准过的最大编号提案反馈给Proposer，并承诺不再批转任何小于M的提案<br>阶段二<br>    1.如果Proposer收到半数以上Acceptor对于发出编号为M的Prepare请求响应，它会生成一个[M,V]提案的Acceptor请求给Acceptor，V是收到的响应中编号最大的提案的值，若响应中没有提案，则V是任意值均可<br>    2.若Acceptor收到提案为[M,V]的Accept请求，只要它会同意任何编号大于M的Prepare请求，他就可以批准该提案</p>
-<h3 id="Learner获取提案"><a href="#Learner获取提案" class="headerlink" title="Learner获取提案"></a>Learner获取提案</h3><p>在提案选定后，Learner角色需要获取提案，获取的方式主要有三种。<br>    1.一旦Acceptor批准了一个提案，就将该提案发给Learner（通信次数太多）<br>    2.选定一个主Learner，将提案发给主Learner，由主Learner通知其他Learner（通信次数减少，主Learner单点问题）<br>    3.选取一个主Learner集合（方案二的改进）</p>
+<h4 id="算法陈述"><a href="#算法陈述" class="headerlink" title="算法陈述"></a>算法陈述</h4><p>阶段一<br>    1.Proposer选择一个提案M，然后向Acceptor某个超过半数的集合发出Prepare请求<br>    2.如果Acceptor收到编号为M的Prepare请求，且该编号大于它已经响应过的所有Prepare请求，那么它可以把已经批准过的最大编号提案反馈给Proposer，并承诺不再批转任何小于M的提案<br>阶段二<br>    1.如果Proposer收到半数以上Acceptor对于发出编号为M的Prepare请求响应，它会生成一个[M,V]提案的Acceptor请求给Acceptor，V是收到的响应中编号最大的提案的值，若响应中没有提案，则V是任意值均可<br>    2.若Acceptor收到提案为[M,V]的Accept请求，只要它会同意任何编号大于M的Prepare请求，他就可以批准该提案</p>
+<h4 id="Learner获取提案"><a href="#Learner获取提案" class="headerlink" title="Learner获取提案"></a>Learner获取提案</h4><p>在提案选定后，Learner角色需要获取提案，获取的方式主要有三种。<br>    1.一旦Acceptor批准了一个提案，就将该提案发给Learner（通信次数太多）<br>    2.选定一个主Learner，将提案发给主Learner，由主Learner通知其他Learner（通信次数减少，主Learner单点问题）<br>    3.选取一个主Learner集合（方案二的改进）</p>
 <h2 id="ZooKeeper"><a href="#ZooKeeper" class="headerlink" title="ZooKeeper"></a>ZooKeeper</h2><h3 id="ZooKeeper简介"><a href="#ZooKeeper简介" class="headerlink" title="ZooKeeper简介"></a>ZooKeeper简介</h3><p>ZooKeeper是一个开源的分布式协调服务，它将分布式中复杂容易出错的一致性协议封装起来，以简单易用的接口为用户提供服务。分布式应用程序可以基于它实现许多功能，如数据发布与订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选取、分布式锁、分布式队列等。</p>
 <p>特点：<br>    （1）顺序一致性：统一客户端的事务请求，按照其顺序应用在ZooKeeper中<br>    （2）原子性：所有事务请求处理结果在整个集群上是一致的，要么都成功要么都失败<br>    （3）单一视图：客户端无论连接哪个ZooKeeper服务器，看到的数据模型都是一样的<br>    （4）实时性：保证在一定时间段内，客户端能够读取到最新的数据状态<br>    （5）可靠性：事务引起的状态变化会保存下来，直到下一个事务对其更改<br>设计目标：<br>    （1）简单数据模型：共享的、树型结构名字空间来相互协调（树型结构是ZooKeeper内存的一个数据模型，由Znode数据节点构成，类似文件系统，Znode是层级关系）<br>    （2）构建集群：集群由一组机器构成，每台都在内存中维护服务器状态，服务器间保持通信，只要超过一半机器工作正常，整个集群就能对外提供服务。<br>    （3）顺序访问：对于客户端的每个请求，ZooKeeper都会生成一个全剧唯一的递增编号，这个编号反应了事务的先后顺序<br>    （4）高性能：ZooKeeper将数据保存在内存中</p>
 <h3 id="ZooKeeper中的基本概念"><a href="#ZooKeeper中的基本概念" class="headerlink" title="ZooKeeper中的基本概念"></a>ZooKeeper中的基本概念</h3><p>1.集群角色<br>    Leader、Follower、Observer三种角色。Observer不参与Leader选举和“过半写成功”策略，但它可以提升集群读性能<br>2.会话Session<br>    客户端通过TCP长连接来连接ZooKeeper，在第一次建立连接后，session的生命周期也开始了。客户端通过心跳检测机制来保持回话有效，也能够接受服务器的Watch事件通知。当服务器压力太大或网络故障导致连接断开时，只要在sessionTimeout时间内重新连接上任意一台服务器，那么之前创建的会话依然有效。<br>3.数据节点Znode<br>    ZooKeeper将数据保存在内存中，数据模型是一颗树（Znode Tree），由/分割的路径就是一个Znode，Znode保存数据内容及属性信息。Znode分为持久节点和临时节点，临时节点与客户端会话绑定，一旦会话失效，则临时节点会被删除。<br>4.版本<br>    ZooKeeper为每个Znode维护一个Stat数据结构，记录了三个版本信息，version（Znode版本），cversion（Znode子节点版本），aversion（ACL版本）。<br>5.Watcher<br>    Watcher事件监听器，允许客户端在节点上注册Watcher，并在特定事件触发时，将事件通知给感兴趣的客户端。该机制是ZooKeeper实现分布式协调服务的重要特性。<br>6.ACL<br>    ACL策略用来进行权限控制，ZooKeeper定义了5种权限<br>    （1）create：创建子节点<br>    （2）read：读取节点数据和子节点列表<br>    （3）write：更新节点数据<br>    （4）delete：删除子节点<br>    （5）admin：设置节点ACL</p>

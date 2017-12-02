@@ -102,10 +102,12 @@
 <meta property="og:site_name" content="lifeloner">
 <meta property="og:description" content="随着计算机系统的规模变大，将所有的业务部署在一台机器上已经不能满足当今计算机系统了。微型机的出现及互联网的不断发展也促使了大量灵活多变的系统架构出现，尤其是分布式处理方式越来越受到工业界的青睐，计算机系统正在从集中式走向分布式架构。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-20T15:14:17.093Z">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/ZAB.png">
+<meta property="og:updated_time" content="2017-12-02T14:01:32.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式一致性协议">
 <meta name="twitter:description" content="随着计算机系统的规模变大，将所有的业务部署在一台机器上已经不能满足当今计算机系统了。微型机的出现及互联网的不断发展也促使了大量灵活多变的系统架构出现，尤其是分布式处理方式越来越受到工业界的青睐，计算机系统正在从集中式走向分布式架构。">
+<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/ZAB.png">
 
 
 
@@ -582,8 +584,7 @@
 <p>在选举出新Leader后，ZAB还需要保证集群中过半服务器已经提交了所有事务Proposal，即数据同步。具体来说，Leader向每一个Follower的队列中发送未完成的事务Proposal，并在每一个事务后紧接着发送Commit消息表示该事务已提交，等Follower服务器将所有事务都同步过来后，Leader将它加入真正可用的Followers列表。</p>
 <p>在特殊情况下，ZAB需要处理需要丢弃的事务。ZAB的事务编号ZXID是一个64位数字，其中低32位是自增的数字代表了Leader处理的事务顺序，高32位代表了Leader的周期epoch。没当选举出新的Leader时，都会从最大事务ZXID中取出epoch值并加1代表新的epoch值，然后将低位置0。基于该策略，当一个上一个Leader周期尚未提交事务Proposal机器加入时，它作为Follower与Leader同步时，Leader根据自己最大事务进行对比，然后让该Follower执行回退操作，回退到已经被半数以上机器提交的最新事务，因而保证丢弃了未提交的事务。</p>
 <h3 id="深入理解zab">深入理解ZAB</h3>
-<p>在大概了解ZAB协议的内容后，我们详细分析ZAB的算法流程。<br>
-ZAB协议主要包含了消息广播和崩溃恢复两个过程，进一步可以细分为三个阶段：发现，同步，广播。组成ZAB协议的每一个分布式进程会循环执行这三个阶段，这一循环过程称为主进程周期</p>
+<p>在大概了解ZAB协议的内容后，我们详细分析ZAB的算法流程。ZAB协议主要包含了消息广播和崩溃恢复两个过程，进一步可以细分为三个阶段：发现，同步，广播。组成ZAB协议的每一个分布式进程会循环执行这三个阶段，这一循环过程称为主进程周期</p>
 <h4 id="发现">发现</h4>
 <p>发现就是Leader选举过程，其工作流程如下：<br>
 	1.Follower将自己最后接受的事务epoch发给准Leader<br>
@@ -601,10 +602,8 @@ ZAB协议主要包含了消息广播和崩溃恢复两个过程，进一步可�
 	2.Follower根据接受事务顺序，添加到事务集合，并反馈给Leader<br>
 	3.收到过半Follower针对事务的ack消息后，Leader发送Commit消息，要求它们提交事务<br>
 	4.Follower收到Commit消息后提交事务，此时上一个事务肯定已经提交了</p>
-<p>下图展示了ZAB协议的工作过程的三个阶段：</p>
-<center>
-![img](http://oqcre1dsl.bkt.clouddn.com/ZAB.png)
-</center>
+<p>下图展示了ZAB协议的工作过程的三个阶段：<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/ZAB.png" alt="img"></p>
 <h4 id="运行分析">运行分析</h4>
 <p>ZAB协议中，每一个进程处于以下三种状态之一：<br>
 	-Looking：Leader选举<br>

@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.css.network/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,Thread," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/photo.png?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="线程池将任务的提交与任务的执行解耦开来，它对线程进行管理和调度，通过合理的设置能够避免创建过多的线程，提高资源利用率和系统吞吐量。">
+<meta name="keywords" content="Java,Thread">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ThreadPoolExcutor">
+<meta property="og:url" content="https://lifeloner.github.io/2015/12/22/threadpool/index.html">
+<meta property="og:site_name" content="lifeloner">
+<meta property="og:description" content="线程池将任务的提交与任务的执行解耦开来，它对线程进行管理和调度，通过合理的设置能够避免创建过多的线程，提高资源利用率和系统吞吐量。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/threadpool.png">
+<meta property="og:updated_time" content="2017-12-02T13:45:16.695Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ThreadPoolExcutor">
+<meta name="twitter:description" content="线程池将任务的提交与任务的执行解耦开来，它对线程进行管理和调度，通过合理的设置能够避免创建过多的线程，提高资源利用率和系统吞吐量。">
+<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/threadpool.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键词搜索","hits_empty":"找不到关于${query}的文章","hits_stats":"找到${hits}篇相关文章，花费${time}ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lifeloner.github.io/2015/12/22/threadpool/"/>
+
+
+
+
+
+  <title>ThreadPoolExcutor | lifeloner</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lifeloner</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">当你的才华还撑不起你的野心的时候，你就应该静下心来学习！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lifeloner.github.io/2015/12/22/threadpool/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifeloner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/photo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lifeloner">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ThreadPoolExcutor</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-22T23:44:40+08:00">
+                2015-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Concurrent/" itemprop="url" rel="index">
+                    <span itemprop="name">Concurrent</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2015/12/22/threadpool/" class="leancloud_visitors" data-flag-title="ThreadPoolExcutor">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>线程池将任务的提交与任务的执行解耦开来，它对线程进行管理和调度，通过合理的设置能够避免创建过多的线程，提高资源利用率和系统吞吐量。</p>
+<a id="more"></a>
+<h2 id="threadpoolexecutor源码分析">ThreadPoolExecutor源码分析</h2>
+<p>Java中线程池为ThreadPoolExecutor，通过不同的参数设置来实现不同的线程池机制。首先ThreadPoolExcutor继承自AbstractExecutorService，而AbstractExecutorService实现了ExecutorService接口，它最核心构造函数如下：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> ThreadPoolExecutor(<span class="keyword">int</span> corePoolSize,</div><div class="line">                               <span class="keyword">int</span> maximumPoolSize,</div><div class="line">                               <span class="keyword">long</span> keepAliveTime,</div><div class="line">                               TimeUnit unit,</div><div class="line">                               BlockingQueue&lt;Runnable&gt; workQueue,</div><div class="line">                               ThreadFactory threadFactory,</div><div class="line">                               RejectedExecutionHandler <span class="keyword">handler</span>) &#123;</div><div class="line">         <span class="keyword">if</span> (corePoolSize &lt; <span class="number">0</span> ||</div><div class="line">             maximumPoolSize &lt;= <span class="number">0</span> ||</div><div class="line">             maximumPoolSize &lt; corePoolSize ||</div><div class="line">             keepAliveTime &lt; <span class="number">0</span>)</div><div class="line">             <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">         <span class="keyword">if</span> (workQueue == <span class="keyword">null</span> || threadFactory == <span class="keyword">null</span> || <span class="keyword">handler</span> == <span class="keyword">null</span>)</div><div class="line">             <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">         <span class="keyword">this</span>.corePoolSize = corePoolSize;</div><div class="line">         <span class="keyword">this</span>.maximumPoolSize = maximumPoolSize;</div><div class="line">         <span class="keyword">this</span>.workQueue = workQueue;</div><div class="line">         <span class="keyword">this</span>.keepAliveTime = unit.toNanos(keepAliveTime);</div><div class="line">         <span class="keyword">this</span>.threadFactory = threadFactory;</div><div class="line">         <span class="keyword">this</span>.<span class="keyword">handler</span> = <span class="keyword">handler</span>;</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">corePoolSize</td>
+<td style="text-align:center">核心线程池大小</td>
+</tr>
+<tr>
+<td style="text-align:left">maximumPoolSize</td>
+<td style="text-align:center">最大线程池大小</td>
+</tr>
+<tr>
+<td style="text-align:left">keepAliveTime</td>
+<td style="text-align:center">线程池中超过corePoolSize数目的空闲线程最大存活时间；可以allowCoreThreadTimeOut(true)使得核心线程有效时间</td>
+</tr>
+<tr>
+<td style="text-align:left">TimeUnit</td>
+<td style="text-align:center">keepAliveTime时间单位</td>
+</tr>
+<tr>
+<td style="text-align:left">workQueue</td>
+<td style="text-align:center">阻塞任务队列</td>
+</tr>
+<tr>
+<td style="text-align:left">threadFactory</td>
+<td style="text-align:center">新建线程工厂</td>
+</tr>
+<tr>
+<td style="text-align:left">RejectedExecutionHandler</td>
+<td style="text-align:center">当提交任务数超过maxmumPoolSize+workQueue之和时，任务会交给RejectedExecutionHandler来处理</td>
+</tr>
+</tbody>
+</table>
+<p>先看一下线程池的基本信息：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 用一个线程安全的整数类型来保存线程池状态，并且前3位代表线程池状态，后面低位表示线程的数目</span></div><div class="line"><span class="comment">// 线程池的状态有：RUNNING，SHUTDOWN，STOP，TIDYING，TERMINATED</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">AtomicInteger</span> ctl = <span class="keyword">new</span> <span class="type">AtomicInteger</span>(ctlOf(<span class="type">RUNNING</span>, <span class="number">0</span>));</div><div class="line"></div><div class="line"><span class="comment">// 其中worker类对Runnable进行了封装，并且实现了AQS，其中lock方法主要用来判断线程池中的线程的状态（空闲、运行）,以便线程池shutdown时进行中断判断</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span> <span class="title">implements</span> <span class="title">Runnable</span></span></div></pre></td></tr></table></figure>
+<p>下面分析一下其核心方法execute：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span>(<span class="params">Runnable command</span>) </span>&#123;</div><div class="line">       <span class="keyword">if</span> (command == <span class="literal">null</span>)</div><div class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">       <span class="keyword">int</span> c = ctl.<span class="keyword">get</span>();</div><div class="line">       <span class="comment">// 小于核心线程数，则增加一个线程</span></div><div class="line">       <span class="keyword">if</span> (workerCountOf(c) &lt; corePoolSize) &#123;</div><div class="line">           <span class="keyword">if</span> (addWorker(command, <span class="literal">true</span>))</div><div class="line">               <span class="keyword">return</span>;</div><div class="line">           c = ctl.<span class="keyword">get</span>();</div><div class="line">       &#125;</div><div class="line">       <span class="comment">// 线程池Running状态，达到核心大小则加入阻塞队列</span></div><div class="line">       <span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;</div><div class="line">           <span class="keyword">int</span> recheck = ctl.<span class="keyword">get</span>();</div><div class="line">           <span class="comment">// double check，防止加入队列过程中突然shutdown，则删除该任务，成功后拒绝</span></div><div class="line">           <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; <span class="keyword">remove</span>(command))</div><div class="line">               reject(command);</div><div class="line">           <span class="comment">// 若Running状态，或者shutdown但是队列还有任务，则必须增加新的线程处理，任务是null是由于shutdown状态下不能接受新的任务</span></div><div class="line">           <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)</div><div class="line">               addWorker(<span class="literal">null</span>, <span class="literal">false</span>);</div><div class="line">       &#125;</div><div class="line">       <span class="comment">// 非Running状态，或队列满了，增加线程来处理，若达到最大线程大小，拒绝</span></div><div class="line">       <span class="keyword">else</span> <span class="keyword">if</span> (!addWorker(command, <span class="literal">false</span>))</div><div class="line">           reject(command);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>由以上代码可知，线程处理、管理流程如下图：<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/threadpool.png" alt="img"><br>
+下面简单总结下线程池在提交一个任务时的处理方法：<br>
+1.当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。<br>
+2.当线程池达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行<br>
+3.当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务<br>
+4.当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理<br>
+5.当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程<br>
+6.当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭</p>
+<p>下面继续分析一下addWorker方法：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// core表示是否为核心线程池</span></div><div class="line"><span class="keyword">private</span> <span class="built_in">boolean</span> addWorker(Runnable firstTask, <span class="built_in">boolean</span> core) &#123;</div><div class="line">        retry:</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            <span class="built_in">int</span> c = ctl.<span class="built_in">get</span>();</div><div class="line">            <span class="built_in">int</span> rs = runStateOf(c);</div><div class="line">            <span class="comment">// 线程池状态为shutdown以上， 或者为shutdown但是任务不为空（shutdown下不能接受新任务） 或队列为空  此时返回null，添加失败</span></div><div class="line">            <span class="keyword">if</span> (rs &gt;= SHUTDOWN &amp;&amp;</div><div class="line">                ! (rs == SHUTDOWN &amp;&amp;</div><div class="line">                   firstTask == <span class="keyword">null</span> &amp;&amp;</div><div class="line">                   ! workQueue.isEmpty()))</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">for</span> (;;) &#123;</div><div class="line">                <span class="built_in">int</span> wc = workerCountOf(c);</div><div class="line">                <span class="keyword">if</span> (wc &gt;= CAPACITY ||</div><div class="line">                    wc &gt;= (core ? corePoolSize : maximumPoolSize))</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                <span class="comment">// 添加新的线程    </span></div><div class="line">                <span class="keyword">if</span> (compareAndIncrementWorkerCount(c))</div><div class="line">                    <span class="keyword">break</span> retry;</div><div class="line">                c = ctl.<span class="built_in">get</span>();  <span class="comment">// Re-read ctl</span></div><div class="line">                <span class="keyword">if</span> (runStateOf(c) != rs)</div><div class="line">                    <span class="keyword">continue</span> retry;</div><div class="line">                <span class="comment">// else CAS failed due to workerCount change; retry inner loop</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">boolean</span> workerStarted = <span class="keyword">false</span>;</div><div class="line">        <span class="built_in">boolean</span> workerAdded = <span class="keyword">false</span>;</div><div class="line">        Worker w = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            w = <span class="keyword">new</span> Worker(firstTask);</div><div class="line">            <span class="keyword">final</span> Thread t = w.thread;</div><div class="line">            <span class="keyword">if</span> (t != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</div><div class="line">                mainLock.lock();</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="comment">// Recheck while holding lock.</span></div><div class="line">                    <span class="comment">// Back out on ThreadFactory failure or if</span></div><div class="line">                    <span class="comment">// shut down before lock acquired.</span></div><div class="line">                    <span class="built_in">int</span> rs = runStateOf(ctl.<span class="built_in">get</span>());</div><div class="line">                    <span class="comment">// running状态 或者 shutdown状态任务为空，添加新的线程</span></div><div class="line">                    <span class="keyword">if</span> (rs &lt; SHUTDOWN ||</div><div class="line">                        (rs == SHUTDOWN &amp;&amp; firstTask == <span class="keyword">null</span>)) &#123;</div><div class="line">                        <span class="keyword">if</span> (t.isAlive()) <span class="comment">// precheck that t is startable</span></div><div class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalThreadStateException();</div><div class="line">                        workers.<span class="built_in">add</span>(w);</div><div class="line">                        <span class="built_in">int</span> s = workers.<span class="built_in">size</span>();</div><div class="line">                        <span class="keyword">if</span> (s &gt; largestPoolSize)</div><div class="line">                            largestPoolSize = s;</div><div class="line">                        workerAdded = <span class="keyword">true</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    mainLock.unlock();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (workerAdded) &#123;</div><div class="line">                    <span class="comment">// 新线程执行，最终调用runWorker方法</span></div><div class="line">                    t.start();</div><div class="line">                    workerStarted = <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">if</span> (! workerStarted)</div><div class="line">                addWorkerFailed(w);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> workerStarted;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>下面继续看看worker如何执行任务：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> <span class="keyword">void</span> runWorker(Worker w) &#123;</div><div class="line">        Thread wt = Thread.currentThread();</div><div class="line">        Runnable <span class="keyword">task</span> = w.firstTask;</div><div class="line">        w.firstTask = <span class="keyword">null</span>;</div><div class="line">        w.unlock(); <span class="comment">// allow interrupts</span></div><div class="line">        <span class="keyword">boolean</span> completedAbruptly = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// 不断从阻塞队列获取新的任务</span></div><div class="line">            <span class="keyword">while</span> (<span class="keyword">task</span> != <span class="keyword">null</span> || (<span class="keyword">task</span> = getTask()) != <span class="keyword">null</span>) &#123;</div><div class="line">                w.lock();</div><div class="line">                <span class="comment">// If pool is stopping, ensure thread is interrupted;</span></div><div class="line">                <span class="comment">// if not, ensure thread is not interrupted.  This</span></div><div class="line">                <span class="comment">// requires a recheck in second case to deal with</span></div><div class="line">                <span class="comment">// shutdownNow race while clearing interrupt</span></div><div class="line">                <span class="comment">// stop后需要中断线程</span></div><div class="line">                <span class="keyword">if</span> ((runStateAtLeast(ctl.get(), STOP) ||</div><div class="line">                     (Thread.interrupted() &amp;&amp;</div><div class="line">                      runStateAtLeast(ctl.get(), STOP))) &amp;&amp;</div><div class="line">                    !wt.isInterrupted())</div><div class="line">                    wt.interrupt();</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    beforeExecute(wt, <span class="keyword">task</span>);</div><div class="line">                    Throwable thrown = <span class="keyword">null</span>;</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="comment">//直接执行任务的run方法</span></div><div class="line">                        <span class="keyword">task</span>.run();</div><div class="line">                    &#125; <span class="keyword">catch</span> (RuntimeException x) &#123;</div><div class="line">                        thrown = x; <span class="keyword">throw</span> x;</div><div class="line">                    &#125; <span class="keyword">catch</span> (Error x) &#123;</div><div class="line">                        thrown = x; <span class="keyword">throw</span> x;</div><div class="line">                    &#125; <span class="keyword">catch</span> (Throwable x) &#123;</div><div class="line">                        thrown = x; <span class="keyword">throw</span> <span class="keyword">new</span> Error(x);</div><div class="line">                    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                        afterExecute(<span class="keyword">task</span>, thrown);</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    <span class="keyword">task</span> = <span class="keyword">null</span>;</div><div class="line">                    w.completedTasks++;</div><div class="line">                    w.unlock();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            completedAbruptly = <span class="keyword">false</span>;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            processWorkerExit(w, completedAbruptly);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>线程池的线程如何不断获取任务：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="function">Runnable <span class="title">getTask</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> timedOut = <span class="keyword">false</span>; <span class="comment">// Did the last poll() time out?</span></div><div class="line"></div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            <span class="keyword">int</span> c = ctl.get();</div><div class="line">            <span class="keyword">int</span> rs = runStateOf(c);</div><div class="line"></div><div class="line">            <span class="comment">// Check if queue empty only if necessary.</span></div><div class="line">            <span class="comment">// 线程池状态为STOP以上或者shutdown并且队列为空，此时直接结束当前线程，线程数减1</span></div><div class="line">            <span class="keyword">if</span> (rs &gt;= SHUTDOWN &amp;&amp; (rs &gt;= STOP || workQueue.isEmpty())) &#123;</div><div class="line">                decrementWorkerCount();</div><div class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">int</span> wc = workerCountOf(c);</div><div class="line"></div><div class="line">            <span class="comment">// Are workers subject to culling?</span></div><div class="line">            <span class="comment">// 获取任务是否允许超时</span></div><div class="line">            <span class="keyword">boolean</span> timed = allowCoreThreadTimeOut || wc &gt; corePoolSize;</div><div class="line">            <span class="comment">// 当获取任务超时并且还有其他线程或队列为空，终止当前线程</span></div><div class="line">            <span class="keyword">if</span> ((wc &gt; maximumPoolSize || (timed &amp;&amp; timedOut))</div><div class="line">                &amp;&amp; (wc &gt; <span class="number">1</span> || workQueue.isEmpty())) &#123;</div><div class="line">                <span class="keyword">if</span> (compareAndDecrementWorkerCount(c))</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">              <span class="comment">// 允许超时时间poll 否则直接阻塞take直到有新任务到</span></div><div class="line">                Runnable r = timed ?</div><div class="line">                    workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :</div><div class="line">                    workQueue.take();</div><div class="line">                <span class="keyword">if</span> (r != <span class="keyword">null</span>)</div><div class="line">                    <span class="keyword">return</span> r;</div><div class="line">                timedOut = <span class="keyword">true</span>;</div><div class="line">            &#125; <span class="keyword">catch</span> (InterruptedException retry) &#123;</div><div class="line">                timedOut = <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>当runWorker执行异常时：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> processWorkerExit(Worker w, <span class="built_in">boolean</span> completedAbruptly) &#123;</div><div class="line">        <span class="keyword">if</span> (completedAbruptly) <span class="comment">// If abrupt, then workerCount wasn't adjusted</span></div><div class="line">            decrementWorkerCount();</div><div class="line"></div><div class="line">        <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</div><div class="line">        mainLock.lock();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">          <span class="comment">// 统计完成的任务，清除异常线程</span></div><div class="line">            completedTaskCount += w.completedTasks;</div><div class="line">            workers.remove(w);</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            mainLock.unlock();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        tryTerminate();</div><div class="line"></div><div class="line">        <span class="built_in">int</span> c = ctl.<span class="built_in">get</span>();</div><div class="line">        <span class="keyword">if</span> (runStateLessThan(c, STOP)) &#123;</div><div class="line">            <span class="keyword">if</span> (!completedAbruptly) &#123;</div><div class="line">                <span class="built_in">int</span> <span class="built_in">min</span> = allowCoreThreadTimeOut ? <span class="number">0</span> : corePoolSize;</div><div class="line">                <span class="keyword">if</span> (<span class="built_in">min</span> == <span class="number">0</span> &amp;&amp; ! workQueue.isEmpty())</div><div class="line">                    <span class="built_in">min</span> = <span class="number">1</span>;</div><div class="line">                <span class="comment">// 线程池不为空，直接返回</span></div><div class="line">                <span class="keyword">if</span> (workerCountOf(c) &gt;= <span class="built_in">min</span>)</div><div class="line">                    <span class="keyword">return</span>; <span class="comment">// replacement not needed</span></div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 线程池异常，防止队列有任务而没有worker，需要增加一个新的线程处理任务</span></div><div class="line">            addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>当线程池异常或shutdown或减少线程池线程数量时，会调用tryTerminate方法：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> void tryTerminate() &#123;</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            int c = ctl.<span class="keyword">get</span>();</div><div class="line">            <span class="comment">// Running状态，TIDTYING，shutdown但是队列非空直接返回</span></div><div class="line">            <span class="keyword">if</span> (isRunning(c) ||</div><div class="line">                runStateAtLeast(c, TIDYING) ||</div><div class="line">                (runStateOf(c) == SHUTDOWN &amp;&amp; ! workQueue.isEmpty()))</div><div class="line">                <span class="keyword">return</span>; </div><div class="line">            <span class="comment">// shotdown状态并且队列非空，清除空闲线程</span></div><div class="line">            <span class="keyword">if</span> (workerCountOf(c) != <span class="number">0</span>) &#123; <span class="comment">// Eligible to terminate</span></div><div class="line">                interruptIdleWorkers(ONLY_ONE);</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</div><div class="line">            mainLock.lock();</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">              <span class="comment">// CAS设置状态为TIDYING</span></div><div class="line">                <span class="keyword">if</span> (ctl.compareAndSet(c, ctlOf(TIDYING, <span class="number">0</span>))) &#123;</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        terminated();</div><div class="line">                    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                        ctl.<span class="keyword">set</span>(ctlOf(TERMINATED, <span class="number">0</span>));</div><div class="line">                        termination.signalAll();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">return</span>;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                mainLock.unlock();</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// else retry on failed CAS</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"> <span class="keyword">private</span> void interruptIdleWorkers(boolean onlyOne) &#123;</div><div class="line">        <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</div><div class="line">        mainLock.lock();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">for</span> (Worker w : workers) &#123;</div><div class="line">                Thread t = w.thread;</div><div class="line">                <span class="comment">// 通过aqs的lock方法判断是否空闲，在runWoker（）方法可以看到</span></div><div class="line">                <span class="keyword">if</span> (!t.isInterrupted() &amp;&amp; w.tryLock()) &#123;</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        t.interrupt();</div><div class="line">                    &#125; <span class="keyword">catch</span> (SecurityException ignore) &#123;</div><div class="line">                    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                        w.unlock();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (onlyOne)</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            mainLock.unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>最后看下shutdown方法：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shutdown</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        final ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</div><div class="line">        mainLock.<span class="keyword">lock</span>();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            checkShutdownAccess();</div><div class="line">            <span class="comment">// 设置shutdown状态并中断空闲线程</span></div><div class="line">            advanceRunState(SHUTDOWN);</div><div class="line">            interruptIdleWorkers();</div><div class="line">            onShutdown(); <span class="comment">// hook for ScheduledThreadPoolExecutor</span></div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            mainLock.unlock();</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 剩下的任务继续执行</span></div><div class="line">        tryTerminate();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;Runnable&gt; <span class="title">shutdownNow</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        List&lt;Runnable&gt; tasks;</div><div class="line">        final ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</div><div class="line">        mainLock.<span class="keyword">lock</span>();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            checkShutdownAccess();</div><div class="line">            <span class="comment">// 设置stop状态</span></div><div class="line">            advanceRunState(STOP);</div><div class="line">            <span class="comment">//终止所有线程</span></div><div class="line">            interruptWorkers();</div><div class="line">            tasks = drainQueue();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            mainLock.unlock();</div><div class="line">        &#125;</div><div class="line">        tryTerminate();</div><div class="line">        <span class="keyword">return</span> tasks;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">interruptWorkers</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        final ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</div><div class="line">        mainLock.<span class="keyword">lock</span>();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">for</span> (Worker w : workers)</div><div class="line">                w.interruptIfStarted();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            mainLock.unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="workqueue的类型">WorkQueue的类型</h2>
+<p>1.直接提交。SynchronousQueue它将任务直接提交给线程而不保持它们。在此，如果不存在可用于立即运行任务的线程，则试图把任务加入队列将失败，因此会构造一个新的线程。此策略可以避免在处理可能具有内部依赖性的请求集时出现锁。直接提交通常要求无界 maximumPoolSizes或者可以拒绝的。当命令以超过队列所能处理的平均数连续到达时，此策略允许无界线程具有增长的可能性。<br>
+2.无界队列。使用无界队列（例如，不具有预定义容量的 LinkedBlockingQueue）将导致在所有 corePoolSize 线程都忙时新任务在队列中等待。这样，创建的线程就不会超过 corePoolSize。（因此，maximumPoolSize 的值也就无效了。）当每个任务完全独立于其他任务，即任务执行互不影响时，适合于使用无界队列；例如，在 Web 页服务器中。这种排队可用于处理瞬态突发请求，当命令以超过队列所能处理的平均数连续到达时，此策略允许无界线程具有增长的可能性。<br>
+3.有界队列。当使用有限的 maximumPoolSizes 时，有界队列（如 ArrayBlockingQueue、LinkedBlockingQueue、PriorityBlockingQueue）有助于防止资源耗尽，但是可能较难调整和控制。队列大小和最大池大小可能需要相互折衷：使用大型队列和小型池可以最大限度地降低 CPU 使用率、操作系统资源和上下文切换开销，但是可能导致人工降低吞吐量。如果任务频繁阻塞（例如，如果它们是 I/O 边界），则系统可能为超过您许可的更多线程安排时间。使用小型队列通常要求较大的池大小，CPU 使用率较高，但是可能遇到不可接受的调度开销，这样也会降低吞吐量。</p>
+<h2 id="threadfactory">ThreadFactory</h2>
+<p>每当线程池需要创建一个线程时，都会通过threadFactory的工厂方法newThreadFactory来创建一个新的、非守护线程，当然可以继承ThreadFactory来自定义创建的线程，设置线程的优先级、名字、增加日志等功能。</p>
+<h2 id="rejectedexecutionhandler">RejectedExecutionHandler</h2>
+<p>当当提交任务数超过maximumPoolSize、队列已满时将采取拒绝策略，这将调用RejectedExecutionHandler的rejectedExecution方法，ThreadPoolExcutor 提供了4种预定义的拒绝策略：</p>
+<ol>
+<li>在默认的 ThreadPoolExecutor.AbortPolicy 中，处理程序遭到拒绝将抛出运行时 RejectedExecutionException</li>
+<li>在 ThreadPoolExecutor.CallerRunsPolicy 中，线程调用运行该任务的 execute 本身即在excute本身的线程中执行run方法。此策略提供简单的反馈控制机制，能够减缓新任务的提交速度。<br>
+3.在 ThreadPoolExecutor.DiscardPolicy 中，当前的任务将被抛弃。<br>
+4.在 ThreadPoolExecutor.DiscardOldestPolicy 中，如果执行程序尚未关闭，则位于工作队列头部（注意优先级队列）的任务将被删除，然后重试执行程序（如果再次失败，则重复此过程）</li>
+</ol>
+<h2 id="executors常用的线程池配置">Executors常用的线程池配置</h2>
+<p>1.构造一个固定线程数目的线程池，配置的corePoolSize与maximumPoolSize大小相同，同时使用了一个无界LinkedBlockingQueue存放阻塞任务，因此多余的任务将存在再阻塞队列，不会由RejectedExecutionHandler处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public static ExecutorService newFixedThreadPool(int nThreads) &#123;</div><div class="line">    return new ThreadPoolExecutor(nThreads, nThreads,</div><div class="line">                                       0L, TimeUnit.MILLISECONDS,</div><div class="line">                                       new LinkedBlockingQueue&lt;Runnable&gt;());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.构造一个缓冲功能的线程池，配置corePoolSize=0，maximumPoolSize=Integer.MAX_VALUE，keepAliveTime=60s,以及一个无容量的阻塞队列 SynchronousQueue，因此任务提交之后，将会创建新的线程执行；线程空闲超过60s将会销毁</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="keyword">new</span><span class="type">CachedThreadPool</span>() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">ThreadPoolExecutor</span>(<span class="number">0</span>, Integer.MAX_VALUE,</div><div class="line">                                      <span class="number">60</span>L, TimeUnit.SECONDS,</div><div class="line">                                      <span class="keyword">new</span> <span class="type">SynchronousQueue</span>&lt;Runnable&gt;());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3.构造一个只支持一个线程的线程池，配置corePoolSize=maximumPoolSize=1，无界阻塞队列LinkedBlockingQueue；保证任务由一个线程串行执行</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="keyword">new</span><span class="type">SingleThreadExecutor</span>() &#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">FinalizableDelegatedExecutorService</span></div><div class="line"><span class="type"></span>            (<span class="keyword">new</span> <span class="type">ThreadPoolExecutor</span>(<span class="number">1</span>, <span class="number">1</span>,</div><div class="line">                                     <span class="number">0</span>L, TimeUnit.MILLISECONDS,</div><div class="line">                                     <span class="keyword">new</span> <span class="type">LinkedBlockingQueue</span>&lt;Runnable&gt;()));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>4.构造有定时功能的线程池，配置corePoolSize，无界延迟阻塞队列DelayedWorkQueue；有意思的是：maximumPoolSize=Integer.MAX_VALUE，由于DelayedWorkQueue是无界队列，所以这个值是没有意义的</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> ScheduledExecutorService <span class="keyword">new</span><span class="type">ScheduledThreadPool</span>(int corePoolSize) &#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">ScheduledThreadPoolExecutor</span>(corePoolSize);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> ScheduledExecutorService <span class="keyword">new</span><span class="type">ScheduledThreadPool</span>(</div><div class="line">             int corePoolSize, ThreadFactory threadFactory) &#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">ScheduledThreadPoolExecutor</span>(corePoolSize, threadFactory);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> ScheduledThreadPoolExecutor(int corePoolSize,</div><div class="line">                              ThreadFactory threadFactory) &#123;</div><div class="line">         <span class="keyword">super</span>(corePoolSize, Integer.MAX_VALUE, <span class="number">0</span>, TimeUnit.NANOSECONDS,</div><div class="line">               <span class="keyword">new</span> <span class="type">DelayedWorkQueue</span>(), threadFactory);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面我们自定义写一个线程池：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.meituan.concurrent;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.*;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicLong;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * Author:fuyang@meituan.com</span></div><div class="line"><span class="comment"> * Date:16/7/20</span></div><div class="line"><span class="comment"> * Time:下午2:13</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolExecuotrTest</span> <span class="keyword">extends</span> <span class="title">ThreadPoolExecutor</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ThreadLocal&lt;Long&gt; startTime = <span class="keyword">new</span> ThreadLocal&lt;Long&gt;();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AtomicLong executeTime = <span class="keyword">new</span> AtomicLong(<span class="number">0</span>);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecuotrTest</span><span class="params">(<span class="keyword">int</span> corePoolSize, <span class="keyword">int</span> maximumPoolSize, <span class="keyword">long</span> keepAliveTime, TimeUnit unit, BlockingQueue&lt;Runnable&gt; workQueue)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, <span class="keyword">new</span> MyThreadFactory(), <span class="keyword">new</span> RejectHandler());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">beforeExecute</span><span class="params">(Thread t, Runnable r)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.beforeExecute(t, r);</div><div class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">" before"</span>);</div><div class="line">        startTime.set(System.currentTimeMillis());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">afterExecute</span><span class="params">(Runnable r, Throwable t)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> endTime = System.currentTimeMillis();</div><div class="line">        executeTime.addAndGet(endTime - startTime.get());</div><div class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">" after"</span>);</div><div class="line">        <span class="keyword">super</span>.afterExecute(r, t);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">terminated</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"time "</span> + executeTime.get());</div><div class="line">        <span class="keyword">super</span>.terminated();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        ThreadPoolExecuotrTest threadPoolExecuotrTest = <span class="keyword">new</span> ThreadPoolExecuotrTest(<span class="number">2</span>, <span class="number">4</span>, <span class="number">10</span>, TimeUnit.SECONDS, <span class="keyword">new</span> LinkedBlockingDeque&lt;Runnable&gt;(<span class="number">2</span>));</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) &#123;</div><div class="line">           threadPoolExecuotrTest.execute(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">               <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                   <span class="keyword">try</span> &#123;</div><div class="line">                       System.out.println(Thread.currentThread().getName() + <span class="string">" execute"</span>);</div><div class="line">                       Thread.sleep(<span class="number">6000</span>);</div><div class="line">                   &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                       e.printStackTrace();</div><div class="line">                   &#125;</div><div class="line">               &#125;</div><div class="line">           &#125;);</div><div class="line">        &#125;</div><div class="line">        threadPoolExecuotrTest.shutdown();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行8次任务，那么线程池中达到最大线程数，队列也会打满，那么剩下的2个任务将会采取拒绝策略，我们复写了rejectExecution方法，将任务put阻塞提交到队列，所以所有的任务的都会执行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.meituan.concurrent;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.RejectedExecutionHandler;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ThreadPoolExecutor;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * Author:fuyang@meituan.com</span></div><div class="line"><span class="comment"> * Date:16/7/20</span></div><div class="line"><span class="comment"> * Time:下午3:23</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RejectHandler</span> <span class="keyword">implements</span> <span class="title">RejectedExecutionHandler</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rejectedExecution</span><span class="params">(Runnable r, ThreadPoolExecutor executor)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"reject"</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            executor.getQueue().put(r);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">Connected to the target VM, <span class="selector-tag">address</span>: <span class="string">'127.0.0.1:54007'</span>, transport: <span class="string">'socket'</span></div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-1</span> before</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-4</span> before</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-1</span> execute</div><div class="line">reject</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-3</span> before</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-3</span> execute</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-2</span> before</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-4</span> execute</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-2</span> execute</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-4</span> after</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-2</span> after</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-1</span> after</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-3</span> after</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-2</span> before</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-2</span> execute</div><div class="line">reject</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-4</span> before</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-4</span> execute</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-3</span> before</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-3</span> execute</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-1</span> before</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-1</span> execute</div><div class="line">Disconnected from the target VM, <span class="selector-tag">address</span>: <span class="string">'127.0.0.1:54007'</span>, transport: <span class="string">'socket'</span></div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-4</span> after</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-3</span> after</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-2</span> after</div><div class="line">com<span class="selector-class">.meituan</span><span class="selector-class">.concurrent</span><span class="selector-class">.MyThreadFactory-1</span> after</div><div class="line"><span class="selector-tag">time</span> <span class="number">48016</span></div></pre></td></tr></table></figure>
+<p>另外，线程池中shutdown方法通过interrupt中断线程，设置为shutdown状态，但只能中断空闲线程，阻止继续提交任务，队列中的任务仍会执行，shutdownNow会interrupt所有的线程，设置为stop 状态，但不能保证所有的线程马上结束（参考interrupt作用），队列中的任务也会丢弃不执行。awaitTermination阻塞等待shutdown后线程结束。</p>
+<h2 id="tips">Tips</h2>
+<p>一般来说，最好使用Executors提供的4种线程池，除非有特别的需求可以定义独特的线程池，线程池的大小确定是重点，线程池过大导致竞争激烈，线程池过小吞吐量较低。所以在任务量较少可以使用无界的队列，任务量很大使用有介的队列防止OOM，也有一种通用的计算方法：N（thread）＝N（cpu）＊U（cpu）（1+W / C），其中分别为cpu数量，cpu利用率，等待时间和计算时间，最大线程数一般设为2N+1，N是CPU核数。当然线程池大小还受到内存，io等其他因素影响。</p>
+<p>最后注意线程间的依赖，在有界线程池中容易产生死锁现象。</p>
+<p>线程池这部分知识感觉有些复杂，掌握起来有些困难，底层一些机制源码不太容易理解。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>谢谢大佬的打赏!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://oqcre1dsl.bkt.clouddn.com/wei.png" alt="lifeloner WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://oqcre1dsl.bkt.clouddn.com/ali.png" alt="lifeloner Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Thread/" rel="tag"># Thread</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/18/hashmap/" rel="next" title="HashMap线程安全分析">
+                <i class="fa fa-chevron-left"></i> HashMap线程安全分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/14/jvmtools/" rel="prev" title="JVM性能监控工具">
+                JVM性能监控工具 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/photo.png"
+               alt="lifeloner" />
+          <p class="site-author-name" itemprop="name">lifeloner</p>
+           
+              <p class="site-description motion-element" itemprop="description">Keep Moving!</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lifeloner" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2709035861/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:yangfu1992@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://jm.taobao.org/hire/" title="阿里中间件博客" target="_blank">阿里中间件博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jasongj.com/" title="牛人博客" target="_blank">牛人博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://cmsblogs.com/" title="Java精品博客" target="_blank">Java精品博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/u013256816" title="中间件博客" target="_blank">中间件博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leetcode.com/gogoing/" title="leetcode" target="_blank">leetcode</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.importnew.com/" title="ImportNew" target="_blank">ImportNew</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#threadpoolexecutor源码分析"><span class="nav-number">1.</span> <span class="nav-text">ThreadPoolExecutor源码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#workqueue的类型"><span class="nav-number">2.</span> <span class="nav-text">WorkQueue的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#threadfactory"><span class="nav-number">3.</span> <span class="nav-text">ThreadFactory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rejectedexecutionhandler"><span class="nav-number">4.</span> <span class="nav-text">RejectedExecutionHandler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#executors常用的线程池配置"><span class="nav-number">5.</span> <span class="nav-text">Executors常用的线程池配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tips"><span class="nav-number">6.</span> <span class="nav-text">Tips</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lifeloner</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user">本站访客数</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye">本站总访问量</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("3CEMw4GOysIloYEGhXyGXF2Y-gzGzoHsz", "geP0AJOCyAyAeJJS13hYX4Us");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

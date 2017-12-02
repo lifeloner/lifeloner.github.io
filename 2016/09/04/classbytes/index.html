@@ -102,10 +102,13 @@
 <meta property="og:site_name" content="lifeloner">
 <meta property="og:description" content="Java作为跨平台的语言离不开jvm的支持，java语言首先经过javac编译器编译为class字节码文件然后被jvm解释、编译为本地机器码，然后被os执行，由于jvm中间这一层的存在所以java语言才能跨平台，同时除了java，ruby、scala等语言经过编译后的字节码只要符合jvm字节码规范也能够被jvm执行，所以字节码是一种规范，了解jvm执行引擎对学习java也很有帮助。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-19T09:02:33.613Z">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/method.png">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/huibian.png">
+<meta property="og:updated_time" content="2017-12-02T13:51:03.321Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM字节码执行引擎和编译、优化">
 <meta name="twitter:description" content="Java作为跨平台的语言离不开jvm的支持，java语言首先经过javac编译器编译为class字节码文件然后被jvm解释、编译为本地机器码，然后被os执行，由于jvm中间这一层的存在所以java语言才能跨平台，同时除了java，ruby、scala等语言经过编译后的字节码只要符合jvm字节码规范也能够被jvm执行，所以字节码是一种规范，了解jvm执行引擎对学习java也很有帮助。">
+<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/method.png">
 
 
 
@@ -462,17 +465,16 @@ java程序最初通过解释器进行解释执行，当jvm发现某个代码运�
 <p>热点代码的判定方法主要有2种：采样热点探测、计数器探测<br>
 	2.1基于采样热点探测：jvm周期性检查线程栈顶，某个方法经常出现则为热点代码，并能发现方法的调用关系，但容易受外界干扰（线程阻塞）<br>
 	2.2基于计数器热点探测：建立计数器，统计方法执行次数，超过阈值即为热点代码，但不能发现方法调用关系<br>
-	hotspot以第二种方法判断热点代码，计数器有方法计数器和回边计数器，方法调用计数器、回边计数器运行过程分别如下：</p>
-<center>
-![img](http://oqcre1dsl.bkt.clouddn.com/method.png)
-![img](http://oqcre1dsl.bkt.clouddn.com/huibian.png)
-</center>
-如果不做设置，方法调用计数器统计的不是绝对次数，而是相对次数，在一定时间的调用次数，超过一定时间会减半即热衰减，也可以设置来关闭热衰减。回边计数器，统计了方法中循环体的次数，回边计数器没有热衰退。在方法调用发出即使编译请求后，在代码编译未完成前仍然按解释方式执行，编译过程在后台编译线程中执行，也可以设置关闭后台编译，等待编译完成在执行编译后本地代码。
-    编译方式比解释方式执行速度快，一方面是执行本地代码快，另一方面JIT编译时进行了优化，主要的优化有：
-    1.公共子表达式消除
-    2.数组范围检查消除
-    3.方法内联
-    4.逃逸分析
+	hotspot以第二种方法判断热点代码，计数器有方法计数器和回边计数器，方法调用计数器、回边计数器运行过程分别如下：<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/method.png" alt="img"><br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/huibian.png" alt="img"><br>
+如果不做设置，方法调用计数器统计的不是绝对次数，而是相对次数，在一定时间的调用次数，超过一定时间会减半即热衰减，也可以设置来关闭热衰减。回边计数器，统计了方法中循环体的次数，回边计数器没有热衰退。在方法调用发出即使编译请求后，在代码编译未完成前仍然按解释方式执行，编译过程在后台编译线程中执行，也可以设置关闭后台编译，等待编译完成在执行编译后本地代码。<br>
+编译方式比解释方式执行速度快，一方面是执行本地代码快，另一方面JIT编译时进行了优化，主要的优化有：<br>
+1.公共子表达式消除<br>
+2.数组范围检查消除<br>
+3.方法内联<br>
+4.逃逸分析</p>
+
       
     </div>
     
@@ -531,7 +533,7 @@ java程序最初通过解释器进行解释执行，当jvm发现某个代码运�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/22/maven/" rel="next" title="Maven">
+              <a href="/2016/08/22/maven/" rel="next" title="Maven">
                 <i class="fa fa-chevron-left"></i> Maven
               </a>
             
@@ -541,7 +543,7 @@ java程序最初通过解释器进行解释执行，当jvm发现某个代码运�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/09/04/classloader/" rel="prev" title="JVM类加载机制">
+              <a href="/2016/10/04/classloader/" rel="prev" title="JVM类加载机制">
                 JVM类加载机制 <i class="fa fa-chevron-right"></i>
               </a>
             

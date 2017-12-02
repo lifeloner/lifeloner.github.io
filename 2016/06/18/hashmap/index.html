@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="DataStructure,Java," />
+  <meta name="keywords" content="Java,DataStructure," />
 
 
 
@@ -94,13 +94,13 @@
 
 
 
-<meta name="description" content="Java中通过锁实现同步的方式主要有2种：通过synchronized关键字和显示的lock。">
-<meta name="keywords" content="DataStructure,Java">
+<meta name="description" content="Java中通过锁实现同步的方式主要有2种：通过synchronized关键字和显示的lock。 &amp;lt;!--more--&amp;gt; Hashmap与线程安全 Java中map可以快速定位某个元素，查询速度比数组、list都要快，所以广泛应用于java开发中。其底层数据结构也较为简单，本质是结合了数组和链">
+<meta name="keywords" content="Java,DataStructure">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hashmap线程安全性分析">
 <meta property="og:url" content="https://lifeloner.github.io/2016/06/18/hashmap/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="Java中通过锁实现同步的方式主要有2种：通过synchronized关键字和显示的lock。">
+<meta property="og:description" content="Java中通过锁实现同步的方式主要有2种：通过synchronized关键字和显示的lock。 &amp;lt;!--more--&amp;gt; Hashmap与线程安全 Java中map可以快速定位某个元素，查询速度比数组、list都要快，所以广泛应用于java开发中。其底层数据结构也较为简单，本质是结合了数组和链表，即Entry数组。 但hashmap并不是线程安全的，在多线程高并发环境下会存在很多问题，其">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/mapput.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/mapadd.png">
@@ -114,7 +114,7 @@
 <meta property="og:updated_time" content="2017-11-19T08:34:45.807Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hashmap线程安全性分析">
-<meta name="twitter:description" content="Java中通过锁实现同步的方式主要有2种：通过synchronized关键字和显示的lock。">
+<meta name="twitter:description" content="Java中通过锁实现同步的方式主要有2种：通过synchronized关键字和显示的lock。 &amp;lt;!--more--&amp;gt; Hashmap与线程安全 Java中map可以快速定位某个元素，查询速度比数组、list都要快，所以广泛应用于java开发中。其底层数据结构也较为简单，本质是结合了数组和链表，即Entry数组。 但hashmap并不是线程安全的，在多线程高并发环境下会存在很多问题，其">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/mapput.png">
 
 
@@ -427,22 +427,60 @@
       
 
       
-        <p>Java中通过锁实现同步的方式主要有2种：通过synchronized关键字和显示的lock。<br><a id="more"></a></p>
-<h2 id="Hashmap与线程安全"><a href="#Hashmap与线程安全" class="headerlink" title="Hashmap与线程安全"></a>Hashmap与线程安全</h2><p>Java中map可以快速定位某个元素，查询速度比数组、list都要快，所以广泛应用于java开发中。其底层数据结构也较为简单，本质是结合了数组和链表，即Entry数组。<br>但hashmap并不是线程安全的，在多线程高并发环境下会存在很多问题，其中出现在问题往往出现在put操作上，我们先看看put操作的源码：</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/mapput.png" alt="img"><br></center><br>put操作首先通过key的hashcode定位到数组某一个位置，然后结合equals方法查找是否存在相同的key，若存在直接修改value，否则addEntry增加新节点</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/mapadd.png" alt="img"><br></center><br>addentry方法中会检查map size是否超过规定的值，若超过需要扩充容量，即resize操作</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/mapresize.png?imageMogr2/thumbnail/!80p" alt="img"><br></center><br>resize过程中会通过transfer方法会将数据转移到新的位置</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/maptransfor.png" alt="img"><br></center><br>现在我们分析一下，这个过程中可能存在的问题。首先，在不同的线程中，同时操作了同一个对象，按照java内存模型来理解，各个线程中有自己的工作内存，并且该内存中有主存中的副本，这些副本之间不能直接进行通信，必须依靠主内存中的值来通信，所以下面就会出现很多问题。</p>
-<p>1.丢失put的修改<br>假设2个线程都同时在一个位置put相同的key，该key并不存在，所以2个线程中都会执行addEntry方法的new Entry (hash, key, value, e)，结果新的节点都指向了e，所以一个线程put后读取的时候可能读取的值并不相同。</p>
-<p>2.put过程导致读取null值<br>若在put操作后导致了resize操作，在transfer中有一行代码src[j]=null，即把旧数组设置为null垃圾回收，在transfer执行结束前，另一线程读取的还是旧的数组，可能存在读取某个存在key为null</p>
-<p>3.transfer导致死循环<br>下面举一个简单的例子<br><figure class="highlight d"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</div><div class="line">      HashMap&lt;Integer,String&gt; map = <span class="keyword">new</span> HashMap&lt;Integer,String&gt;(<span class="number">2</span>，<span class="number">0.75f</span>);</div><div class="line">        map.put(<span class="number">5</span>， <span class="string">"C"</span>);  </div><div class="line">        <span class="keyword">new</span> Thread(<span class="string">"Thread1"</span>) &#123;  </div><div class="line">            <span class="keyword">public</span> <span class="keyword">void</span> run() &#123;  </div><div class="line">                map.put(<span class="number">7</span>, <span class="string">"B"</span>);  </div><div class="line">                System.<span class="keyword">out</span>.println(map);  </div><div class="line">            &#125;;  </div><div class="line">        &#125;.start();  </div><div class="line">        <span class="keyword">new</span> Thread(<span class="string">"Thread2"</span>) &#123;  </div><div class="line">            <span class="keyword">public</span> <span class="keyword">void</span> run() &#123;  </div><div class="line">                map.put(<span class="number">3</span>, <span class="string">"A);  </span></div><div class="line"><span class="string">                System.out.println(map);  </span></div><div class="line"><span class="string">            &#125;;  </span></div><div class="line"><span class="string">        &#125;.start();        </span></div><div class="line"><span class="string">    &#125;</span></div></pre></td></tr></table></figure></p>
-<p>map在存放第二个key的时候将会扩容，这将导致resize操作， 假设在两个线程resize前，数组内容如下：</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/map1.png" alt="img"><br></center><br>第一个线程由于某个原因被挂起，第二个线程先transfer完成，现在第一个线程将要执行transfer操作</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/map2.png" alt="img"><br></center><br>在第一个循环执行后，线程1的结构将会变成这样</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/map3.png" alt="img"><br></center><br>然后继续执行一个循环后，如下所示</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/map4.png" alt="img"><br></center><br>最后一个循环执行后，e将为null，此时的结构如下：</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/map5.png" alt="img"><br></center><br>而此时map中entry数组的第三个位置出现了环，如果get方法调用是刚好定位到entry[3]如key为11时，将陷入无限循环。</p>
-<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><p>使用Hashmap需要使用一种线程安全的方式使用，当前常见的方案有：<br>1.使用hashtable，但现在很少使用<br>2.使用Collections.synchronizedMap包装hashmap，在同步块synchronized或lock中使用map<br>3.使用ConcurrentHashMap，它实质是一种分段的hashtable，内部是一个segment数组，没一个segment类似一个hashtable，这样对每一个segment进行分段加锁，而且只有put操作是加锁的，get操作大部分情况下不加锁，除非读取到null，这样保证了map并发时的高效率。</p>
+        <p>Java中通过锁实现同步的方式主要有2种：通过synchronized关键字和显示的lock。
+&lt;!--more--&gt;</p>
+<h2>Hashmap与线程安全</h2>
+<p>Java中map可以快速定位某个元素，查询速度比数组、list都要快，所以广泛应用于java开发中。其底层数据结构也较为简单，本质是结合了数组和链表，即Entry数组。
+但hashmap并不是线程安全的，在多线程高并发环境下会存在很多问题，其中出现在问题往往出现在put操作上，我们先看看put操作的源码：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/mapput.png" alt="img">
+&lt;/center&gt;
+put操作首先通过key的hashcode定位到数组某一个位置，然后结合equals方法查找是否存在相同的key，若存在直接修改value，否则addEntry增加新节点
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/mapadd.png" alt="img">
+&lt;/center&gt;
+addentry方法中会检查map size是否超过规定的值，若超过需要扩充容量，即resize操作
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/mapresize.png?imageMogr2/thumbnail/!80p" alt="img">
+&lt;/center&gt;
+resize过程中会通过transfer方法会将数据转移到新的位置
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/maptransfor.png" alt="img">
+&lt;/center&gt;
+现在我们分析一下，这个过程中可能存在的问题。首先，在不同的线程中，同时操作了同一个对象，按照java内存模型来理解，各个线程中有自己的工作内存，并且该内存中有主存中的副本，这些副本之间不能直接进行通信，必须依靠主内存中的值来通信，所以下面就会出现很多问题。</p>
+<p>1.丢失put的修改
+假设2个线程都同时在一个位置put相同的key，该key并不存在，所以2个线程中都会执行addEntry方法的new Entry (hash, key, value, e)，结果新的节点都指向了e，所以一个线程put后读取的时候可能读取的值并不相同。</p>
+<p>2.put过程导致读取null值
+若在put操作后导致了resize操作，在transfer中有一行代码src[j]=null，即把旧数组设置为null垃圾回收，在transfer执行结束前，另一线程读取的还是旧的数组，可能存在读取某个存在key为null</p>
+<p>3.transfer导致死循环
+下面举一个简单的例子
+<figure class="highlight d"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</div><div class="line">      HashMap&lt;Integer,String&gt; map = <span class="keyword">new</span> HashMap&lt;Integer,String&gt;(<span class="number">2</span>，<span class="number">0.75f</span>);</div><div class="line">        map.put(<span class="number">5</span>， <span class="string">"C"</span>);  </div><div class="line">        <span class="keyword">new</span> Thread(<span class="string">"Thread1"</span>) &#123;  </div><div class="line">            <span class="keyword">public</span> <span class="keyword">void</span> run() &#123;  </div><div class="line">                map.put(<span class="number">7</span>, <span class="string">"B"</span>);  </div><div class="line">                System.<span class="keyword">out</span>.println(map);  </div><div class="line">            &#125;;  </div><div class="line">        &#125;.start();  </div><div class="line">        <span class="keyword">new</span> Thread(<span class="string">"Thread2"</span>) &#123;  </div><div class="line">            <span class="keyword">public</span> <span class="keyword">void</span> run() &#123;  </div><div class="line">                map.put(<span class="number">3</span>, <span class="string">"A);  </span></div><div class="line"><span class="string">                System.out.println(map);  </span></div><div class="line"><span class="string">            &#125;;  </span></div><div class="line"><span class="string">        &#125;.start();        </span></div><div class="line"><span class="string">    &#125;</span></div></pre></td></tr></table></figure></p>
+<p>map在存放第二个key的时候将会扩容，这将导致resize操作， 假设在两个线程resize前，数组内容如下：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/map1.png" alt="img">
+&lt;/center&gt;
+第一个线程由于某个原因被挂起，第二个线程先transfer完成，现在第一个线程将要执行transfer操作
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/map2.png" alt="img">
+&lt;/center&gt;
+在第一个循环执行后，线程1的结构将会变成这样
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/map3.png" alt="img">
+&lt;/center&gt;
+然后继续执行一个循环后，如下所示
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/map4.png" alt="img">
+&lt;/center&gt;
+最后一个循环执行后，e将为null，此时的结构如下：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/map5.png" alt="img">
+&lt;/center&gt;
+而此时map中entry数组的第三个位置出现了环，如果get方法调用是刚好定位到entry[3]如key为11时，将陷入无限循环。</p>
+<h2>Tips</h2>
+<p>使用Hashmap需要使用一种线程安全的方式使用，当前常见的方案有：
+1.使用hashtable，但现在很少使用
+2.使用Collections.synchronizedMap包装hashmap，在同步块synchronized或lock中使用map
+3.使用ConcurrentHashMap，它实质是一种分段的hashtable，内部是一个segment数组，没一个segment类似一个hashtable，这样对每一个segment进行分段加锁，而且只有put操作是加锁的，get操作大部分情况下不加锁，除非读取到null，这样保证了map并发时的高效率。</p>
 
       
     </div>
@@ -489,9 +527,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/DataStructure/" rel="tag"># DataStructure</a>
-          
             <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/DataStructure/" rel="tag"># DataStructure</a>
           
         </div>
       
@@ -593,7 +631,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -719,7 +757,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hashmap与线程安全"><span class="nav-number">1.</span> <span class="nav-text">Hashmap与线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips"><span class="nav-number">2.</span> <span class="nav-text">Tips</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Hashmap与线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Tips</span></a></li></ol></div>
             
 
           </div>

@@ -94,13 +94,13 @@
 
 
 
-<meta name="description" content="Git是一个分布式的版本控制系统，相对于集中式版本控制系统，git有很多的优势。 它不会依赖中央服务器，即使中央服务器发生故障，也能从任何客户端库可以复制回服务器。git有如下几个特点：自由和开放源码、快速和小、隐式备份、安全、不需要强大的硬件、更简单的分支。">
+<meta name="description" content="Git是一个分布式的版本控制系统，相对于集中式版本控制系统，git有很多的优势。 它不会依赖中央服务器，即使中央服务器发生故障，也能从任何客户端库可以复制回服务器。git有如下几个特点：自由和开放源码、快速和小、隐式备份、安全、不需要强大的硬件、更简单的分支。 &amp;lt;!--more--&amp;gt; git">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git入门">
 <meta property="og:url" content="https://lifeloner.github.io/2016/05/16/git/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="Git是一个分布式的版本控制系统，相对于集中式版本控制系统，git有很多的优势。 它不会依赖中央服务器，即使中央服务器发生故障，也能从任何客户端库可以复制回服务器。git有如下几个特点：自由和开放源码、快速和小、隐式备份、安全、不需要强大的硬件、更简单的分支。">
+<meta property="og:description" content="Git是一个分布式的版本控制系统，相对于集中式版本控制系统，git有很多的优势。 它不会依赖中央服务器，即使中央服务器发生故障，也能从任何客户端库可以复制回服务器。git有如下几个特点：自由和开放源码、快速和小、隐式备份、安全、不需要强大的硬件、更简单的分支。 &amp;lt;!--more--&amp;gt; git中重要的几个概念：工作区、暂存区、版本库。工作区简单来说是指我们电脑上的能够看见的文件目录，可以">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/gitrep.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/git1.png">
@@ -118,7 +118,7 @@
 <meta property="og:updated_time" content="2017-11-19T08:33:42.379Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git入门">
-<meta name="twitter:description" content="Git是一个分布式的版本控制系统，相对于集中式版本控制系统，git有很多的优势。 它不会依赖中央服务器，即使中央服务器发生故障，也能从任何客户端库可以复制回服务器。git有如下几个特点：自由和开放源码、快速和小、隐式备份、安全、不需要强大的硬件、更简单的分支。">
+<meta name="twitter:description" content="Git是一个分布式的版本控制系统，相对于集中式版本控制系统，git有很多的优势。 它不会依赖中央服务器，即使中央服务器发生故障，也能从任何客户端库可以复制回服务器。git有如下几个特点：自由和开放源码、快速和小、隐式备份、安全、不需要强大的硬件、更简单的分支。 &amp;lt;!--more--&amp;gt; git中重要的几个概念：工作区、暂存区、版本库。工作区简单来说是指我们电脑上的能够看见的文件目录，可以">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/gitrep.png">
 
 
@@ -431,8 +431,75 @@
       
 
       
-        <p>Git是一个分布式的版本控制系统，相对于集中式版本控制系统，git有很多的优势。 它不会依赖中央服务器，即使中央服务器发生故障，也能从任何客户端库可以复制回服务器。git有如下几个特点：自由和开放源码、快速和小、隐式备份、安全、不需要强大的硬件、更简单的分支。<br><a id="more"></a><br>git中重要的几个概念：工作区、暂存区、版本库。工作区简单来说是指我们电脑上的能够看见的文件目录，可以对文件进行修改。版本库是指本地的Repository，项目目录中有.git目录这就是版本库存放了git的信息，如git分支和head指针等。暂存区stage指的是把用户文件修改暂存起来，等待提交修改，这样git可以只提交部分修改的信息。Git的基本工作流程如下：<br>第1步：修改文件的工作目录。<br>第2步：将这些文件添加到暂存区<br>第3步：执行commit操作，提交操作后，它永久地存储更改的Git仓库</p>
-<center><br><img src="http://oqcre1dsl.bkt.clouddn.com/gitrep.png" alt="img"><br></center><br>当我们使用git往往是多人合作，所以需要一个git远程库，并与之建立关联。若我们本地有一个版本库需要添加一个远程库与之关联，则在gittub建立一个Repository，然后在本地某个目录下使用git init命令建立一个git版本库，然后使用git remote add origin url（git远程库地址） 与远程库建立连接，最后使用git push origin master把本地master分支与远程的master分支建立关联。若远程版本库存在，需要克隆或拷贝到本地git库，则可以使用git clone url，这样远程库的代码被拷贝到本地并建立了关联。<br>下面是git的一些常用命令：<br><br>添加到暂存区：git  add<br>    我们在工作去修改了某个文件后，在提交修改前需要把修改的文件加入暂存区，首先可以用git status查看状态，也可以使用git diff 查看不同之处，使用  git dif －－cached 可以查询添加到暂存区的改动：<br><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/git1.png" alt="img"><br><br><img src="http://oqcre1dsl.bkt.clouddn.com/git2.png?imageMogr2/thumbnail/!70p" alt="img"><br></center><br>可以使用git reset  HEAD －－filename取消已加入暂存区的文件：<br><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/git3.png" alt="img"><br></center><br>然后使用git add filename 和git commit －m  ＋ 描述或 git commit －am ＋描述  提交修改，效果如下<br><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/git4.png?imageMogr2/thumbnail/!70p" alt="img"><br></center><br>git log可以查看修改的历史信息，使用git reset –hard HEAD^可以回退到上一个版本，使用git reset  –hard HEAD~100回退到前100个版本，若回退后又想回退到最新版本，可以使用git reflog查看版本号，然后回退到某一版本号，效果如下：<br><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/git5.png" alt="img"><br><br><img src="http://oqcre1dsl.bkt.clouddn.com/git6.png" alt="img"><br></center><br>当修改了工作区的文件后，没有提交暂存区，想要恢复到修改前的文件，可以修改文件也可以回退到上一个版本，也可以使用git checkout －－ filename，效果如下：<br><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/git7.png" alt="img"><br></center><br>git rm filename会删除暂存区和本地工作目录下的文件，若只删除暂存区的文件则使用git rm －－cached filename，git mv filename newfile会重命名文件，其本质是先删除暂存区文件然后执行文件重命名最后使用git add这三步操作,改变名称后commit就可以了。<br><br>git中创建分支使用git branch branch_name ，然后使用git checkout branch_name切换分支，也可以一步到位git checkout －b  branch_name，分支合并使用git merge branch_name，在分支合并是可能存在冲突问题，如在master分析修改文件，然后另一分支也修改，合并是会产生冲突，需要手动修改后重新提交，如下：<br><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/git8.png" alt="img"><br><br><img src="http://oqcre1dsl.bkt.clouddn.com/git9.png" alt="img"><br></center><br>我们修改后的代码需要提交到远程库，则使用git push origin local_branch : remote_branch 若省略远程分支则默认是与当前的分支同名的分支， 如下：<br><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/git10.png?imageMogr2/thumbnail/!77p" alt="img"><br></center><br>如果在push前有其他用户已经提交了修改则会产生冲突，这时需要先pull远程库分支与本地分支合并并解决分支冲突问题，然后在commit，最后在push到远程分支，如下：<br><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/git11.png" alt="img"><br></center><br>pull的使用：git pull origin remote_branch :local_branch，若省略了本地分支则默认是当前的分支，pull本质是先git fetch origin操作，然后git merge origin／分支名，先feych再merge。<br><br>因此：多人协作工作模式一般是这样的：<br><br>- 首先，可以试图用git push origin branch-name推送自己的修改.<br><br>- 如果推送失败，则因为远程分支比你的本地更新早，需要先用git pull试图合并。<br><br>- 如果合并有冲突，则需要解决冲突，并在本地提交。再用git push origin branch-name推送<br><br>- 当正在修改文件时，需要解决另一个需要及时处理的问题，而当前开发没有完成，则可以使用git stash将当前的状态保存在栈中，带紧急任务完成后，使用git stash list查看栈中情况，然后使用git stash pop（弹出并删除栈顶），或git stash apply不删除栈顶状态。<br><br>最后，git远程库，本地库，暂存区交互情况如下：<br><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/gitwork.png" alt="img"><br></center>
+        <p>Git是一个分布式的版本控制系统，相对于集中式版本控制系统，git有很多的优势。 它不会依赖中央服务器，即使中央服务器发生故障，也能从任何客户端库可以复制回服务器。git有如下几个特点：自由和开放源码、快速和小、隐式备份、安全、不需要强大的硬件、更简单的分支。
+&lt;!--more--&gt;
+git中重要的几个概念：工作区、暂存区、版本库。工作区简单来说是指我们电脑上的能够看见的文件目录，可以对文件进行修改。版本库是指本地的Repository，项目目录中有.git目录这就是版本库存放了git的信息，如git分支和head指针等。暂存区stage指的是把用户文件修改暂存起来，等待提交修改，这样git可以只提交部分修改的信息。Git的基本工作流程如下：
+第1步：修改文件的工作目录。
+第2步：将这些文件添加到暂存区
+第3步：执行commit操作，提交操作后，它永久地存储更改的Git仓库
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/gitrep.png" alt="img">
+&lt;/center&gt;
+当我们使用git往往是多人合作，所以需要一个git远程库，并与之建立关联。若我们本地有一个版本库需要添加一个远程库与之关联，则在gittub建立一个Repository，然后在本地某个目录下使用git init命令建立一个git版本库，然后使用git remote add origin url（git远程库地址） 与远程库建立连接，最后使用git push origin master把本地master分支与远程的master分支建立关联。若远程版本库存在，需要克隆或拷贝到本地git库，则可以使用git clone url，这样远程库的代码被拷贝到本地并建立了关联。
+下面是git的一些常用命令：</p>
+<p>添加到暂存区：git  add
+我们在工作去修改了某个文件后，在提交修改前需要把修改的文件加入暂存区，首先可以用git status查看状态，也可以使用git diff 查看不同之处，使用  git dif －－cached 可以查询添加到暂存区的改动：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/git1.png" alt="img"></p>
+<p><img src="http://oqcre1dsl.bkt.clouddn.com/git2.png?imageMogr2/thumbnail/!70p" alt="img">
+&lt;/center&gt;
+可以使用git reset  HEAD －－filename取消已加入暂存区的文件：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/git3.png" alt="img">
+&lt;/center&gt;
+然后使用git add filename 和git commit －m  ＋ 描述或 git commit －am ＋描述  提交修改，效果如下
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/git4.png?imageMogr2/thumbnail/!70p" alt="img">
+&lt;/center&gt;
+git log可以查看修改的历史信息，使用git reset --hard HEAD^可以回退到上一个版本，使用git reset  --hard HEAD~100回退到前100个版本，若回退后又想回退到最新版本，可以使用git reflog查看版本号，然后回退到某一版本号，效果如下：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/git5.png" alt="img"></p>
+<p><img src="http://oqcre1dsl.bkt.clouddn.com/git6.png" alt="img">
+&lt;/center&gt;
+当修改了工作区的文件后，没有提交暂存区，想要恢复到修改前的文件，可以修改文件也可以回退到上一个版本，也可以使用git checkout －－ filename，效果如下：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/git7.png" alt="img">
+&lt;/center&gt;
+git rm filename会删除暂存区和本地工作目录下的文件，若只删除暂存区的文件则使用git rm －－cached filename，git mv filename newfile会重命名文件，其本质是先删除暂存区文件然后执行文件重命名最后使用git add这三步操作,改变名称后commit就可以了。</p>
+<p>git中创建分支使用git branch branch_name ，然后使用git checkout branch_name切换分支，也可以一步到位git checkout －b  branch_name，分支合并使用git merge branch_name，在分支合并是可能存在冲突问题，如在master分析修改文件，然后另一分支也修改，合并是会产生冲突，需要手动修改后重新提交，如下：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/git8.png" alt="img"></p>
+<p><img src="http://oqcre1dsl.bkt.clouddn.com/git9.png" alt="img">
+&lt;/center&gt;
+我们修改后的代码需要提交到远程库，则使用git push origin local_branch : remote_branch 若省略远程分支则默认是与当前的分支同名的分支， 如下：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/git10.png?imageMogr2/thumbnail/!77p" alt="img">
+&lt;/center&gt;
+如果在push前有其他用户已经提交了修改则会产生冲突，这时需要先pull远程库分支与本地分支合并并解决分支冲突问题，然后在commit，最后在push到远程分支，如下：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/git11.png" alt="img">
+&lt;/center&gt;
+pull的使用：git pull origin remote_branch :local_branch，若省略了本地分支则默认是当前的分支，pull本质是先git fetch origin操作，然后git merge origin／分支名，先feych再merge。</p>
+<p>因此：多人协作工作模式一般是这样的：</p>
+<ul>
+<li>
+<p>首先，可以试图用git push origin branch-name推送自己的修改.</p>
+</li>
+<li>
+<p>如果推送失败，则因为远程分支比你的本地更新早，需要先用git pull试图合并。</p>
+</li>
+<li>
+<p>如果合并有冲突，则需要解决冲突，并在本地提交。再用git push origin branch-name推送</p>
+</li>
+<li>
+<p>当正在修改文件时，需要解决另一个需要及时处理的问题，而当前开发没有完成，则可以使用git stash将当前的状态保存在栈中，带紧急任务完成后，使用git stash list查看栈中情况，然后使用git stash pop（弹出并删除栈顶），或git stash apply不删除栈顶状态。</p>
+</li>
+</ul>
+<p>最后，git远程库，本地库，暂存区交互情况如下：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/gitwork.png" alt="img">
+&lt;/center&gt;</p>
+
       
     </div>
     
@@ -567,7 +634,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -100,14 +100,14 @@
 <meta property="og:title" content="Violate">
 <meta property="og:url" content="https://lifeloner.github.io/2016/07/18/violate/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="在Java高并发环境下，多个线程之间可能存在资源共享情况，可能造成了数据不一致情况。很多人都想到可以利用加锁的方式来实现，如java中的synchronized同步块和Lock，然而这种方式虽然可以解决问题，但加锁的本质是thread，只允许同一时刻只有一个线程来访问同步块，而在有些情况下我们并不需要严格的同步，只保证能读写最新的值即可，所以volatile能达到这个效果。">
+<meta property="og:description" content="在Java高并发环境下，多个线程之间可能存在资源共享情况，可能造成了数据不一致情况。很多人都想到可以利用加锁的方式来实现，如java中的synchronized同步块和Lock，然而这种方式虽然可以解决问题，但加锁的本质是thread，只允许同一时刻只有一个线程来访问同步块，而在有些情况下我们并不需要严格的同步，只保证能读写最新的值即可，所以volatile能达到这个效果。 &amp;lt;!--more">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/jmm.png?imageMogr2/thumbnail/!50p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/readwrite.png?imageMogr2/thumbnail/!38p">
 <meta property="og:updated_time" content="2017-11-19T08:39:50.963Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Violate">
-<meta name="twitter:description" content="在Java高并发环境下，多个线程之间可能存在资源共享情况，可能造成了数据不一致情况。很多人都想到可以利用加锁的方式来实现，如java中的synchronized同步块和Lock，然而这种方式虽然可以解决问题，但加锁的本质是thread，只允许同一时刻只有一个线程来访问同步块，而在有些情况下我们并不需要严格的同步，只保证能读写最新的值即可，所以volatile能达到这个效果。">
+<meta name="twitter:description" content="在Java高并发环境下，多个线程之间可能存在资源共享情况，可能造成了数据不一致情况。很多人都想到可以利用加锁的方式来实现，如java中的synchronized同步块和Lock，然而这种方式虽然可以解决问题，但加锁的本质是thread，只允许同一时刻只有一个线程来访问同步块，而在有些情况下我们并不需要严格的同步，只保证能读写最新的值即可，所以volatile能达到这个效果。 &amp;lt;!--more">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/jmm.png?imageMogr2/thumbnail/!50p">
 
 
@@ -420,18 +420,41 @@
       
 
       
-        <p>在Java高并发环境下，多个线程之间可能存在资源共享情况，可能造成了数据不一致情况。很多人都想到可以利用加锁的方式来实现，如java中的synchronized同步块和Lock，然而这种方式虽然可以解决问题，但加锁的本质是thread，只允许同一时刻只有一个线程来访问同步块，而在有些情况下我们并不需要严格的同步，只保证能读写最新的值即可，所以volatile能达到这个效果。<br><a id="more"></a><br>在学习java并发编程前，我们先简单了解一下java内存模型。</p>
-<h2 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h2><p>Java内存模型中规定了所有的变量都存储在主内存中，每条线程还有自己的工作内存，线程的工作内存中保存了该线程使用到的变量到主内存副本拷贝，线程对变量的所有操作（读取、赋值）都必须在工作内存中进行，而不能直接读写主内存中的变量。不同线程之间无法直接访问对方工作内存中的变量，线程间变量值的传递均需要在主内存来完成，线程、主内存和工作内存的交互关系如下图所示：</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/jmm.png?imageMogr2/thumbnail/!50p" alt="img"><br><img src="http://oqcre1dsl.bkt.clouddn.com/readwrite.png?imageMogr2/thumbnail/!38p" alt="img"><br></center><br>read and load 从主存复制变量到当前工作内存<br>use and assign  执行代码，改变共享变量值<br>store and write 用工作内存数据刷新主存相关内容</p>
-<p>如：x＝1这条语句     执行线程必须先在自己的工作线程中对变量x所在的缓存行进行赋值操作，然后再写入主存当中。而不是直接将数值1写入主存中。<br>下面继续分析并发编程中原子性、可见行、顺序性等概念。</p>
-<h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>在Java中，对基本数据类型的变量的读取和赋值操作是原子性操作，这些操作是不可被中断的，要么执行，要么不执行，这和数据库中事物的原子性概念很类似。</p>
-<p>如 x = 10;  y = x;     x＋＋；x＝x＋1<br>在上面4个语句中，只有第一个是原子操作，其他都是复合操作，语句2包含2个操作，它先要去读取x的值，再将x的值写入工作内存，语句3和4都包含3个操作：读取x的值，进行加1操作，写入新的值  。<br>所以只有简单的读取、赋值（变量之间的相互赋值不是原子操作）才是原子操作，另外在32位机器上，long等64位数据赋值也不是原子操作。</p>
-<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><p>可见性是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。<br>Java提供了volatile关键字来保证可见性。当一个共享变量被volatile修饰时，它会保证修改的值会立即被更新到主存，当有其他线程需要读取时，它会去内存中读取新值。而普通的共享变量不能保证可见性，因为普通共享变量被修改之后，什么时候被写入主存是不确定的，当其他线程去读取时，此时内存中可能还是原来的旧值，因此无法保证可见性。另外，通过synchronized和Lock也能够保证可见性，synchronized和Lock能保证同一时刻只有一个线程获取锁然后执行同步代码，并且在释放锁之前会将对变量的修改刷新到主存当中。因此可以保证可见性。</p>
-<h2 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h2><p>有序性：即程序执行的顺序按照代码的先后顺序执行，如下例子所示：</p>
-<p>int i = 0;<br>boolean flag = false;<br>i = 1;                //1<br>flag = true;          //2</p>
+        <p>在Java高并发环境下，多个线程之间可能存在资源共享情况，可能造成了数据不一致情况。很多人都想到可以利用加锁的方式来实现，如java中的synchronized同步块和Lock，然而这种方式虽然可以解决问题，但加锁的本质是thread，只允许同一时刻只有一个线程来访问同步块，而在有些情况下我们并不需要严格的同步，只保证能读写最新的值即可，所以volatile能达到这个效果。
+&lt;!--more--&gt;
+在学习java并发编程前，我们先简单了解一下java内存模型。</p>
+<h2>JMM</h2>
+<p>Java内存模型中规定了所有的变量都存储在主内存中，每条线程还有自己的工作内存，线程的工作内存中保存了该线程使用到的变量到主内存副本拷贝，线程对变量的所有操作（读取、赋值）都必须在工作内存中进行，而不能直接读写主内存中的变量。不同线程之间无法直接访问对方工作内存中的变量，线程间变量值的传递均需要在主内存来完成，线程、主内存和工作内存的交互关系如下图所示：
+&lt;center&gt;
+<img src="http://oqcre1dsl.bkt.clouddn.com/jmm.png?imageMogr2/thumbnail/!50p" alt="img">
+<img src="http://oqcre1dsl.bkt.clouddn.com/readwrite.png?imageMogr2/thumbnail/!38p" alt="img">
+&lt;/center&gt;
+read and load 从主存复制变量到当前工作内存
+use and assign  执行代码，改变共享变量值
+store and write 用工作内存数据刷新主存相关内容</p>
+<p>如：x＝1这条语句     执行线程必须先在自己的工作线程中对变量x所在的缓存行进行赋值操作，然后再写入主存当中。而不是直接将数值1写入主存中。
+下面继续分析并发编程中原子性、可见行、顺序性等概念。</p>
+<h2>原子性</h2>
+<p>在Java中，对基本数据类型的变量的读取和赋值操作是原子性操作，这些操作是不可被中断的，要么执行，要么不执行，这和数据库中事物的原子性概念很类似。</p>
+<p>如 x = 10;  y = x;     x＋＋；x＝x＋1
+在上面4个语句中，只有第一个是原子操作，其他都是复合操作，语句2包含2个操作，它先要去读取x的值，再将x的值写入工作内存，语句3和4都包含3个操作：读取x的值，进行加1操作，写入新的值  。
+所以只有简单的读取、赋值（变量之间的相互赋值不是原子操作）才是原子操作，另外在32位机器上，long等64位数据赋值也不是原子操作。</p>
+<h2>可见性</h2>
+<p>可见性是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。
+Java提供了volatile关键字来保证可见性。当一个共享变量被volatile修饰时，它会保证修改的值会立即被更新到主存，当有其他线程需要读取时，它会去内存中读取新值。而普通的共享变量不能保证可见性，因为普通共享变量被修改之后，什么时候被写入主存是不确定的，当其他线程去读取时，此时内存中可能还是原来的旧值，因此无法保证可见性。另外，通过synchronized和Lock也能够保证可见性，synchronized和Lock能保证同一时刻只有一个线程获取锁然后执行同步代码，并且在释放锁之前会将对变量的修改刷新到主存当中。因此可以保证可见性。</p>
+<h2>有序性</h2>
+<p>有序性：即程序执行的顺序按照代码的先后顺序执行，如下例子所示：</p>
+<p>int i = 0;
+boolean flag = false;
+i = 1;                //1
+flag = true;          //2</p>
 <p>上面例子中，语句1和2之间没有任何关系，jvm不能保证1一定在2前面执行，因为有可能发生指令重排序。指令重排序是指处理器为了提高程序运行效率，可能会对输入代码进行优化，它不保证程序中各个语句的执行先后顺序同代码中的顺序一致，但是它会保证程序最终执行结果和代码顺序执行的结果是一致的。下面是另一个例子：</p>
-<p>int a = 10;<br>int r = 2;<br>a = a + 3;   //1<br>r = a*a;     //2</p>
-<p>这种情况下语句2不会在语句1前面执行，因为r的计算依赖语句1的操作结果。<br>所以有序性只保证程序最终执行结果和代码顺序执行的结果是一致的，并没有强调执行语句必须与程序代码一致，这样在单个线程中不会出现任何问题，然而在多个线程下会存在问题，上面例子中语句1，2在不同线程中，则r的值有可能不正确。要想并发程序正确地执行，必须要保证原子性、可见性以及有序性。</p>
+<p>int a = 10;
+int r = 2;
+a = a + 3;   //1
+r = a*a;     //2</p>
+<p>这种情况下语句2不会在语句1前面执行，因为r的计算依赖语句1的操作结果。
+所以有序性只保证程序最终执行结果和代码顺序执行的结果是一致的，并没有强调执行语句必须与程序代码一致，这样在单个线程中不会出现任何问题，然而在多个线程下会存在问题，上面例子中语句1，2在不同线程中，则r的值有可能不正确。要想并发程序正确地执行，必须要保证原子性、可见性以及有序性。</p>
 <p>java中volatile关键字来保证了一定的“有序性”，同样synchronized和Lock也可以保证有序性。另外jvm内存模型中具备了一些先天的有序性：happens-before 原则，具体规则如下：</p>
 <ul>
 <li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作</li>
@@ -443,15 +466,30 @@
 <li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行</li>
 <li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始</li>
 </ul>
-<h2 id="volatile剖析"><a href="#volatile剖析" class="headerlink" title="volatile剖析"></a>volatile剖析</h2><p>在简单理解了jmm后，我们先在分析一下volatile关键字的作用。<br>volatile实际上有2个作用：<br>1).保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。<br>2).禁止进行指令重排序(内存屏障），它确保指令重排序时不会把其后面的指令排到内存屏障之前的位置，也不会把前面的指令排到内存屏障的后面</p>
+<h2>volatile剖析</h2>
+<p>在简单理解了jmm后，我们先在分析一下volatile关键字的作用。
+volatile实际上有2个作用：
+1).保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。
+2).禁止进行指令重排序(内存屏障），它确保指令重排序时不会把其后面的指令排到内存屏障之前的位置，也不会把前面的指令排到内存屏障的后面</p>
 <p>下面结合一些经典的例子讲解一下：在java中，thread的stop方法是极不推荐的，为了停止线程通常的做法设置一个标记：</p>
-<p>//线程1<br>boolean stop = false;<br>while(!stop){<br>    doSomething();<br>}<br>//线程2<br>stop = true;</p>
+<p>//线程1
+boolean stop = false;
+while(!stop){
+doSomething();
+}
+//线程2
+stop = true;</p>
 <p>线程1在运行的时候，会将stop变量的值拷贝一份放在自己的工作内存当中。那么当线程2更改了stop变量的值之后，但是还没来得及写入主存当中，线程2转去做其他事情了，那么线程1由于不知道线程2对stop变量的更改，因此还会一直循环下去。用volatile修饰之后会强制将修改的值立即写入主存，导致线程1的工作内存中缓存变量stop的缓存行无效，所以线程1再次读取变量stop的值时会去主存读取，所以stop的值就是最新的值，线程就停止了。</p>
-<p>下面是另一个典型的例子：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Test</span> &#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">int</span> inc = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">increase</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        inc++;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</div><div class="line">        final Test test = <span class="keyword">new</span> Test();</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</div><div class="line">            <span class="keyword">new</span> Thread()&#123;</div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</div><div class="line">                        test.increase();</div><div class="line">                &#125;;</div><div class="line">            &#125;.start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(Thread.activeCount()&gt;<span class="number">1</span>)</div><div class="line">            Thread.<span class="keyword">yield</span>();</div><div class="line">        System.<span class="keyword">out</span>.println(test.inc);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面是另一个典型的例子：
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Test</span> &#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">int</span> inc = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">increase</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        inc++;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</div><div class="line">        final Test test = <span class="keyword">new</span> Test();</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</div><div class="line">            <span class="keyword">new</span> Thread()&#123;</div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;<span class="number">1000</span>;j++)</div><div class="line">                        test.increase();</div><div class="line">                &#125;;</div><div class="line">            &#125;.start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(Thread.activeCount()&gt;<span class="number">1</span>)</div><div class="line">            Thread.<span class="keyword">yield</span>();</div><div class="line">        System.<span class="keyword">out</span>.println(test.inc);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>上面的操作大多数情况下都不是1000，因为volatile并不能保证原子性。上述例子中关键在于inc＋＋这个复合操作，分为读取、增加、写入三部操作，假设线程1从主存中读取了值，然后将值加一但还未写入主存，此时线程2也从内存中读取了值（此时和线程1读取的值一样，因为线程1还没将结果写入）然后增加写入，此时线程1继续执行，它已经不需要读取inc的值了，直接把计算的结果写入，所以这个时候线程2的增加操作被覆盖，导致只增加一次。使用synchronized和lock可以保证执行结果的正确性，也可以使用concurrent包下面的AtomicInteger类等。</p>
-<p>volatile不能保证操作的原子性，但可以保证有序性。在单例模式中，通常通过double－check来提升单例的执行效率：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class Singleton&#123;</div><div class="line"></div><div class="line">    private volatile static Singleton<span class="built_in"> instance </span>= <span class="literal">null</span>;</div><div class="line">    private Singleton() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static Singleton getInstance() &#123;</div><div class="line">        <span class="keyword">if</span>(<span class="attribute">instance</span>==null) &#123;</div><div class="line">            synchronized (Singleton.class) &#123;</div><div class="line">                <span class="keyword">if</span>(<span class="attribute">instance</span>==null)</div><div class="line">                   <span class="built_in"> instance </span>= new Singleton();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这里使用volatile关键在于instance = new Singleton()这条语句本质包括了3个步骤：<br>1:在堆中分配内存    2： 初始化堆中的对象   3:将堆中对象引用复制给instance<br>然后，上述三步中2和3是有可能发生指令重排序的，若先执行了3，此时instance非null，但堆中对象未初始化不能使用，若另一线程刚好执行到getInstance（）第一行，在判断 if(instance==null) 时程序会出现异常，所以volatile内存屏障防止了指令重排序，保证了2先于3发生。</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>volatile在某些情况下能保证并发的执行效率，但它并不能保证原子性，所以使用volatile时synchronized和lock一定能达到同样的效果，但反过来就不能保证。理解java中并发编程需要对jvm和操作系统有一定的了解，还需要多多学习。</p>
+<p>volatile不能保证操作的原子性，但可以保证有序性。在单例模式中，通常通过double－check来提升单例的执行效率：
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class Singleton&#123;</div><div class="line"></div><div class="line">    private volatile static Singleton<span class="built_in"> instance </span>= <span class="literal">null</span>;</div><div class="line">    private Singleton() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static Singleton getInstance() &#123;</div><div class="line">        <span class="keyword">if</span>(<span class="attribute">instance</span>==null) &#123;</div><div class="line">            synchronized (Singleton.class) &#123;</div><div class="line">                <span class="keyword">if</span>(<span class="attribute">instance</span>==null)</div><div class="line">                   <span class="built_in"> instance </span>= new Singleton();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里使用volatile关键在于instance = new Singleton()这条语句本质包括了3个步骤：
+1:在堆中分配内存    2： 初始化堆中的对象   3:将堆中对象引用复制给instance
+然后，上述三步中2和3是有可能发生指令重排序的，若先执行了3，此时instance非null，但堆中对象未初始化不能使用，若另一线程刚好执行到getInstance（）第一行，在判断 if(instance==null) 时程序会出现异常，所以volatile内存屏障防止了指令重排序，保证了2先于3发生。</p>
+<h2>总结：</h2>
+<p>volatile在某些情况下能保证并发的执行效率，但它并不能保证原子性，所以使用volatile时synchronized和lock一定能达到同样的效果，但反过来就不能保证。理解java中并发编程需要对jvm和操作系统有一定的了解，还需要多多学习。</p>
 
       
     </div>
@@ -600,7 +638,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -726,7 +764,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JMM"><span class="nav-number">1.</span> <span class="nav-text">JMM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原子性"><span class="nav-number">2.</span> <span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可见性"><span class="nav-number">3.</span> <span class="nav-text">可见性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有序性"><span class="nav-number">4.</span> <span class="nav-text">有序性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile剖析"><span class="nav-number">5.</span> <span class="nav-text">volatile剖析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结："><span class="nav-number">6.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">JMM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">可见性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">有序性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">volatile剖析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">6.</span> <span class="nav-text">总结：</span></a></li></ol></div>
             
 
           </div>

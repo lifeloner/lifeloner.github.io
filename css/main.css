@@ -1927,7 +1927,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #93e9ff;
+  background: #bb2a9d;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2898,6 +2898,11 @@ hr {
 }
 .posts-expand .post-title:hover:before {
   background: #222;
+}
+@media (max-width: 767px) {
+  .posts-expand .post-body {
+    font-size: 12px;
+  }
 }
 .posts-expand .post-body img {
   margin: 0 auto;

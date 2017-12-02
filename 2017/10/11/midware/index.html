@@ -102,10 +102,12 @@
 <meta property="og:site_name" content="lifeloner">
 <meta property="og:description" content="大型系统的发展离不开中间件的支持，从大型网站系统的发展历程中，我们也看到了中间件发挥的重要作用。下面我们了解一下最常见的服务框架、数据访问中间件和消息中间件以及相关的软负载中心，学习它们的设计过程以及在大型系统中解决的问题。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-02T10:06:26.795Z">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/traditionalArch.png?imageMogr2/thumbnail/!40p">
+<meta property="og:updated_time" content="2017-12-02T12:48:31.557Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大型系统中的中间件">
 <meta name="twitter:description" content="大型系统的发展离不开中间件的支持，从大型网站系统的发展历程中，我们也看到了中间件发挥的重要作用。下面我们了解一下最常见的服务框架、数据访问中间件和消息中间件以及相关的软负载中心，学习它们的设计过程以及在大型系统中解决的问题。">
+<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/traditionalArch.png?imageMogr2/thumbnail/!40p">
 
 
 
@@ -420,11 +422,9 @@
         <p>大型系统的发展离不开中间件的支持，从大型网站系统的发展历程中，我们也看到了中间件发挥的重要作用。下面我们了解一下最常见的服务框架、数据访问中间件和消息中间件以及相关的软负载中心，学习它们的设计过程以及在大型系统中解决的问题。</p>
 <a id="more"></a>
 <h2 id="服务框架">服务框架</h2>
-<p>在早期的互联网系统中，大多数网站系统如处于下图这个阶段，这样的系统结构在早期能够很好解决问题。随着网站规模扩大，业务复杂，应用开始变得臃肿。多个应用中会有大量重复冗余的代码，不利于系统的维护和稳定性。这种情况下，可以采用应用拆分的方法，将大应用拆分成小应用，降低冗余，但是仍然还在重复代码，不能从根本上解决问题。</p>
-<center>
-![img](http://oqcre1dsl.bkt.clouddn.com/traditionalArch.png?imageMogr2/thumbnail/!40p)
-</center>
-另外可以采用服务化的方案，如下图所示，我们在底层的数据库、缓存系统和应用层之间增加一层服务层，服务可以有多层也可以相互访问，这样系统结构更清晰了，一些重复的代码都做成了服务。这样有两个好处：一方面服务由专门团队管理，提升了代码质量，另一方面，底层的资源由服务层来管理，结构清晰，开发效率高，也更加稳定。当然服务化带来的远程服务调用也需要进行管理，也就是所谓的服务治理，这也是很重要很关键的部分，关联着整个系统的稳定性。
+<p>在早期的互联网系统中，大多数网站系统如处于下图这个阶段，这样的系统结构在早期能够很好解决问题。随着网站规模扩大，业务复杂，应用开始变得臃肿。多个应用中会有大量重复冗余的代码，不利于系统的维护和稳定性。这种情况下，可以采用应用拆分的方法，将大应用拆分成小应用，降低冗余，但是仍然还在重复代码，不能从根本上解决问题。<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/traditionalArch.png?imageMogr2/thumbnail/!40p" alt="img"><br>
+另外可以采用服务化的方案，如下图所示，我们在底层的数据库、缓存系统和应用层之间增加一层服务层，服务可以有多层也可以相互访问，这样系统结构更清晰了，一些重复的代码都做成了服务。这样有两个好处：一方面服务由专门团队管理，提升了代码质量，另一方面，底层的资源由服务层来管理，结构清晰，开发效率高，也更加稳定。当然服务化带来的远程服务调用也需要进行管理，也就是所谓的服务治理，这也是很重要很关键的部分，关联着整个系统的稳定性。</p>
 <center>	
 ![img](http://oqcre1dsl.bkt.clouddn.com/soaArch.png?imageMogr2/thumbnail/!40p)
 </center>

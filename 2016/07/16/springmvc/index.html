@@ -94,20 +94,18 @@
 
 
 
-<meta name="description" content="SpringMVC请求与controller映射SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
+<meta name="description" content="SpringMVC请求与controller映射 SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
 <meta name="keywords" content="SpringMVC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringMVC">
 <meta property="og:url" content="https://lifeloner.github.io/2016/07/16/springmvc/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="SpringMVC请求与controller映射SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
+<meta property="og:description" content="SpringMVC请求与controller映射 SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/dispatcherservlet.png">
 <meta property="og:updated_time" content="2017-11-19T08:54:34.037Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringMVC">
-<meta name="twitter:description" content="SpringMVC请求与controller映射SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
-<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/dispatcherservlet.png">
+<meta name="twitter:description" content="SpringMVC请求与controller映射 SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
 
 
 
@@ -419,14 +417,17 @@
       
 
       
-        <h1 id="SpringMVC请求与controller映射"><a href="#SpringMVC请求与controller映射" class="headerlink" title="SpringMVC请求与controller映射"></a>SpringMVC请求与controller映射</h1><p>SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。<br><a id="more"></a></p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/dispatcherservlet.png" alt="img"><br></center><br>Tomcat在启动时会扫描web.xml文件，得到servlet的映射数据servletMappings，据此可以知道每个servlet处理的请求路径。通过分析源码，通常把路径4类：</p>
-<ol>
-<li>以 /<em> 结尾的。 path.endsWith(“/</em>“)</li>
-<li>以 <em>. 开头的。 path.startsWith(“</em>.”)</li>
-<li>是否是 /      path.equals(“/“)</li>
-<li>以上3种之外的</li>
-</ol>
+        <h1>SpringMVC请求与controller映射</h1>
+<p>SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。</p>
+<a id="more"></a>
+<center>
+![img](http://oqcre1dsl.bkt.clouddn.com/dispatcherservlet.png)
+</center>
+Tomcat在启动时会扫描web.xml文件，得到servlet的映射数据servletMappings，据此可以知道每个servlet处理的请求路径。通过分析源码，通常把路径4类：
+1. 以 /* 结尾的。 path.endsWith("/*")
+2. 以 *. 开头的。 path.startsWith("*.")
+3. 是否是 /      path.equals("/")
+4. 以上3种之外的
 <p>上述4种映射处理后会被放入 wrapper中，这里Wrapper 代表一个 Servlet，它负责管理一个 Servlet，包括的 Servlet 的装载、初始化、执行以及资源回收，其中4类servlet对应的wrapper如下：</p>
 <ol>
 <li>/* 对应的Servlet会放在wildcardWrappers中</li>
@@ -442,14 +443,50 @@
 <li>使用资源文件来处理servlet，使用contextVersion的welcomeResources属性，这个属性是个字符串数组</li>
 <li>使用默认的servlet，使用contextVersion的defaultWrapper</li>
 </ol>
-<p>下面我们继续分析对于某个具体的请求(如<a href="http://ip:port/contextPath/path" target="_blank" rel="noopener">http://ip:port/contextPath/path</a>)<br>SpringMVC如何找到对应的Controller方法，即请求与Controller之间的映射关系。DispatcherServlet根据url得到对应的HandlerAdapter进行处理，处理过程中有几个重要的接口，HandlerMethodArgumentResolver、HandlerMethodReturnValueHandler。HandlerAdapter在处理每个请求时会实例化一个ServletInvocableHandlerMethod对象进行处理，处理请求时会根据ServletInvocableHandlerMethod的属性argumentResolvers（这个属性是它的父类InvocableHandlerMethod中定义的）进行处理，其中argumentResolvers属性是一个HandlerMethodArgumentResolverComposite类，这个类是实现了HandlerMethodArgumentResolver接口的类， 处理响应的时候，会根据ServletInvocableHandlerMethod的属性returnValueHandlers进行处理，returnValueHandlers属性是一HandlerMethodReturnValueHandlerComposite类，这个类是实现了HandlerMethodReturnValueHandler接口的类，这2个属性都在ServletInvocableHandlerMethod实例化的时候被赋值（通过HandlerAdapter的属性进行赋值），HandlerAdapter的相关属性是在HandlerAdapter进行实例化由Spring容量注入。</p>
-<p> 在常见的注解中，使用@ResponseBody注解的话最终返回值会被RequestResponseBodyMethodProcessor类处理，该类同时实现了HandlerMethodReturnValueHandler和HandlerMethodArgumentResolver这两个接口，所以它支持的请求类型是Controller方法参数中带有@RequestBody注解，支持的响应类型是Controller方法带有@ResponseBody注解，其他常用的HandlerMethodArgumentResolver实现类如下：<br>   1.RequestParamMethodArgumentResolver<br>     支持带有@RequestParam注解的参数或带有MultipartFile类型的参数<br>   2.RequestParamMapMethodArgumentResolver<br>     支持带有@RequestParam注解的参数 &amp;&amp; @RequestParam注解的属性value存在 &amp;&amp; 参数类型是实现Map接口的属性<br>   3.PathVariableMethodArgumentResolver<br>     支持带有@PathVariable注解的参数 且如果参数实现了Map接口，@PathVariable注解需带有value属性<br>   4.MatrixVariableMethodArgumentResolver<br>     支持带有@MatrixVariable注解的参数 且如果参数实现了Map接口，@MatrixVariable注解需带有value属性<br>   5.RequestResponseBodyMethodProcessor<br>     方法参数中带有@RequestBody注解<br>   6.ServletRequestMethodArgumentResolver<br>     参数类型是实现或继承或是WebRequest、ServletRequest、MultipartRequest、HttpSession、Principal、Locale、TimeZone、InputStream、Reader、HttpMethod这些类。<br>   7.ServletResponseMethodArgumentResolver<br>     参数类型是实现或继承或是ServletResponse、OutputStream、Writer这些类<br>   8.RedirectAttributesMethodArgumentResolver<br>     参数是实现了RedirectAttributes接口的类<br>   9.HttpEntityMethodProcessor<br>     参数类型是HttpEntity</p>
-<p>常用的HandlerMethodReturnValueHandler实现类如下：<br>  1.ModelAndViewMethodReturnValueHandler<br>    返回值类型是ModelAndView或其子类<br>  2.ModelMethodProcessor<br>    返回值类型是Model或其子类<br>  3.ViewMethodReturnValueHandler<br>    返回值类型是View或其子类<br>  4.HttpHeadersReturnValueHandler<br>     返回值类型是HttpHeaders或其子类<br>  5.ModelAttributeMethodProcessor<br>    返回值有@ModelAttribute注解<br>  6.ViewNameMethodReturnValueHandler<br>     返回值是void或String</p>
+<p>下面我们继续分析对于某个具体的请求(如http://ip:port/contextPath/path)<br>
+SpringMVC如何找到对应的Controller方法，即请求与Controller之间的映射关系。DispatcherServlet根据url得到对应的HandlerAdapter进行处理，处理过程中有几个重要的接口，HandlerMethodArgumentResolver、HandlerMethodReturnValueHandler。HandlerAdapter在处理每个请求时会实例化一个ServletInvocableHandlerMethod对象进行处理，处理请求时会根据ServletInvocableHandlerMethod的属性argumentResolvers（这个属性是它的父类InvocableHandlerMethod中定义的）进行处理，其中argumentResolvers属性是一个HandlerMethodArgumentResolverComposite类，这个类是实现了HandlerMethodArgumentResolver接口的类， 处理响应的时候，会根据ServletInvocableHandlerMethod的属性returnValueHandlers进行处理，returnValueHandlers属性是一HandlerMethodReturnValueHandlerComposite类，这个类是实现了HandlerMethodReturnValueHandler接口的类，这2个属性都在ServletInvocableHandlerMethod实例化的时候被赋值（通过HandlerAdapter的属性进行赋值），HandlerAdapter的相关属性是在HandlerAdapter进行实例化由Spring容量注入。</p>
+<p>在常见的注解中，使用@ResponseBody注解的话最终返回值会被RequestResponseBodyMethodProcessor类处理，该类同时实现了HandlerMethodReturnValueHandler和HandlerMethodArgumentResolver这两个接口，所以它支持的请求类型是Controller方法参数中带有@RequestBody注解，支持的响应类型是Controller方法带有@ResponseBody注解，其他常用的HandlerMethodArgumentResolver实现类如下：<br>
+1.RequestParamMethodArgumentResolver<br>
+支持带有@RequestParam注解的参数或带有MultipartFile类型的参数<br>
+2.RequestParamMapMethodArgumentResolver<br>
+支持带有@RequestParam注解的参数 &amp;&amp; @RequestParam注解的属性value存在 &amp;&amp; 参数类型是实现Map接口的属性<br>
+3.PathVariableMethodArgumentResolver<br>
+支持带有@PathVariable注解的参数 且如果参数实现了Map接口，@PathVariable注解需带有value属性<br>
+4.MatrixVariableMethodArgumentResolver<br>
+支持带有@MatrixVariable注解的参数 且如果参数实现了Map接口，@MatrixVariable注解需带有value属性<br>
+5.RequestResponseBodyMethodProcessor<br>
+方法参数中带有@RequestBody注解<br>
+6.ServletRequestMethodArgumentResolver<br>
+参数类型是实现或继承或是WebRequest、ServletRequest、MultipartRequest、HttpSession、Principal、Locale、TimeZone、InputStream、Reader、HttpMethod这些类。<br>
+7.ServletResponseMethodArgumentResolver<br>
+参数类型是实现或继承或是ServletResponse、OutputStream、Writer这些类<br>
+8.RedirectAttributesMethodArgumentResolver<br>
+参数是实现了RedirectAttributes接口的类<br>
+9.HttpEntityMethodProcessor<br>
+参数类型是HttpEntity</p>
+<p>常用的HandlerMethodReturnValueHandler实现类如下：<br>
+1.ModelAndViewMethodReturnValueHandler<br>
+返回值类型是ModelAndView或其子类<br>
+2.ModelMethodProcessor<br>
+返回值类型是Model或其子类<br>
+3.ViewMethodReturnValueHandler<br>
+返回值类型是View或其子类<br>
+4.HttpHeadersReturnValueHandler<br>
+返回值类型是HttpHeaders或其子类<br>
+5.ModelAttributeMethodProcessor<br>
+返回值有@ModelAttribute注解<br>
+6.ViewNameMethodReturnValueHandler<br>
+返回值是void或String</p>
 <p>SpringMVC中将一个类添加@Controller以表示该类是一个controller，其他常用的注解如下：</p>
 <p>1.@RequestMapping</p>
-<p>  用来标记请求的路径，它可以标记在类上面，也可以标记在方法上，当方法上和类上都标记了@RequestMapping的时候，那么对应的方法对应的Url就是类上的加方法上的。在RequestMapping中还可以指定一个属性method，其主要对应的值有RequestMethod.GET和RequestMethod.POST，@RequestMapping中还有一个属性params，可以通过该属性指定请求参数中必须包含某一参数，或必须不包含某一参数，或某参数的值必须是什么，以此来缩小指定的映射范围。</p>
-<p>2.@PathVariable<br>   可以标记在方法的参数上，利用它标记的参数可以利用请求路径传值，下面是一个具体的例子<br>        @RequestMapping(value=”/comment/{blogId}”, method=RequestMethod.POST)<br>        public void comment(Comment comment,@PathVariable int blogId, HttpSession session, HttpServletResponse response) throws IOException<br>          }</p>
-<p>3.@RequestParam<br>    用来给参数传值的，但是它是从头request的参数里面取值，相当于request.getParameter(“参数名”)方法。它的取值规则跟@PathVariable是一样的，当没有指定的时候，默认是从request中取名称跟后面接的变量名同名的参数值，当要明确从request中取一个参数的时候使用@RequestParam(“参数名”)。</p>
+<p>用来标记请求的路径，它可以标记在类上面，也可以标记在方法上，当方法上和类上都标记了@RequestMapping的时候，那么对应的方法对应的Url就是类上的加方法上的。在RequestMapping中还可以指定一个属性method，其主要对应的值有RequestMethod.GET和RequestMethod.POST，@RequestMapping中还有一个属性params，可以通过该属性指定请求参数中必须包含某一参数，或必须不包含某一参数，或某参数的值必须是什么，以此来缩小指定的映射范围。</p>
+<p>2.@PathVariable<br>
+可以标记在方法的参数上，利用它标记的参数可以利用请求路径传值，下面是一个具体的例子<br>
+@RequestMapping(value=&quot;/comment/{blogId}&quot;, method=RequestMethod.POST)<br>
+public void comment(Comment comment,@PathVariable int blogId, HttpSession session, HttpServletResponse response) throws IOException<br>
+		}</p>
+<p>3.@RequestParam<br>
+用来给参数传值的，但是它是从头request的参数里面取值，相当于request.getParameter(“参数名”)方法。它的取值规则跟@PathVariable是一样的，当没有指定的时候，默认是从request中取名称跟后面接的变量名同名的参数值，当要明确从request中取一个参数的时候使用@RequestParam(“参数名”)。</p>
 <p>4.返回值</p>
 <ul>
 <li>返回一个ModelAndView，其中Model是一个Map，里面存放的是一对对的键值对，其可以直接在页面上使用，View是一个字符串，表示的是某一个View的名称</li>
@@ -457,7 +494,9 @@
 <li>返回一个Model也就是一个Map，这个时  返回一个Model也就是一个Map，这个时候将解析默认生成的view name</li>
 <li>任何其他类型的对象。这个时候就会把该方法返回类型对象当做返回Model模型的一个属性返回给视图使用，这个属性名称可以通过在方法上给定@ModelAttribute注解来指定，否则将默认使用该返回类名称作为属性名称。</li>
 </ul>
-<p>5.@SessionAttributes<br>    只能声明在类上，而不能声明在方法上，表示模型对象的特定属性具有 Session 范围的作用域<br>    如：@SessionAttributes(types = {User.class,Dept.class},value={“attr1”,”attr2”})</p>
+<p>5.@SessionAttributes<br>
+	只能声明在类上，而不能声明在方法上，表示模型对象的特定属性具有 Session 范围的作用域<br>
+	如：@SessionAttributes(types = {User.class,Dept.class},value={“attr1”,“attr2”})</p>
 
       
     </div>
@@ -732,7 +771,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringMVC请求与controller映射"><span class="nav-number">1.</span> <span class="nav-text">SpringMVC请求与controller映射</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">SpringMVC请求与controller映射</span></a></li></ol></div>
             
 
           </div>

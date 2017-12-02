@@ -102,15 +102,10 @@
 <meta property="og:site_name" content="lifeloner">
 <meta property="og:description" content="SpringMVC是web开发中一种优良的MVC框架，它分离了控制器、模型对象、分派器以及处理程序对象的角色。当前的MVC框架有多种，主要有Struts1.x、Struts2、SpringMVC，而这些MVC框架都是在围绕着Controller进行重构和改善，他们主要的特点可以简单的概括为下图。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/servlet.png">
-<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/springmvc.png">
-<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/appservlet.png">
-<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/applicationcontext.png">
 <meta property="og:updated_time" content="2017-11-19T08:27:26.853Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringMVC框架概括">
 <meta name="twitter:description" content="SpringMVC是web开发中一种优良的MVC框架，它分离了控制器、模型对象、分派器以及处理程序对象的角色。当前的MVC框架有多种，主要有Struts1.x、Struts2、SpringMVC，而这些MVC框架都是在围绕着Controller进行重构和改善，他们主要的特点可以简单的概括为下图。">
-<meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/servlet.png">
 
 
 
@@ -422,20 +417,33 @@
       
 
       
-        <p>SpringMVC是web开发中一种优良的MVC框架，它分离了控制器、模型对象、分派器以及处理程序对象的角色。当前的MVC框架有多种，主要有Struts1.x、Struts2、SpringMVC，而这些MVC框架都是在围绕着Controller进行重构和改善，他们主要的特点可以简单的概括为下图。<br><a id="more"></a></p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/servlet.png" alt="img"><br></center><br>Struts1.x是一个早期的MVC框架实现，它保留了servlet中HttpServletRequest和HttpServletResponse这两大接口作为参数，另外它将返回值改为ActionForward完成对响应结果的处理，除此之外它增加了ActionMapping和ActionForm两大参数，相比传统的servlet，它优化了逻辑处理过程。struts2主要有2个创新点，首先消除了HttpServletRequest或者HttpServletResponse这样的原生Servlet对象，其次将请求参数和响应数据从响应方法中剥离到controller对象中的属性。这样整个Controller类彻底与Web容器解耦，摆脱了servlet的束缚，最后servlet引入了ThreadLocal模式，使得Controller成为一个线程安全的对象被servlet模型使用，它的拦截器、OGNL等技术使它成为一个流行的MVC框架。</p>
+        <p>SpringMVC是web开发中一种优良的MVC框架，它分离了控制器、模型对象、分派器以及处理程序对象的角色。当前的MVC框架有多种，主要有Struts1.x、Struts2、SpringMVC，而这些MVC框架都是在围绕着Controller进行重构和改善，他们主要的特点可以简单的概括为下图。</p>
+<a id="more"></a>
+<center>
+![img](http://oqcre1dsl.bkt.clouddn.com/servlet.png)
+</center>
+Struts1.x是一个早期的MVC框架实现，它保留了servlet中HttpServletRequest和HttpServletResponse这两大接口作为参数，另外它将返回值改为ActionForward完成对响应结果的处理，除此之外它增加了ActionMapping和ActionForm两大参数，相比传统的servlet，它优化了逻辑处理过程。struts2主要有2个创新点，首先消除了HttpServletRequest或者HttpServletResponse这样的原生Servlet对象，其次将请求参数和响应数据从响应方法中剥离到controller对象中的属性。这样整个Controller类彻底与Web容器解耦，摆脱了servlet的束缚，最后servlet引入了ThreadLocal模式，使得Controller成为一个线程安全的对象被servlet模型使用，它的拦截器、OGNL等技术使它成为一个流行的MVC框架。
 <p>SpringMVC的创新之处在于它引入Annotation来完成请求-响应的映射关系 ，在JDK1.5普及之后，Annotation作为一种新兴的Java语法，逐渐被大家熟知和应用。另外SpringMVC在响应方法上，可以支持多种多样不同的参数类型和返回值类型，当参数类型为Model时，SpringMVC将会自动将请求参数封装于Model内部而传入请求方法；当返回值类型是String时，直接表示SpringMVC需要返回的视图类型和视图内容，在写Controller的代码时可以随心所欲，不再受到任何契约的束缚。</p>
 <p>SpringMVC的主要工作流程如下图所示：</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/springmvc.png" alt="img"><br></center></p>
-<ol>
-<li>用户向服务器发送请求，请求被Spring 前端控制Servelt DispatcherServlet捕获；</li>
-<li>DispatcherServlet对请求URL进行解析，得到请求资源标识符（URI）。然后根据该URI，调用HandlerMapping获得该Handler配置的所有相关的对象（包括Handler对象以及Handler对象对应的拦截器），最后以HandlerExecutionChain对象的形式返回；</li>
-<li>DispatcherServlet 根据获得的Handler，选择一个合适的HandlerAdapter，如果成功获得HandlerAdapter后，此时将开始执行拦截器的方法，拦截器的作用是拦截用户请求并在执行controller中方法之前或之后进行相应的处理，主要有3个方法，boolean preHandle在处理请求之前被调用，当一     个请求中存在多个拦截器时，拦截器会根据其声明顺序依次执行其preHandle 方法，返回为false 时则请求结束，后续拦截器和对应Handler都不会再被调用，当返回值为true 时就会继续调用下一个拦截器的preHandle方法。 void postHandle是处理请求之后DispatcherServlet 对视图进行渲染之     前被调用。postHandle方法被调用的顺序与拦截器声明的顺序相反。 void afterCompletion在DispatcherServlet 渲染视图之后被调用，当对应的拦截器的preHandle方法的返回值为true时才会执行，主要用于进行资源清理工作。<br>4.DispatcherServlet调用ViewResolver，ViewResolver根据ModelAndView对象中的信息解析得到对应的View对象（使用了freemarker的视图解析器）；<br>5.DispatcherServlet调用View，View根据ModelAndView对象中Model中的数据进行页面渲染；<br>6.DispatcherServlet返回响应给用户。</li>
-</ol>
-<p>在项目使用Spring MVC首先需要在web.xml配置对应的servlet，servlet-mapping配置指定了由Spring MVC 处理的请求的路径。<br>在web.xml中也可以通过配置context-param来指定spring配置文件的路径，可以指定多个配置文件的路径。</p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/appservlet.png" alt="img"><br></center><br>在spring的配置文件中配置ViewResolver，HandlerMapping和HandlerAdapter，项目中可以使用freemarker实现视图， <mvc:annotation-driven>配置会在spring容器中注册DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter。</mvc:annotation-driven></p>
-<p><center><br><img src="http://oqcre1dsl.bkt.clouddn.com/applicationcontext.png" alt="img"><br></center><br>最后在controller类中调用service类进行业务处理，最终结合了mybaits操作修改了数据库。</p>
-
+<center>
+![img](http://oqcre1dsl.bkt.clouddn.com/springmvc.png)
+</center>
+ 1. 用户向服务器发送请求，请求被Spring 前端控制Servelt DispatcherServlet捕获；
+ 2. DispatcherServlet对请求URL进行解析，得到请求资源标识符（URI）。然后根据该URI，调用HandlerMapping获得该Handler配置的所有相关的对象（包括Handler对象以及Handler对象对应的拦截器），最后以HandlerExecutionChain对象的形式返回；
+ 3. DispatcherServlet 根据获得的Handler，选择一个合适的HandlerAdapter，如果成功获得HandlerAdapter后，此时将开始执行拦截器的方法，拦截器的作用是拦截用户请求并在执行controller中方法之前或之后进行相应的处理，主要有3个方法，boolean preHandle在处理请求之前被调用，当一     个请求中存在多个拦截器时，拦截器会根据其声明顺序依次执行其preHandle 方法，返回为false 时则请求结束，后续拦截器和对应Handler都不会再被调用，当返回值为true 时就会继续调用下一个拦截器的preHandle方法。 void postHandle是处理请求之后DispatcherServlet 对视图进行渲染之     前被调用。postHandle方法被调用的顺序与拦截器声明的顺序相反。 void afterCompletion在DispatcherServlet 渲染视图之后被调用，当对应的拦截器的preHandle方法的返回值为true时才会执行，主要用于进行资源清理工作。
+ 4.DispatcherServlet调用ViewResolver，ViewResolver根据ModelAndView对象中的信息解析得到对应的View对象（使用了freemarker的视图解析器）；
+ 5.DispatcherServlet调用View，View根据ModelAndView对象中Model中的数据进行页面渲染；
+ 6.DispatcherServlet返回响应给用户。
+<p>在项目使用Spring MVC首先需要在web.xml配置对应的servlet，servlet-mapping配置指定了由Spring MVC 处理的请求的路径。<br>
+在web.xml中也可以通过配置context-param来指定spring配置文件的路径，可以指定多个配置文件的路径。</p>
+<center>
+![img](http://oqcre1dsl.bkt.clouddn.com/appservlet.png)
+</center>
+在spring的配置文件中配置ViewResolver，HandlerMapping和HandlerAdapter，项目中可以使用freemarker实现视图， <mvc:annotation-driven>配置会在spring容器中注册DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter。
+<center>
+![img](http://oqcre1dsl.bkt.clouddn.com/applicationcontext.png)
+</center>
+最后在controller类中调用service类进行业务处理，最终结合了mybaits操作修改了数据库。</mvc:annotation-driven>
       
     </div>
     

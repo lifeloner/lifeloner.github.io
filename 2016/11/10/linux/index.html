@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="显示日期：date +%Y%m%d    date +%H：%M显示日历al                 cal 年月日：cal  month  year">
+<meta name="description" content="显示日期：date +%Y%m%d    date +%H：%M 显示日历al cal 年月日：cal  month  year">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux">
 <meta property="og:url" content="https://lifeloner.github.io/2016/11/10/linux/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="显示日期：date +%Y%m%d    date +%H：%M显示日历al                 cal 年月日：cal  month  year">
+<meta property="og:description" content="显示日期：date +%Y%m%d    date +%H：%M 显示日历al cal 年月日：cal  month  year">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-08-07T12:58:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux">
-<meta name="twitter:description" content="显示日期：date +%Y%m%d    date +%H：%M显示日历al                 cal 年月日：cal  month  year">
+<meta name="twitter:description" content="显示日期：date +%Y%m%d    date +%H：%M 显示日历al cal 年月日：cal  month  year">
 
 
 
@@ -417,16 +417,89 @@
       
 
       
-        <p>显示日期：date +%Y%m%d    date +%H：%M<br>显示日历al<br>                 cal 年月日：cal  month  year<br><a id="more"></a><br>计算器：bc<br>                quit退出<br>帮助指令：man<br>                man 命令<br>数据同步磁盘：sync<br>关机：shutdown -t（秒）-r（重启） -h（停止系统服务后关机）<br>重启：reboot</p>
-<p>改变群组： chgrp  -r（递归） 文件／目录<br>改变拥有者：chown -r  拥有者：群组 文件／目录<br>改变属性：chmod  -r 数字 文件／目录 （rwx：421）</p>
-<p>目录所在磁盘信息：df   -a（所有）-k（kb） -m（mb）-h（gb，mb，kb自行显示） 文件／目录<br>当前目录所有文件容量：du -a(所有)  -s（总量）-k（kb）目录<br>连接档：in<br>              hard link（硬连接、实际连接，指向同一档案、不占空间、删除原始档不受影响）<br>              symbolic link（符号连接、快捷方式、占空间、删除原始档后不可用）<br>              用法 ：in   -s（符号连接、默认硬连接） -f（若存在同名删除再建立） 源文件  目标文件</p>
-<p>磁盘分割：fdisk  -l(所有装置)  装置名称<br>                  进入后会有一些命令，主要有：<br>                                                                    l 显示所有硬盘信息；<br>                                                                    n新增一个磁盘分区；<br>                                                                    p显示磁盘分区<br>                                                                    d删除一个磁盘分区<br>                                                                    q不存储离开<br>                                                                    w写入磁盘分区表离开<br>格式化磁盘：mke2fs  -b（设置bolck大小）-c（检查错误）磁盘名称<br>磁盘检验：fsck -A（所有装置扫描）-a（自动修复） -f（强制进行细部检查）<br>磁盘挂载：mount -a(所有磁盘全部挂载)  -t（指定格式类型） 装置名称   挂载点<br>卸载装置：umount 装置代号／挂载点</p>
-<p>虚拟内存：<br>                   将目录格式化为swap档案格式：mkswap 目录<br>                    启动：swapon    目录<br>                    关闭：swapoff    目录</p>
-<p>删除空的目录：rmdir -p（递归删除）目录<br>复制文档目录：cp  -l（hard link建立）-p（连属性一起复制过去）-r（递归）-s（symbolic link） -u（更新目标文件）  源文件   目标文件<br>删除档案目录：rm -f（强制） -r（递归） 文件／目录<br>移动档案／目录：mv   -f（强制） -u（更新） 源  目的</p>
-<p>查看：cat   -n（行号） -A（显示特殊字符） 文件<br> 一页一页翻动  ：more  文件<br>                                             空格键：向下翻一页    enter：下一行    ／字符串：搜索字符串  :f ：显示文件名和行数   q：退出<br>                            less  文件<br>                                             空格键：向下翻一页   pagedown：向下一页   pageup：向上一页   ／字符串：向下搜索字符串    ？／：向上搜索字符串    q：退出<br>取出前面几行：head   -n（n行）  文件<br>后面几行：tail  -n   文件<br>非ascll文件（二进制）：od  -t （类型）  文件<br>touch  -a（修改atime）-c（修改ctime）-m（修改mtime）文件</p>
-<p>预设权限：umask 数字<br>设置隐藏属性：chattr +-= 文件<br>                        常见的：i：无法修改、增加 、删除     a：只能增加不能修改删除<br>查看隐藏属性：lsattr  -a(隐藏属性)  -R（递归子目录）  文件<br>文件类型：file  文件<br>文件查找：<br>                查找执行档(命令)：which  -a（所有同名） 文件名<br>                查找特定档案（二进制、源文件、man说明文件）：whereis     -b（二进制文件）-s（source来源） -m（manual路径下） 文件<br>                locate  文件名（可以查找部分匹配文件名的文件） 文件名<br>                find     路径  参数<br>                                    （-name filename）<br>                                    （-user username）<br>                                    （-group name）</p>
-<p>压缩打包：<br>                gzip -d（解压缩） 文件<br>                zcat：查看gzip压缩文件内容<br>                bzip2  -z(压缩)  -d(解压缩)  文件<br>                bzcat  ：查看bzip2压缩的文件<br>                tar  -c(建立)  -x(解开) -t(查看)  -v（压缩过程显示文件）-f(使用档名)  -z(使用gzip)  -j(使用bzip2 )  -P（使用绝对路径）-p（保持原来文件属性）<br>                             eg：tar -zcvf   /tmp/a.tar.gz  /home /etc  把home 和 etc目录打包并gzip压缩到／tmp下的a中<br>                                     tar -zxvf  ／tmp／a.tar.gz  ／home  将 文件中的home先gzip解压然后解开打包 最后放在当前目录下<br>                dd  if=   of=    (bs= 默认512  count=)</p>
-<p>截取命令：<br>               cut：<br>                       -d  分割字符（单个字符）与 -f一起使用<br>                       -f  取出第几段  与-d配合使用<br>                       -c  取出固定的字符区间<br>                          eg：echo ￥path | cut -d ‘：’ -f 5      取出path种以：分割的第5块<br>                                 export | cut -c 12-   取出export配置第12个开始后的所有字符<br>               grep:<br>                         -c:计算匹配次数<br>                         -n：显示行号<br>                         -v:反过来没有匹配的那一行<br>                         -i：忽略大小写</p>
+        <p>显示日期：date +%Y%m%d    date +%H：%M<br>
+显示日历al<br>
+cal 年月日：cal  month  year</p>
+<a id="more"></a>
+<p>计算器：bc<br>
+quit退出<br>
+帮助指令：man<br>
+man 命令<br>
+数据同步磁盘：sync<br>
+关机：shutdown -t（秒）-r（重启） -h（停止系统服务后关机）<br>
+重启：reboot</p>
+<p>改变群组： chgrp  -r（递归） 文件／目录<br>
+改变拥有者：chown -r  拥有者：群组 文件／目录<br>
+改变属性：chmod  -r 数字 文件／目录 （rwx：421）</p>
+<p>目录所在磁盘信息：df   -a（所有）-k（kb） -m（mb）-h（gb，mb，kb自行显示） 文件／目录<br>
+当前目录所有文件容量：du -a(所有)  -s（总量）-k（kb）目录<br>
+连接档：in<br>
+hard link（硬连接、实际连接，指向同一档案、不占空间、删除原始档不受影响）<br>
+symbolic link（符号连接、快捷方式、占空间、删除原始档后不可用）<br>
+用法 ：in   -s（符号连接、默认硬连接） -f（若存在同名删除再建立） 源文件  目标文件</p>
+<p>磁盘分割：fdisk  -l(所有装置)  装置名称<br>
+进入后会有一些命令，主要有：<br>
+l 显示所有硬盘信息；<br>
+n新增一个磁盘分区；<br>
+p显示磁盘分区<br>
+d删除一个磁盘分区<br>
+q不存储离开<br>
+w写入磁盘分区表离开<br>
+格式化磁盘：mke2fs  -b（设置bolck大小）-c（检查错误）磁盘名称<br>
+磁盘检验：fsck -A（所有装置扫描）-a（自动修复） -f（强制进行细部检查）<br>
+磁盘挂载：mount -a(所有磁盘全部挂载)  -t（指定格式类型） 装置名称   挂载点<br>
+卸载装置：umount 装置代号／挂载点</p>
+<p>虚拟内存：<br>
+将目录格式化为swap档案格式：mkswap 目录<br>
+启动：swapon    目录<br>
+关闭：swapoff    目录</p>
+<p>删除空的目录：rmdir -p（递归删除）目录<br>
+复制文档目录：cp  -l（hard link建立）-p（连属性一起复制过去）-r（递归）-s（symbolic link） -u（更新目标文件）  源文件   目标文件<br>
+删除档案目录：rm -f（强制） -r（递归） 文件／目录<br>
+移动档案／目录：mv   -f（强制） -u（更新） 源  目的</p>
+<p>查看：cat   -n（行号） -A（显示特殊字符） 文件<br>
+一页一页翻动  ：more  文件<br>
+空格键：向下翻一页    enter：下一行    ／字符串：搜索字符串  :f ：显示文件名和行数   q：退出<br>
+less  文件<br>
+空格键：向下翻一页   pagedown：向下一页   pageup：向上一页   ／字符串：向下搜索字符串    ？／：向上搜索字符串    q：退出<br>
+取出前面几行：head   -n（n行）  文件<br>
+后面几行：tail  -n   文件<br>
+非ascll文件（二进制）：od  -t （类型）  文件<br>
+touch  -a（修改atime）-c（修改ctime）-m（修改mtime）文件</p>
+<p>预设权限：umask 数字<br>
+设置隐藏属性：chattr ±= 文件<br>
+常见的：i：无法修改、增加 、删除     a：只能增加不能修改删除<br>
+查看隐藏属性：lsattr  -a(隐藏属性)  -R（递归子目录）  文件<br>
+文件类型：file  文件<br>
+文件查找：<br>
+查找执行档(命令)：which  -a（所有同名） 文件名<br>
+查找特定档案（二进制、源文件、man说明文件）：whereis     -b（二进制文件）-s（source来源） -m（manual路径下） 文件<br>
+locate  文件名（可以查找部分匹配文件名的文件） 文件名<br>
+find     路径  参数<br>
+（-name filename）<br>
+（-user username）<br>
+（-group name）</p>
+<p>压缩打包：<br>
+gzip -d（解压缩） 文件<br>
+zcat：查看gzip压缩文件内容<br>
+bzip2  -z(压缩)  -d(解压缩)  文件<br>
+bzcat  ：查看bzip2压缩的文件<br>
+tar  -c(建立)  -x(解开) -t(查看)  -v（压缩过程显示文件）-f(使用档名)  -z(使用gzip)  -j(使用bzip2 )  -P（使用绝对路径）-p（保持原来文件属性）<br>
+eg：tar -zcvf   /tmp/a.tar.gz  /home /etc  把home 和 etc目录打包并gzip压缩到／tmp下的a中<br>
+tar -zxvf  ／tmp／a.tar.gz  ／home  将 文件中的home先gzip解压然后解开打包 最后放在当前目录下<br>
+dd  if=   of=    (bs= 默认512  count=)</p>
+<p>截取命令：<br>
+cut：<br>
+-d  分割字符（单个字符）与 -f一起使用<br>
+-f  取出第几段  与-d配合使用<br>
+-c  取出固定的字符区间<br>
+eg：echo ￥path | cut -d ‘：’ -f 5      取出path种以：分割的第5块<br>
+export | cut -c 12-   取出export配置第12个开始后的所有字符<br>
+grep:<br>
+-c:计算匹配次数<br>
+-n：显示行号<br>
+-v:反过来没有匹配的那一行<br>
+-i：忽略大小写</p>
 
       
     </div>

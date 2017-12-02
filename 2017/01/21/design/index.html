@@ -452,7 +452,7 @@
 <h2 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h2><p>命令模式定义：将请求封装为命令对象，以便来使用不同的请求，队列或日志来参数化其他对象。命令模式也支持撤销操作。<br>命令对象在特定接受者上绑定一组动作来封装一个请求，命令是通过将动作和接受者绑定在一起做到的，命令对象通常只暴露一个execute方法，该方法被调用时，接受者就会进行相关的操作。从表面看，调用者不知道哪个接受者进行了哪些动作，从而通过命令对象将调用者和接受者进行了解耦。</p>
 <p>命令模式的用途：命令可以讲运算块打包（一组动作和一个接受者），然后传来传去。命令对象甚至可以在不同的线程中被调用，所以它可以用来：（1）日程安排（2）线程池（3）工作队列</p>
 <p>命令模式将发出请求的对象和执行请求的对象解耦，这两者之间是通过命令对象进行沟通的，命令对象封装了接受者和一组动作，命令支持撤销，通过宏命令（多组命令）可以对简单命令进行扩展。命令用于线程队列、日志系统、事物系统等。</p>
-<p>Java代码 : <a href="https://github.com/lifeloner/designPattern" target="_blank" rel="external">https://github.com/lifeloner/designPattern</a></p>
+<p>Java代码 : <a href="https://github.com/lifeloner/designPattern" target="_blank" rel="noopener">https://github.com/lifeloner/designPattern</a></p>
 
       
     </div>

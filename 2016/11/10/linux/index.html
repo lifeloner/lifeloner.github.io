@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="lifeloner">
 <meta property="og:description" content="显示日期：date +%Y%m%d    date +%H：%M 显示日历al cal 年月日：cal  month  year">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-07T12:58:33.000Z">
+<meta property="og:updated_time" content="2017-12-03T13:21:42.021Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux">
 <meta name="twitter:description" content="显示日期：date +%Y%m%d    date +%H：%M 显示日历al cal 年月日：cal  month  year">
@@ -423,8 +423,7 @@ cal 年月日：cal  month  year</p>
 <a id="more"></a>
 <p>计算器：bc<br>
 quit退出<br>
-帮助指令：man<br>
-man 命令<br>
+帮助指令：man 命令<br>
 数据同步磁盘：sync<br>
 关机：shutdown -t（秒）-r（重启） -h（停止系统服务后关机）<br>
 重启：reboot</p>
@@ -444,15 +443,15 @@ n新增一个磁盘分区；<br>
 p显示磁盘分区<br>
 d删除一个磁盘分区<br>
 q不存储离开<br>
-w写入磁盘分区表离开<br>
-格式化磁盘：mke2fs  -b（设置bolck大小）-c（检查错误）磁盘名称<br>
+w写入磁盘分区表离开</p>
+<p>格式化磁盘：mke2fs  -b（设置bolck大小）-c（检查错误）磁盘名称<br>
 磁盘检验：fsck -A（所有装置扫描）-a（自动修复） -f（强制进行细部检查）<br>
 磁盘挂载：mount -a(所有磁盘全部挂载)  -t（指定格式类型） 装置名称   挂载点<br>
 卸载装置：umount 装置代号／挂载点</p>
-<p>虚拟内存：<br>
+<p>虚拟内存<br>
 将目录格式化为swap档案格式：mkswap 目录<br>
-启动：swapon    目录<br>
-关闭：swapoff    目录</p>
+启动：swapon 目录<br>
+关闭：swapoff 目录</p>
 <p>删除空的目录：rmdir -p（递归删除）目录<br>
 复制文档目录：cp  -l（hard link建立）-p（连属性一起复制过去）-r（递归）-s（symbolic link） -u（更新目标文件）  源文件   目标文件<br>
 删除档案目录：rm -f（强制） -r（递归） 文件／目录<br>
@@ -471,31 +470,30 @@ touch  -a（修改atime）-c（修改ctime）-m（修改mtime）文件</p>
 常见的：i：无法修改、增加 、删除     a：只能增加不能修改删除<br>
 查看隐藏属性：lsattr  -a(隐藏属性)  -R（递归子目录）  文件<br>
 文件类型：file  文件<br>
-文件查找：<br>
+文件查找<br>
 查找执行档(命令)：which  -a（所有同名） 文件名<br>
 查找特定档案（二进制、源文件、man说明文件）：whereis     -b（二进制文件）-s（source来源） -m（manual路径下） 文件<br>
 locate  文件名（可以查找部分匹配文件名的文件） 文件名<br>
-find     路径  参数<br>
+find  路径  参数<br>
 （-name filename）<br>
 （-user username）<br>
-（-group name）</p>
-<p>压缩打包：<br>
+(-group name）</p>
+<p>压缩打包<br>
 gzip -d（解压缩） 文件<br>
 zcat：查看gzip压缩文件内容<br>
-bzip2  -z(压缩)  -d(解压缩)  文件<br>
-bzcat  ：查看bzip2压缩的文件<br>
+bzip2 -z(压缩)  -d(解压缩)  文件<br>
+bzcat ：查看bzip2压缩的文件<br>
 tar  -c(建立)  -x(解开) -t(查看)  -v（压缩过程显示文件）-f(使用档名)  -z(使用gzip)  -j(使用bzip2 )  -P（使用绝对路径）-p（保持原来文件属性）<br>
 eg：tar -zcvf   /tmp/a.tar.gz  /home /etc  把home 和 etc目录打包并gzip压缩到／tmp下的a中<br>
 tar -zxvf  ／tmp／a.tar.gz  ／home  将 文件中的home先gzip解压然后解开打包 最后放在当前目录下<br>
 dd  if=   of=    (bs= 默认512  count=)</p>
-<p>截取命令：<br>
-cut：<br>
+<p>截取命令:cut<br>
 -d  分割字符（单个字符）与 -f一起使用<br>
 -f  取出第几段  与-d配合使用<br>
 -c  取出固定的字符区间<br>
 eg：echo ￥path | cut -d ‘：’ -f 5      取出path种以：分割的第5块<br>
-export | cut -c 12-   取出export配置第12个开始后的所有字符<br>
-grep:<br>
+export | cut -c 12-   取出export配置第12个开始后的所有字符</p>
+<p>grep:<br>
 -c:计算匹配次数<br>
 -n：显示行号<br>
 -v:反过来没有匹配的那一行<br>

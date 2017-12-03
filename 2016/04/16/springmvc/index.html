@@ -94,19 +94,19 @@
 
 
 
-<meta name="description" content="SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
+<meta name="description" content="SpringMVC通过DispatcherServlet来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
 <meta name="keywords" content="SpringMVC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringMVC">
 <meta property="og:url" content="https://lifeloner.github.io/2016/04/16/springmvc/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
+<meta property="og:description" content="SpringMVC通过DispatcherServlet来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/dispatcherservlet.png">
-<meta property="og:updated_time" content="2017-12-02T13:47:27.963Z">
+<meta property="og:updated_time" content="2017-12-03T14:08:57.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringMVC">
-<meta name="twitter:description" content="SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
+<meta name="twitter:description" content="SpringMVC通过DispatcherServlet来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/dispatcherservlet.png">
 
 
@@ -419,34 +419,31 @@
       
 
       
-        <p>SpringMVC通过DispatcherServlet 来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。</p>
+        <p>SpringMVC通过DispatcherServlet来处理请求信息，其中servlet-mapping配置指定了由Spring MVC 处理的请求的路径。下图中url-pattern被指定为/，这与/*有很大不同。</p>
 <a id="more"></a>
-<p><img src="http://oqcre1dsl.bkt.clouddn.com/dispatcherservlet.png" alt="img"><br>
-Tomcat在启动时会扫描web.xml文件，得到servlet的映射数据servletMappings，据此可以知道每个servlet处理的请求路径。通过分析源码，通常把路径4类：</p>
-<ol>
-<li>以 /* 结尾的。 path.endsWith(&quot;/*&quot;)</li>
-<li>以 <em>. 开头的。 path.startsWith(&quot;</em>.&quot;)</li>
-<li>是否是 /      path.equals(&quot;/&quot;)</li>
-<li>以上3种之外的</li>
-</ol>
-<p>上述4种映射处理后会被放入 wrapper中，这里Wrapper 代表一个 Servlet，它负责管理一个 Servlet，包括的 Servlet 的装载、初始化、执行以及资源回收，其中4类servlet对应的wrapper如下：</p>
-<ol>
-<li>/* 对应的Servlet会放在wildcardWrappers中</li>
-<li>*. 会被放到extensionWrappers中</li>
-<li>/ 会被放到defaultWrapper中(缺省)</li>
-<li>其他的映射都被放到exactWrappers中(精确匹配某一路径)</li>
-</ol>
-<p>用户的请求过来时，会对请求的url进行匹配，匹配规则的先后顺序如下：</p>
-<ol>
-<li>精确匹配，使用contextVersion的exactWrappers</li>
-<li>前缀匹配，使用contextVersion的wildcardWrappers</li>
-<li>扩展名匹配，使用contextVersion的extensionWrappers</li>
-<li>使用资源文件来处理servlet，使用contextVersion的welcomeResources属性，这个属性是个字符串数组</li>
-<li>使用默认的servlet，使用contextVersion的defaultWrapper</li>
-</ol>
+<p><img src="http://oqcre1dsl.bkt.clouddn.com/dispatcherservlet.png" alt="img"></p>
+<h2 id="dispatcherservlet拦截请求路径">DispatcherServlet拦截请求路径</h2>
+<p>Tomcat在启动时会扫描web.xml文件，得到servlet的映射数据servletMappings，据此可以知道每个servlet处理的请求路径。通过分析源码，通常把路径4类：<br>
+1.以 /* 结尾的 path.endsWith(&quot;/*&quot;)<br>
+2.以 <em>. 开头的 path.startsWith(&quot;</em>.&quot;)<br>
+3.是否是 /   path.equals(&quot;/&quot;)<br>
+4.以上3种之外的</p>
+<p>上述4种映射处理后会被放入 wrapper中，这里Wrapper 代表一个 Servlet，它负责管理一个 Servlet，包括的 Servlet 的装载、初始化、执行以及资源回收，其中4类servlet对应的wrapper如下：<br>
+1./* 对应的Servlet会放在wildcardWrappers中<br>
+2.*. 会被放到extensionWrappers中<br>
+3./ 会被放到defaultWrapper中(缺省)<br>
+4.其他的映射都被放到exactWrappers中(精确匹配某一路径)</p>
+<p>用户的请求过来时，会对请求的url进行匹配，匹配规则的先后顺序如下：<br>
+1.精确匹配，使用contextVersion的exactWrappers<br>
+2.前缀匹配，使用contextVersion的wildcardWrappers<br>
+3.扩展名匹配，使用contextVersion的extensionWrappers<br>
+4.使用资源文件来处理servlet，使用contextVersion的welcomeResources属性，这个属性是个字符串数组<br>
+5.使用默认的servlet，使用contextVersion的defaultWrapper</p>
+<h2 id="dispatcherservlet处理过程">DispatcherServlet处理过程</h2>
 <p>下面我们继续分析对于某个具体的请求(如http://ip:port/contextPath/path)<br>
 SpringMVC如何找到对应的Controller方法，即请求与Controller之间的映射关系。DispatcherServlet根据url得到对应的HandlerAdapter进行处理，处理过程中有几个重要的接口，HandlerMethodArgumentResolver、HandlerMethodReturnValueHandler。HandlerAdapter在处理每个请求时会实例化一个ServletInvocableHandlerMethod对象进行处理，处理请求时会根据ServletInvocableHandlerMethod的属性argumentResolvers（这个属性是它的父类InvocableHandlerMethod中定义的）进行处理，其中argumentResolvers属性是一个HandlerMethodArgumentResolverComposite类，这个类是实现了HandlerMethodArgumentResolver接口的类， 处理响应的时候，会根据ServletInvocableHandlerMethod的属性returnValueHandlers进行处理，returnValueHandlers属性是一HandlerMethodReturnValueHandlerComposite类，这个类是实现了HandlerMethodReturnValueHandler接口的类，这2个属性都在ServletInvocableHandlerMethod实例化的时候被赋值（通过HandlerAdapter的属性进行赋值），HandlerAdapter的相关属性是在HandlerAdapter进行实例化由Spring容量注入。</p>
-<p>在常见的注解中，使用@ResponseBody注解的话最终返回值会被RequestResponseBodyMethodProcessor类处理，该类同时实现了HandlerMethodReturnValueHandler和HandlerMethodArgumentResolver这两个接口，所以它支持的请求类型是Controller方法参数中带有@RequestBody注解，支持的响应类型是Controller方法带有@ResponseBody注解，其他常用的HandlerMethodArgumentResolver实现类如下：<br>
+<h2 id="springmvc常见注解">SpringMVC常见注解</h2>
+<p>常见的注解中，使用@ResponseBody注解的话最终返回值会被RequestResponseBodyMethodProcessor类处理，该类同时实现了HandlerMethodReturnValueHandler和HandlerMethodArgumentResolver这两个接口，所以它支持的请求类型是Controller方法参数中带有@RequestBody注解，支持的响应类型是Controller方法带有@ResponseBody注解，其他常用的HandlerMethodArgumentResolver实现类如下：<br>
 1.RequestParamMethodArgumentResolver<br>
 支持带有@RequestParam注解的参数或带有MultipartFile类型的参数<br>
 2.RequestParamMapMethodArgumentResolver<br>
@@ -478,14 +475,13 @@ SpringMVC如何找到对应的Controller方法，即请求与Controller之间的
 返回值有@ModelAttribute注解<br>
 6.ViewNameMethodReturnValueHandler<br>
 返回值是void或String</p>
-<p>SpringMVC中将一个类添加@Controller以表示该类是一个controller，其他常用的注解如下：</p>
-<p>1.@RequestMapping</p>
-<p>用来标记请求的路径，它可以标记在类上面，也可以标记在方法上，当方法上和类上都标记了@RequestMapping的时候，那么对应的方法对应的Url就是类上的加方法上的。在RequestMapping中还可以指定一个属性method，其主要对应的值有RequestMethod.GET和RequestMethod.POST，@RequestMapping中还有一个属性params，可以通过该属性指定请求参数中必须包含某一参数，或必须不包含某一参数，或某参数的值必须是什么，以此来缩小指定的映射范围。</p>
+<h2 id="controller常用注解">Controller常用注解</h2>
+<p>SpringMVC中将一个类添加@Controller以表示该类是一个controller，其他常用的注解如下：<br>
+1.@RequestMapping<br>
+用来标记请求的路径，它可以标记在类上面，也可以标记在方法上，当方法上和类上都标记了@RequestMapping的时候，那么对应的方法对应的Url就是类上的加方法上的。在RequestMapping中还可以指定一个属性method，其主要对应的值有RequestMethod.GET和RequestMethod.POST，@RequestMapping中还有一个属性params，可以通过该属性指定请求参数中必须包含某一参数，或必须不包含某一参数，或某参数的值必须是什么，以此来缩小指定的映射范围。</p>
 <p>2.@PathVariable<br>
-可以标记在方法的参数上，利用它标记的参数可以利用请求路径传值，下面是一个具体的例子<br>
-@RequestMapping(value=&quot;/comment/{blogId}&quot;, method=RequestMethod.POST)<br>
-public void comment(Comment comment,@PathVariable int blogId, HttpSession session, HttpServletResponse response) throws IOException<br>
-		}</p>
+可以标记在方法的参数上，利用它标记的参数可以利用请求路径传值，下面是一个具体的例子</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@RequestMapping</span>(value=<span class="string">"/comment/&#123;blogId&#125;"</span>, method=RequestMethod.POST)</div><div class="line">public void comment(Comment comment,<span class="variable">@PathVariable</span> int blogId, HttpSession session, HttpServletResponse response) throws IOException</div></pre></td></tr></table></figure>
 <p>3.@RequestParam<br>
 用来给参数传值的，但是它是从头request的参数里面取值，相当于request.getParameter(“参数名”)方法。它的取值规则跟@PathVariable是一样的，当没有指定的时候，默认是从request中取名称跟后面接的变量名同名的参数值，当要明确从request中取一个参数的时候使用@RequestParam(“参数名”)。</p>
 <p>4.返回值</p>
@@ -496,8 +492,8 @@ public void comment(Comment comment,@PathVariable int blogId, HttpSession sessio
 <li>任何其他类型的对象。这个时候就会把该方法返回类型对象当做返回Model模型的一个属性返回给视图使用，这个属性名称可以通过在方法上给定@ModelAttribute注解来指定，否则将默认使用该返回类名称作为属性名称。</li>
 </ul>
 <p>5.@SessionAttributes<br>
-	只能声明在类上，而不能声明在方法上，表示模型对象的特定属性具有 Session 范围的作用域<br>
-	如：@SessionAttributes(types = {User.class,Dept.class},value={“attr1”,“attr2”})</p>
+只能声明在类上，而不能声明在方法上，表示模型对象的特定属性具有 Session 范围的作用域<br>
+如：@SessionAttributes(types = {User.class,Dept.class},value={“attr1”,“attr2”})</p>
 
       
     </div>
@@ -621,8 +617,17 @@ public void comment(Comment comment,@PathVariable int blogId, HttpSession sessio
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/photo.png"
@@ -753,6 +758,22 @@ public void comment(Comment comment,@PathVariable int blogId, HttpSession sessio
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatcherservlet拦截请求路径"><span class="nav-number">1.</span> <span class="nav-text">DispatcherServlet拦截请求路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatcherservlet处理过程"><span class="nav-number">2.</span> <span class="nav-text">DispatcherServlet处理过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#springmvc常见注解"><span class="nav-number">3.</span> <span class="nav-text">SpringMVC常见注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#controller常用注解"><span class="nav-number">4.</span> <span class="nav-text">Controller常用注解</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

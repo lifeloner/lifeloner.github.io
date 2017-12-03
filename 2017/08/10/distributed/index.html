@@ -94,13 +94,13 @@
 
 
 
-<meta name="description" content="大型网站是一种常见的分布式系统，在理解大型网站架构前，首先需要对分布式相关基础有一定了解。关于大型网站的概念，一个很直观的想法是访问量很大，然而有些网站访问量很高但并不">
+<meta name="description" content="大型网站是一种常见的分布式系统，在理解大型网站架构前，首先需要对分布式相关基础有一定了解。关于大型网站的概念，一个很直观的想法是访问量很大，然而有些网站访问量很高但并不能称为大型系统，如www.tao123.com，所以访问量并不是大型网站的充分条件。另一方面，海量量也是需要关注的另一个维度，一个大型系统也应该需要海量">
 <meta name="keywords" content="Distributed">
 <meta property="og:type" content="article">
 <meta property="og:title" content="大型网站架构概念">
 <meta property="og:url" content="https://lifeloner.github.io/2017/08/10/distributed/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="大型网站是一种常见的分布式系统，在理解大型网站架构前，首先需要对分布式相关基础有一定了解。关于大型网站的概念，一个很直观的想法是访问量很大，然而有些网站访问量很高但并不">
+<meta property="og:description" content="大型网站是一种常见的分布式系统，在理解大型网站架构前，首先需要对分布式相关基础有一定了解。关于大型网站的概念，一个很直观的想法是访问量很大，然而有些网站访问量很高但并不能称为大型系统，如www.tao123.com，所以访问量并不是大型网站的充分条件。另一方面，海量量也是需要关注的另一个维度，一个大型系统也应该需要海量的数据才行，数据就是财富。因此，访问量和数据是量是大型网站的必要条机，二者缺一不">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/hardware.png?imageMogr2/thumbnail/!50p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/lvs.png?imageMogr2/thumbnail/!50p">
@@ -124,11 +124,11 @@
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/fwh.png?imageMogr2/thumbnail/!60p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/midware.png?imageMogr2/thumbnail/!60p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/bigsystem.png?imageMogr2/thumbnail/!70p">
-<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/bigsysmidware.png?imageMogr2/thumbnail/!70p">
-<meta property="og:updated_time" content="2017-12-02T14:00:41.991Z">
+<meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/bigsysmidware.png?imageMogr2/thumbnail/!55p">
+<meta property="og:updated_time" content="2017-12-03T09:16:17.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大型网站架构概念">
-<meta name="twitter:description" content="大型网站是一种常见的分布式系统，在理解大型网站架构前，首先需要对分布式相关基础有一定了解。关于大型网站的概念，一个很直观的想法是访问量很大，然而有些网站访问量很高但并不">
+<meta name="twitter:description" content="大型网站是一种常见的分布式系统，在理解大型网站架构前，首先需要对分布式相关基础有一定了解。关于大型网站的概念，一个很直观的想法是访问量很大，然而有些网站访问量很高但并不能称为大型系统，如www.tao123.com，所以访问量并不是大型网站的充分条件。另一方面，海量量也是需要关注的另一个维度，一个大型系统也应该需要海量的数据才行，数据就是财富。因此，访问量和数据是量是大型网站的必要条机，二者缺一不">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/hardware.png?imageMogr2/thumbnail/!50p">
 
 
@@ -441,12 +441,12 @@
       
 
       
-        <p>大型网站是一种常见的分布式系统，在理解大型网站架构前，首先需要对分布式相关基础有一定了解。关于大型网站的概念，一个很直观的想法是访问量很大，然而有些网站访问量很高但并不</p>
-<a id="more"></a>能称为大型系统，如www.tao123.com，所以访问量并不是大型网站的充分条件。另一方面，海量量也是需要关注的另一个维度，一个大型系统也应该需要海量的数据才行，数据就是财富。因此，访问量和数据是量是大型网站的必要条机，二者缺一不可，此外系统业务本身和复杂度也是需要考虑的！
-<p>大型网站要支撑海量的数据和较高的并发量，那他一般是一个分布式的系统，往往需要集群来工作，下面我们先看看分布式系统的基础知识。</p>
+        <p>大型网站是一种常见的分布式系统，在理解大型网站架构前，首先需要对分布式相关基础有一定了解。关于大型网站的概念，一个很直观的想法是访问量很大，然而有些网站访问量很高但并不能称为大型系统，如www.tao123.com，所以访问量并不是大型网站的充分条件。另一方面，海量量也是需要关注的另一个维度，一个大型系统也应该需要海量的数据才行，数据就是财富。因此，访问量和数据是量是大型网站的必要条机，二者缺一不可，此外系统业务本身和复杂度也是需要考虑的！</p>
+<a id="more"></a>
+<p>大型网站要支撑海量的数据和较高的并发量，那它一般是一个分布式的系统，往往需要集群来工作，下面我们先看看分布式系统的基础知识。</p>
 <h2 id="初识分布式系统">初识分布式系统</h2>
-<p>分布式系统定义很多，而这些定义的本质都几本相同，其中最主要的为：一组分布在网络上的计算机通过消息传递来相互通信协调工作，而对用户来看仿佛是单一的机器再提供服务。分布式系统的出现的主要原因也主要有以下几点：单机性能瓶颈（cpu，存储等），稳定性和可用性（单点故障）。</p>
-<p>我们都知道，计算机基本组件由控制器，运算器，存储器，输入设备，输出设备五部分构成。相关的技术模式涉及多线程、多进程（代价大，涉及序列化与反序列化）模式，IO（BIO、NIO、AIO）模式。 相比传统的单机系统，分布式系统的控制器、运算器、存储器有着明显的变化。下面我们以控制器为主看看主要的的变化和区别：</p>
+<p>分布式系统定义很多，而这些定义的本质都几本相同，其中最主要的为：一组分布在网络上的计算机通过消息传递来相互通信协调工作，而对用户来看仿佛是单一的机器在提供服务。分布式系统的出现的主要原因也主要有以下几点：单机性能瓶颈（cpu，存储等），稳定性和可用性（单点故障）。<br>
+我们都知道，计算机基本组件由控制器，运算器，存储器，输入设备，输出设备五部分构成。相关的技术模式涉及多线程、多进程（代价大，涉及序列化与反序列化）模式，IO（BIO、NIO、AIO）模式。 相比传统的单机系统，分布式系统的控制器、运算器、存储器有着明显的变化。下面我们以控制器为主看看主要的变化和区别：</p>
 <p><img src="http://oqcre1dsl.bkt.clouddn.com/hardware.png?imageMogr2/thumbnail/!50p" alt="img"><br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/lvs.png?imageMogr2/thumbnail/!50p" alt="img"><br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/%E5%90%8D%E7%A7%B0%E6%9C%8D%E5%8A%A1.png?imageMogr2/thumbnail/!50p" alt="img"><br>
@@ -462,67 +462,67 @@
 （1）缺乏全局时钟：较难处理顺序执行问题<br>
 （2）故障独立性：分布式系统往往存在部门系统故障，如何处理局部故障而不影响全局业务需要考虑<br>
 （3）单点故障：若分布式系统中某个功能由单个节点完成，需要处理好备份和降低单点影响范围问题<br>
-（4）事物：分布式事务相对单机事物复杂的多，如何保证一致性十分困难，分布式协议理论CAP，BASE，2PC，3PC，raft，Paxos，ZAB等。</p>
+（4）事物：分布式事务相对单机事物复杂的多，如何保证一致性十分困难，分布式协议理论CAP，BASE，2PC，3PC，Raft，Paxos，ZAB等。</p>
 <h2 id="大型系统的架构演进">大型系统的架构演进</h2>
-<p>大型网站往往由小网站慢慢发展起来，这一过程中需要解决的问题也是构建大型网站和中间件的基础，我们先了解一下大型网站的发展过程。<br>
-（1）Java技术和单机系统：Java，Web，MVC，JSP，Spring，JDBC等技术<br>
-我们以交易系统业务为例，系统整体的结构图可以抽象为如下图所示：<br>
-<img src="http://oqcre1dsl.bkt.clouddn.com/singleJava.png?imageMogr2/thumbnail/!70p" alt="img"><br>
-（2）数据库与应用服务分离<br>
-随着服务器负载过大，我们可以将应用服务器与数据库服务器分离<br>
-<img src="http://oqcre1dsl.bkt.clouddn.com/dbServer.png?imageMogr2/thumbnail/!70p" alt="img"><br>
-（3）应用服务器集群化<br>
-服务器负载仍然过大，这个时候可以利用服务集群解决单机性能不足问题。<br>
+<p>大型网站往往由小网站慢慢发展起来，这一过程中需要解决的问题也是构建大型网站和中间件的基础，我们先了解一下大型网站的发展过程。</p>
+<h3 id="java技术和单机系统">Java技术和单机系统</h3>
+<p>系统涉及Java，Web，MVC，JSP，Spring，JDBC等技术，我们以交易系统业务为例，系统整体的结构图可以抽象为如下图所示：<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/singleJava.png?imageMogr2/thumbnail/!70p" alt="img"></p>
+<h3 id="数据库与应用服务分离">数据库与应用服务分离</h3>
+<p>随着服务器负载过大，我们可以将应用服务器与数据库服务器分离<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/dbServer.png?imageMogr2/thumbnail/!70p" alt="img"></p>
+<h3 id="应用服务器集群化">应用服务器集群化</h3>
+<p>服务器负载仍然过大，这个时候可以利用服务集群解决单机性能不足问题。<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/mulServer.png?imageMogr2/thumbnail/!70p" alt="img"><br>
 然后该方式存在session失效问题，因为客户端往往通过http协议进行请求，http是无状态的协议，所以在第一次请求时会分配一个sessionId，下一次请求时浏览器带上这个sessionId，session存放在服务端，若在分布式情况下，并不能保证同一客户端每次请求落在同一台服务器上，所以会存在session失效问题，而分布式系统中解决session失效问题也有如下几种方式：<br>
-1）Session Sticky<br>
+（1）Session Sticky<br>
 该方案如下图所示，通过负载均衡设备让相同的session请求发送在同一服务器上。<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/sticky.png?imageMogr2/thumbnail/!70p" alt="img"><br>
-2）Session Replication<br>
+（2）Session Replication<br>
 该方案如下所示，服务器之间相互复制数据，保证session的共享，该方案也存在浪费带宽和存储的缺陷<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/replication.png?imageMogr2/thumbnail/!70p" alt="img"><br>
-3）Session集中存储<br>
+（3）Session集中存储<br>
 该方案比较简单，如下图所示<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/centerSession.png?imageMogr2/thumbnail/!60p" alt="img"><br>
-4）cookie based<br>
+（4）cookie based<br>
 该方案将session放入cookie中，从cookie中生成session，该方式也存在缺陷：cookie长度的限制，性能延迟影响，安全性等。<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/cookie.png?imageMogr2/thumbnail/!60p" alt="img"><br>
-以上方式中，（1）（3）是常用的方式。<br>
-（4）数据库读写分离（读压力）<br>
-<img src="http://oqcre1dsl.bkt.clouddn.com/readwrites.png?imageMogr2/thumbnail/!60p" alt="img"><br>
-随着数据量和访问量的变大，尤其是多读少写的情况，所以可以增加一个数据库，只用来读数据。该方式如下图所示，也存在数据复制和数据源选择问题。首先数据在复制时存在延迟问题，即数据一致性问题，Mysql的Master-Slave模式，支持异步复制，也支持semi-sync复制方式。此外，对于数据源的选择，写操作和事物读肯定发生在主库中，一般读操作可以在从库，应用可根据需求合理选取数据源。<br>
-（5）搜索引擎（读库）<br>
-搜索引擎其实是一个读库，通过复制数据来建立索引，加快数据查询效率，索引的建立分为全量/增量，实时/非实时方式。<br>
-<img src="http://oqcre1dsl.bkt.clouddn.com/search.png?imageMogr2/thumbnail/!55p" alt="img"><br>
-（6）缓存<br>
-缓存可以加速数据的访问，有数据缓存和页面缓存。数据缓存主要用于缓解数据库读压力，页面缓存主要缓存页面中经常访问的数据（热数据）！<br>
-<img src="http://oqcre1dsl.bkt.clouddn.com/cachedb.png?imageMogr2/thumbnail/!60p" alt="img"><br>
-（7）分布式数据库系统<br>
-分布式文件系统、分布式key-value系统、分布式数据库系统<br>
-<img src="http://oqcre1dsl.bkt.clouddn.com/dbdistribute.png?imageMogr2/thumbnail/!60p" alt="img"><br>
-（8）数据库拆分<br>
-当数据库数据过多，压力依然很大时，可以进行数据库拆分，主要有垂直拆分和水平拆分。<br>
+以上方式中，（1）（3）是常用的方式。</p>
+<h3 id="数据库读写分离-读压力">数据库读写分离（读压力）</h3>
+<p><img src="http://oqcre1dsl.bkt.clouddn.com/readwrites.png?imageMogr2/thumbnail/!60p" alt="img"><br>
+随着数据量和访问量的变大，尤其是多读少写的情况，所以可以增加一个数据库，只用来读数据。该方式如下图所示，也存在数据复制和数据源选择问题。首先数据在复制时存在延迟问题，即数据一致性问题，Mysql的Master-Slave模式，支持异步复制，也支持semi-sync复制方式。此外，对于数据源的选择，写操作和事物读肯定发生在主库中，一般读操作可以在从库，应用可根据需求合理选取数据源。</p>
+<h3 id="搜索引擎-读库">搜索引擎（读库）</h3>
+<p>搜索引擎其实是一个读库，通过复制数据来建立索引，加快数据查询效率，索引的建立分为全量/增量，实时/非实时方式。<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/search.png?imageMogr2/thumbnail/!55p" alt="img"></p>
+<h3 id="缓存">缓存</h3>
+<p>缓存可以加速数据的访问，有数据缓存和页面缓存。数据缓存主要用于缓解数据库读压力，页面缓存主要缓存页面中经常访问的数据（热数据）！<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/cachedb.png?imageMogr2/thumbnail/!60p" alt="img"></p>
+<h3 id="分布式数据库系统">分布式数据库系统</h3>
+<p>分布式文件系统、分布式key-value系统、分布式数据库系统<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/dbdistribute.png?imageMogr2/thumbnail/!60p" alt="img"></p>
+<h3 id="数据库拆分">数据库拆分</h3>
+<p>当数据库数据过多，压力依然很大时，可以进行数据库拆分，主要有垂直拆分和水平拆分。<br>
 垂直拆分是把不同的业务数据拆分到不同的数据库中，这样导致了一方面需要配置多个数据源，另一方面需要采用分布式事务保持数据一致性。<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/cz.png?imageMogr2/thumbnail/!60p" alt="img"><br>
 水平拆分是指单表的数据过大，数据读写速度太慢，需要将一个表拆成多个子表，这样就存在了sql路由问题，数据库id自增问题，数据表联合查询问题等。<br>
-<img src="http://oqcre1dsl.bkt.clouddn.com/sp.png?imageMogr2/thumbnail/!60p" alt="img"><br>
-（9）新挑战<br>
-1）业务拆分：根据功能将应用拆分多部分<br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/sp.png?imageMogr2/thumbnail/!60p" alt="img"></p>
+<h3 id="新挑战">新挑战</h3>
+<p>（1）业务拆分：根据功能将应用拆分多部分<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/gncf.png?imageMogr2/thumbnail/!60p" alt="img"><br>
-2）服务化结构：分层，服务调用<br>
+（2）服务化结构：分层，服务调用<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/fwh.png?imageMogr2/thumbnail/!60p" alt="img"><br>
-3）中间件：异步和解耦<br>
+（3）中间件：异步和解耦<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/midware.png?imageMogr2/thumbnail/!60p" alt="img"><br>
 中间件为软件应用提供了操作系统所提供服务之外的服务，中间件不是操作系统也不是应用，它起到了桥梁的作用，是处于“中间”位置的组件，让开发人员更好的专注自己的应用开发！常见的中间件主要有以下几种：<br>
--远程过程调用和对象访问中间件：分布式应用下应用相互访问问题，也是应用服务化的基础<br>
--消息中间件：应用之间消息传递、异步、解耦<br>
--数据访问中间件：应用访问数据库的共性问题<br>
+1）远程过程调用和对象访问中间件：分布式应用下应用相互访问问题，也是应用服务化的基础<br>
+2）消息中间件：应用之间消息传递、异步、解耦<br>
+3）数据访问中间件：应用访问数据库的共性问题<br>
 Java中间件的基础知识：JVM、GC、JMM；并发（线程池、常用类库）；动态代理及反射，网络通信（BIO，NIO，AIO）</p>
 <h2 id="总结">总结</h2>
 <p>在列举了大型网站系统的发展过程后，我们总结一下相关的知识，用下图来展示了大型网站的相关技术。<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/bigsystem.png?imageMogr2/thumbnail/!70p" alt="img"><br>
 在将中间件放入系统中后，大型网站的系统结构如下图所示：<br>
-<img src="http://oqcre1dsl.bkt.clouddn.com/bigsysmidware.png?imageMogr2/thumbnail/!70p" alt="img"><br>
+<img src="http://oqcre1dsl.bkt.clouddn.com/bigsysmidware.png?imageMogr2/thumbnail/!55p" alt="img"><br>
 后面我们将分别学习服务框架、消息中间件及数据库中间件等基础知识！</p>
 
       
@@ -798,7 +798,7 @@ Java中间件的基础知识：JVM、GC、JMM；并发（线程池、常用类�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初识分布式系统"><span class="nav-number">1.</span> <span class="nav-text">初识分布式系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大型系统的架构演进"><span class="nav-number">2.</span> <span class="nav-text">大型系统的架构演进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初识分布式系统"><span class="nav-number">1.</span> <span class="nav-text">初识分布式系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大型系统的架构演进"><span class="nav-number">2.</span> <span class="nav-text">大型系统的架构演进</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#java技术和单机系统"><span class="nav-number">2.1.</span> <span class="nav-text">Java技术和单机系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库与应用服务分离"><span class="nav-number">2.2.</span> <span class="nav-text">数据库与应用服务分离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用服务器集群化"><span class="nav-number">2.3.</span> <span class="nav-text">应用服务器集群化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库读写分离-读压力"><span class="nav-number">2.4.</span> <span class="nav-text">数据库读写分离（读压力）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索引擎-读库"><span class="nav-number">2.5.</span> <span class="nav-text">搜索引擎（读库）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存"><span class="nav-number">2.6.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式数据库系统"><span class="nav-number">2.7.</span> <span class="nav-text">分布式数据库系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库拆分"><span class="nav-number">2.8.</span> <span class="nav-text">数据库拆分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新挑战"><span class="nav-number">2.9.</span> <span class="nav-text">新挑战</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

@@ -94,20 +94,20 @@
 
 
 
-<meta name="description" content="Thread被广泛用于java并发编程中，在学习thread用法前，我们需要先了解一下线程的状态。操作系统中，线程的状态有新建、就绪、运行、阻塞、结束，在java中我们分别称之为new、runnable、blocked、waitting、time_waiting、dead。下图展示了thread从创建到消亡的过程：">
+<meta name="description" content="Thread被广泛用于Java并发编程中，在学习thread用法前，我们需要先了解一下线程的状态。操作系统中，线程的状态有新建、就绪、运行、阻塞、结束，在Java中我们分别称之为new、runnable、blocked、waitting、time_waiting、dead。下图展示了thread从创建到消亡的过程：">
 <meta name="keywords" content="Java,Thread">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Thread">
 <meta property="og:url" content="https://lifeloner.github.io/2015/10/22/thread/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="Thread被广泛用于java并发编程中，在学习thread用法前，我们需要先了解一下线程的状态。操作系统中，线程的状态有新建、就绪、运行、阻塞、结束，在java中我们分别称之为new、runnable、blocked、waitting、time_waiting、dead。下图展示了thread从创建到消亡的过程：">
+<meta property="og:description" content="Thread被广泛用于Java并发编程中，在学习thread用法前，我们需要先了解一下线程的状态。操作系统中，线程的状态有新建、就绪、运行、阻塞、结束，在Java中我们分别称之为new、runnable、blocked、waitting、time_waiting、dead。下图展示了thread从创建到消亡的过程：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/threadstate.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/statechange.png">
-<meta property="og:updated_time" content="2017-12-02T13:44:26.947Z">
+<meta property="og:updated_time" content="2017-12-03T14:26:34.433Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Thread">
-<meta name="twitter:description" content="Thread被广泛用于java并发编程中，在学习thread用法前，我们需要先了解一下线程的状态。操作系统中，线程的状态有新建、就绪、运行、阻塞、结束，在java中我们分别称之为new、runnable、blocked、waitting、time_waiting、dead。下图展示了thread从创建到消亡的过程：">
+<meta name="twitter:description" content="Thread被广泛用于Java并发编程中，在学习thread用法前，我们需要先了解一下线程的状态。操作系统中，线程的状态有新建、就绪、运行、阻塞、结束，在Java中我们分别称之为new、runnable、blocked、waitting、time_waiting、dead。下图展示了thread从创建到消亡的过程：">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/threadstate.png">
 
 
@@ -420,7 +420,7 @@
       
 
       
-        <p>Thread被广泛用于java并发编程中，在学习thread用法前，我们需要先了解一下线程的状态。操作系统中，线程的状态有新建、就绪、运行、阻塞、结束，在java中我们分别称之为new、runnable、blocked、waitting、time_waiting、dead。下图展示了thread从创建到消亡的过程：</p>
+        <p>Thread被广泛用于Java并发编程中，在学习thread用法前，我们需要先了解一下线程的状态。操作系统中，线程的状态有新建、就绪、运行、阻塞、结束，在Java中我们分别称之为new、runnable、blocked、waitting、time_waiting、dead。下图展示了thread从创建到消亡的过程：</p>
 <a id="more"></a>
 <h2 id="thread状态">Thread状态</h2>
 <p><img src="http://oqcre1dsl.bkt.clouddn.com/threadstate.png" alt="img"><br>
@@ -435,12 +435,12 @@
 4.sleep   让线程睡眠一定时间，交出CPU，让CPU去执行其他的任务，此时线程处于blocked状态。<br>
 5 join   使当前线程等待下一个线程执行完（无参数）或等待一定时间后（带时间参数，join线程未执行完，达到规定时间）后继续执行，可以用来处理线程间通信（一个线程等待另一个线程执行结果的情况），join方法中实质是调用了wait方法。join方法也使得线程进入blocked状态。<br>
 6.interrupt  使得线程中断。单独调用interrupt方法可以使得处于阻塞状态（sleep、wait、join）的线程抛出一个异常，它可以用来中断一个正处于阻塞状态的线程；另外，通过interrupt方法来停止正在运行的线程。但它不 能停止正在运行处于非阻塞状态的线程，也不能中断某些阻塞状态（synchronized、lock、阻塞io）等。而且在sleep、wait、join等阻塞状态时引发中断会抛出InterruptedException，并且会由jvm清除中断状态，所以需要在  catch块中使用interrupt重置中断状态。<br>
-7.stop、destroy 用于终止线程执行废弃的方法，不建议使用，可以采用标记法、中断法。<br>
-8.priority、daemon 设置线程的优先级和设置守护进程。线程的优先级并不保证线程一定会被优先调度，操作系统应该是基于概率的调度，优先级高被调度的可能性大。守护线程用于一些后续处理工作，如gc线程，守护线 程在所有工作线程执行完后会结束而不管自己是否执行完，所以一般的费事任务不要设置守护线程，守护线程主要用于一些清理工作。<br>
-9.需要注意的几个点<br>
-yield让出cpu时间后处于runnable状态，并且让出的具体时间、执行线程的优先级和操作系统调度有关。<br>
-wait和sleep有很大区别：首先wait是object的方法，sleep是thread的方法，其次重要的一点是wait会释放当前线程持有的锁，所以wait notify必须在同步块（synchronized、lock）中使用，notify会        唤醒某一个等待同一个锁的线程，其他的锁仍然在wait处阻塞，notifyall唤醒所有等待同一锁的线程，但它们需要对该锁进行竞争；而sleep不释放锁，并且sleep方法可能抛出异常。<br>
-interrupt用于线程中断，对于sleep、join、wait等阻塞方法会抛出InterruptedException异常，并且会清楚中断状态，如果程序中需要使用中断状态的话必须在捕获异常后重新设置中断状态，对于不可中断阻塞如锁  （lock、synchronized），io阻塞（read、accept、select）仅仅设置了线程的中断状态并不会中断线程，所以这时对于不可中断io阻塞可以复写interrupt方法，直接把io流close然后中断线程；对于锁就只能等待其他线程释放锁。</p>
+7.stop、destroy 用于终止线程执行废弃的方法，不建议使用，可以采用标记法、中断法。</p>
+<h2 id="常见误区">常见误区</h2>
+<p>1.priority、daemon 设置线程的优先级和设置守护进程。线程的优先级并不保证线程一定会被优先调度，操作系统应该是基于概率的调度，优先级高被调度的可能性大。守护线程用于一些后续处理工作，如gc线程，守护线 程在所有工作线程执行完后会结束而不管自己是否执行完，所以一般的费事任务不要设置守护线程，守护线程主要用于一些清理工作。<br>
+2.yield让出cpu时间后处于runnable状态，并且让出的具体时间、执行线程的优先级和操作系统调度有关。<br>
+3.wait和sleep有很大区别：首先wait是object的方法，sleep是thread的方法，其次重要的一点是wait会释放当前线程持有的锁，所以wait notify必须在同步块（synchronized、lock）中使用，notify会唤醒某一个等待同一个锁的线程，其他的锁仍然在wait处阻塞，notifyAll唤醒所有等待同一锁的线程，但它们需要对该锁进行竞争；而sleep不释放锁，并且sleep方法可能抛出异常。<br>
+4.interrupt用于线程中断，对于sleep、join、wait等阻塞方法会抛出InterruptedException异常，并且会清楚中断状态，如果程序中需要使用中断状态的话必须在捕获异常后重新设置中断状态，对于不可中断阻塞如锁(lock、synchronized),io阻塞(read、accept、select)仅仅设置了线程的中断状态并不会中断线程，所以这时对于不可中断io阻塞可以复写interrupt方法，直接把io流close然后中断线程；对于锁就只能等待其他线程释放锁。</p>
 
       
     </div>
@@ -717,7 +717,7 @@ interrupt用于线程中断，对于sleep、join、wait等阻塞方法会抛出I
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#thread状态"><span class="nav-number">1.</span> <span class="nav-text">Thread状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#thread状态转移"><span class="nav-number">2.</span> <span class="nav-text">Thread状态转移</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#thread状态"><span class="nav-number">1.</span> <span class="nav-text">Thread状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#thread状态转移"><span class="nav-number">2.</span> <span class="nav-text">Thread状态转移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见误区"><span class="nav-number">3.</span> <span class="nav-text">常见误区</span></a></li></ol></div>
             
 
           </div>

@@ -94,13 +94,13 @@
 
 
 
-<meta name="description" content="设计模式程序员写出优雅、结构优雅代码的必备基础，以下是研发中常见的一些设计模式！">
+<meta name="description" content="设计模式是程序员写出结构优雅代码的必备基础，以下是研发中常见的一些设计模式。">
 <meta name="keywords" content="Common">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常用设计模式">
 <meta property="og:url" content="https://lifeloner.github.io/2017/02/21/design/index.html">
 <meta property="og:site_name" content="lifeloner">
-<meta property="og:description" content="设计模式程序员写出优雅、结构优雅代码的必备基础，以下是研发中常见的一些设计模式！">
+<meta property="og:description" content="设计模式是程序员写出结构优雅代码的必备基础，以下是研发中常见的一些设计模式。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/adapter.png?imageMogr2/thumbnail/!40p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/decorate1.png?imageMogr2/thumbnail/!40p">
@@ -117,10 +117,10 @@
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/state.png?imageMogr2/thumbnail/!40p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/template1.png?imageMogr2/thumbnail/!40p">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/template1.png?imageMogr2/thumbnail/!40p">
-<meta property="og:updated_time" content="2017-12-02T13:54:59.355Z">
+<meta property="og:updated_time" content="2017-12-03T12:57:30.264Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常用设计模式">
-<meta name="twitter:description" content="设计模式程序员写出优雅、结构优雅代码的必备基础，以下是研发中常见的一些设计模式！">
+<meta name="twitter:description" content="设计模式是程序员写出结构优雅代码的必备基础，以下是研发中常见的一些设计模式。">
 <meta name="twitter:image" content="http://oqcre1dsl.bkt.clouddn.com/adapter.png?imageMogr2/thumbnail/!40p">
 
 
@@ -433,11 +433,11 @@
       
 
       
-        <p>设计模式程序员写出优雅、结构优雅代码的必备基础，以下是研发中常见的一些设计模式！</p>
+        <p>设计模式是程序员写出结构优雅代码的必备基础，以下是研发中常见的一些设计模式。</p>
 <a id="more"></a>
 <h2 id="适配器与外观模式">适配器与外观模式</h2>
-<p>适配器模式定义：将一个类的接口转化成客户期望的另一个接口，使得原本接口不兼容的类可以合作。</p>
-<p>适配器使用过程：<br>
+<p>适配器模式定义：将一个类的接口转化成客户期望的另一个接口，使得原本接口不兼容的类可以合作。<br>
+适配器使用过程：<br>
 （1）客户通过调用适配器的方法对适配器发出请求<br>
 （2）适配器使用被适配者接口把请求转化成被适配者的一个或多个调用接口<br>
 （3）客户接受调用的结果，并未察觉这是适配器起转换作用</p>
@@ -469,12 +469,10 @@
 <img src="http://oqcre1dsl.bkt.clouddn.com/decorate3.png?imageMogr2/thumbnail/!40p" alt="img"><br>
 装饰者模式缺点：虽然比继承更容易扩展，但是会导致设计中出现许多的小对象，如果过度使用会让程序较为复杂，难于理解。</p>
 <h2 id="工厂模式">工厂模式</h2>
-<p>工厂模式定义：<br>
-定义了一个创建对象的接口，但由子类决定要实例化的类是哪一个。即工厂方法让类把实例化推迟到子类。<br>
+<p>工厂模式定义：定义了一个创建对象的接口，但由子类决定要实例化的类是哪一个。即工厂方法让类把实例化推迟到子类。<br>
 另一种看法：工厂方法将生产知识封装进各个创建者，创建者和产品是一种平行的类层级，以生产pizza为例，层次结构如下图所示：<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/factory1.png?imageMogr2/thumbnail/!40p" alt="img"><br>
-抽象工厂模式定义：<br>
-提供一个接口，用于创建相关或依赖对象的家族，而不需要明确指定类。<br>
+抽象工厂模式定义：提供一个接口，用于创建相关或依赖对象的家族，而不需要明确指定类。<br>
 该模式使得客户不需要知道具体的产品是什么，客户从具体的产品中被解耦。<br>
 以pizza为例：如下图所示<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/factory2.png?imageMogr2/thumbnail/!40p" alt="img"><br>
@@ -487,18 +485,17 @@
 （2）多用组合（几个对象协同工作），少用继承<br>
 （3）针对接口编程，不针对实现编程<br>
 （4）为交互对象之间的松耦合设计不断努力</p>
-<p>观察者模式定义<br>
-定义对象之间的一对多耦合，这样以来，当一个对象的状态变化时，它的所有依赖者都能收到通知并自动更新<br>
+<p>观察者模式定义：定义对象之间的一对多耦合，这样以来，当一个对象的状态变化时，它的所有依赖者都能收到通知并自动更新<br>
 该模式主要包含2部分：主题Subject、观察者Observer，主题负责提供对象的状态，增加删除观察者，并把对象的变化状态通知给观察者，具体的模式信息如下图所示：<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/observer1.png?imageMogr2/thumbnail/!40p" alt="img"><br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/observer2.png?imageMogr2/thumbnail/!40p" alt="img"><br>
 以气象发布战为力例子，模式设计图如上所示：<br>
 weatherData实现Subject接口，实现register、remove（list持有对观察者的引用）、notify（调用所有观察者update方法通知他们）三个主要方法，CurrentCondition实现Observer借口实现update方法。<br>
 jdk中java.util.Observable java.util.Observer分别充当了主题和观察者角色，所以在实现该模式时无需自己实现细节，可以利用jdk来实现自己的观察者模式。</p>
-<p>jdk观察者模式缺点：<br>
+<p>JDK观察者模式缺点：<br>
 （1）Observable是一个抽象类而不是借口，应该多使用接口而非抽象类，不利于扩展<br>
-（2）setChanged是一个protected方法，只能继承observable，否则不能通知观察者，不够灵活</p>
-<p>可以借鉴jdk思想实现自己的通知方式，灵活使用观察者模式。</p>
+（2）setChanged是一个protected方法，只能继承observable，否则不能通知观察者，不够灵活<br>
+可以借鉴jdk思想实现自己的通知方式，灵活使用观察者模式。</p>
 <h2 id="代理模式">代理模式</h2>
 <p>代理模式的结构如下图：<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/proxys.png?imageMogr2/thumbnail/!40p" alt="img"><br>
@@ -521,12 +518,11 @@ InvocationHandler起辅助作用，将proxy产生的代理类请求交给真正�
 <img src="http://oqcre1dsl.bkt.clouddn.com/javaproxys.png?imageMogr2/thumbnail/!40p" alt="img"></p>
 <h2 id="迭代器与组合模式">迭代器与组合模式</h2>
 <p>迭代器模式定义：提供一种方法顺序访问一个聚合对象中的各个元素，而又不暴露其内部的表示！<br>
-迭代器将元素游走遍历的职责交给迭代器，而不是聚合对象，这样简化了聚合接口的实现，让责任各得其所。</p>
-<p>迭代器结构图如下所示：<br>
+迭代器将元素游走遍历的职责交给迭代器，而不是聚合对象，这样简化了聚合接口的实现，让责任各得其所。<br>
+迭代器结构图如下所示：<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/iterator.png?imageMogr2/thumbnail/!40p" alt="img"><br>
-单一职责：一个类应该只有一个引起变化的原因<br>
-尽量让每个类保持单一责任</p>
-<p>组合模式定义：允许你将对象组合成树形结构来表现“整体／部分”层次结构。组合能让客户以一致的方式处理个别对象以及对象组合（处理时忽略对象组合和个别对象之间的差异。</p>
+单一职责：一个类应该只有一个引起变化的原因；尽量让每个类保持单一责任</p>
+<p>组合模式定义：允许你将对象组合成树形结构来表现“整体／部分”层次结构。组合能让客户以一致的方式处理个别对象以及对象组合（处理时忽略对象组合和个别对象之间的差异）。</p>
 <p>组合模式往往需要一个抽象类，类中的方法对于叶子结点和组合节点不同，有些方法适用于叶子结点，而有些节点适用于组合节点，所以在处理时根据情况覆盖抽象类方法，有时候还需要处理异常情况，否则需要进行类型判断对用户不再透明！</p>
 <h2 id="单例模式">单例模式</h2>
 <p>单例模式定义：<br>
@@ -540,13 +536,13 @@ InvocationHandler起辅助作用，将proxy产生的代理类请求交给真正�
 （1）定义一个State接口，每一个接口都有一个对应的方法<br>
 （2）为系统中每一个状态实现State接口实现状态类，这些状态类负责相应状态下系统的行为<br>
 （3）将动作委托到状态类</p>
-<p>系统状态可以被多个Context共享，将状态设计为静态变量</p>
-<p>状态模式结构图如下所示：<br>
+<p>系统状态可以被多个Context共享，将状态设计为静态变量<br>
+状态模式结构图如下所示：<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/state.png?imageMogr2/thumbnail/!40p" alt="img"></p>
 <h2 id="模版方法模式">模版方法模式</h2>
 <p>定义：在一个方法中定义一个算法的骨架，而将一些步骤延迟到子类中。模版方法使得之类可以在不改变算法结构的情况下，重新定义算法中的某些步骤，即由子类实现算法的部分实现！<br>
-JDK中Arrays.sort方法中comparable将compareTo方法的实现交由子类实现，是一种模版方法！</p>
-<p>一般情况下，我们将抽象类中的算法的骨架设计为final类型的方法防止子类去修改，另外，可以在抽象类中将可选方法设计为hook（钩子）方法，子类可以选择覆盖来达到某种目的。</p>
+JDK中Arrays.sort方法中comparable将compareTo方法的实现交由子类实现，是一种模版方法！<br>
+一般情况下，我们将抽象类中的算法的骨架设计为final类型的方法防止子类去修改，另外，可以在抽象类中将可选方法设计为hook（钩子）方法，子类可以选择覆盖来达到某种目的。</p>
 <p>系统结构图：<br>
 <img src="http://oqcre1dsl.bkt.clouddn.com/template1.png?imageMogr2/thumbnail/!40p" alt="img"><br>
 好莱坞原则：别调用我们，我们会调用你！<br>
@@ -559,6 +555,7 @@ JDK中Arrays.sort方法中comparable将compareTo方法的实现交由子类实�
 命令对象在特定接受者上绑定一组动作来封装一个请求，命令是通过将动作和接受者绑定在一起做到的，命令对象通常只暴露一个execute方法，该方法被调用时，接受者就会进行相关的操作。从表面看，调用者不知道哪个接受者进行了哪些动作，从而通过命令对象将调用者和接受者进行了解耦。</p>
 <p>命令模式的用途：命令可以讲运算块打包（一组动作和一个接受者），然后传来传去。命令对象甚至可以在不同的线程中被调用，所以它可以用来：（1）日程安排（2）线程池（3）工作队列</p>
 <p>命令模式将发出请求的对象和执行请求的对象解耦，这两者之间是通过命令对象进行沟通的，命令对象封装了接受者和一组动作，命令支持撤销，通过宏命令（多组命令）可以对简单命令进行扩展。命令用于线程队列、日志系统、事物系统等。</p>
+<h2 id="代码">代码</h2>
 <p>Java代码 : https://github.com/lifeloner/designPattern</p>
 
       
@@ -834,7 +831,7 @@ JDK中Arrays.sort方法中comparable将compareTo方法的实现交由子类实�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#适配器与外观模式"><span class="nav-number">1.</span> <span class="nav-text">适配器与外观模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外观模式"><span class="nav-number">2.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装饰者模式"><span class="nav-number">3.</span> <span class="nav-text">装饰者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式"><span class="nav-number">4.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者模式"><span class="nav-number">5.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-number">6.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器与组合模式"><span class="nav-number">7.</span> <span class="nav-text">迭代器与组合模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-number">8.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态模式"><span class="nav-number">9.</span> <span class="nav-text">状态模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模版方法模式"><span class="nav-number">10.</span> <span class="nav-text">模版方法模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令模式"><span class="nav-number">11.</span> <span class="nav-text">命令模式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#适配器与外观模式"><span class="nav-number">1.</span> <span class="nav-text">适配器与外观模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外观模式"><span class="nav-number">2.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装饰者模式"><span class="nav-number">3.</span> <span class="nav-text">装饰者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式"><span class="nav-number">4.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者模式"><span class="nav-number">5.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-number">6.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器与组合模式"><span class="nav-number">7.</span> <span class="nav-text">迭代器与组合模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-number">8.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态模式"><span class="nav-number">9.</span> <span class="nav-text">状态模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模版方法模式"><span class="nav-number">10.</span> <span class="nav-text">模版方法模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令模式"><span class="nav-number">11.</span> <span class="nav-text">命令模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">12.</span> <span class="nav-text">代码</span></a></li></ol></div>
             
 
           </div>

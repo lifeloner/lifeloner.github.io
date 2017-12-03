@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/method.png">
 <meta property="og:image" content="http://oqcre1dsl.bkt.clouddn.com/huibian.png">
-<meta property="og:updated_time" content="2017-12-03T13:39:44.489Z">
+<meta property="og:updated_time" content="2017-12-03T14:34:36.235Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM字节码执行引擎和编译、优化">
 <meta name="twitter:description" content="Java作为跨平台的语言离不开JVM的支持，Java语言首先经过Javac编译器编译为class字节码文件然后被JVM解释、编译为本地机器码，然后被os执行，由于JVM中间这一层的存在所以Java语言才能跨平台，同时除了Java，ruby、scala等语言经过编译后的字节码只要符合JVM字节码规范也能够被JVM执行，所以字节码是一种规范，了解JVM执行引擎对学习Java也很有帮助。">
@@ -428,7 +428,7 @@
 局部变量表存放了方法参数和局部变量，以slot（变量槽）为最小单位，操作数栈是一个后入先出的栈（LIFO），32位，方法返回值用于方法执行完将返回值返回上层方法调用，对于异常抛出未处理时是没有返回值（异常表处理），修改PC计数器。</p>
 <h3 id="方法调用">方法调用</h3>
 <p>方法调用确定被调用方法的版本（具体来说是调用哪一个方法），class文件的编译不包括链接步骤，方法调用在class文件中是符号引用，需要转化为直接引用（入口地址）。</p>
-<h3 id="解析调用：">解析调用：</h3>
+<h3 id="解析调用">解析调用</h3>
 <p>在类加载阶段把符号引用转化为直接引用，在方法运行前有可确定的调用版本并且在运行时不可变，也就是说在编译时确定了方法的调用。Java中方法调用的直接码指令有：<br>
 1.invokestatic 静态方法<br>
 2.invokespecial 实例构造器<init>、私有方法、父类方法<br>
@@ -436,7 +436,7 @@
 4.invokedynamic<br>
 5.invokevirtual虚方法<br>
 其中invoke static、invoke special都可以在解析阶段确定，invoke virtual中带有final的方法。解析调用是静态过程，在编译期确定了，不会到运行期再去完成。</init></p>
-<h3 id="分派：">分派：</h3>
+<h3 id="分派">分派</h3>
 <p>分派调用可能是静态的也可能是动态的。<br>
 静态分派：重载，Java中变量有静态类型（外观类型）、实际类型。静态类型在编译期已知，实际类型在运行期才可以确定，所以重载是属于静态分派，在编译期已经确定了，并不是由JVM来确定，重载时也会选择最佳的匹配方法。<br>
 动态分派：重写，根据对象实际类型选择方法调用。动态分派过程如下：<br>
@@ -748,7 +748,7 @@ Hotspot以第二种方法判断热点代码，计数器有方法计数器和回�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字节码执行引擎"><span class="nav-number">1.</span> <span class="nav-text">字节码执行引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时栈帧结构"><span class="nav-number">1.1.</span> <span class="nav-text">运行时栈帧结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法调用"><span class="nav-number">1.2.</span> <span class="nav-text">方法调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析调用："><span class="nav-number">1.3.</span> <span class="nav-text">解析调用：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分派："><span class="nav-number">1.4.</span> <span class="nav-text">分派：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译-优化"><span class="nav-number">2.</span> <span class="nav-text">编译、优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#早期编译"><span class="nav-number">2.1.</span> <span class="nav-text">早期编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#晚期优化"><span class="nav-number">2.2.</span> <span class="nav-text">晚期优化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字节码执行引擎"><span class="nav-number">1.</span> <span class="nav-text">字节码执行引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时栈帧结构"><span class="nav-number">1.1.</span> <span class="nav-text">运行时栈帧结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法调用"><span class="nav-number">1.2.</span> <span class="nav-text">方法调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析调用"><span class="nav-number">1.3.</span> <span class="nav-text">解析调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分派"><span class="nav-number">1.4.</span> <span class="nav-text">分派</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译-优化"><span class="nav-number">2.</span> <span class="nav-text">编译、优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#早期编译"><span class="nav-number">2.1.</span> <span class="nav-text">早期编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#晚期优化"><span class="nav-number">2.2.</span> <span class="nav-text">晚期优化</span></a></li></ol></li></ol></div>
             
 
           </div>
